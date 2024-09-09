@@ -1,0 +1,11 @@
+debug/database.o
+debug/logindialog.o
+debug/main.o
+debug/mainwindow.o
+debug/material.o
+debug/materialdialog.o
+debug/user.o
+debug/qrc_qmake_qmake_qm_files.o
+debug/moc_logindialog.o
+debug/moc_mainwindow.o
+debug/moc_materialdialog.o
