@@ -3,7 +3,10 @@
 #include "materialdialog.h"
 #include "database.h"
 #include <QMessageBox>
+<<<<<<< HEAD
 #include <QSqlDatabase>
+=======
+>>>>>>> recovery-branch
 
 // 构造函数
 MainWindow::MainWindow(QWidget *parent)
@@ -31,6 +34,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+<<<<<<< HEAD
 void MainWindow::initializeDatabase() {
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");  // 使用适当的数据库驱动
     db.setHostName("localhost");
@@ -44,6 +48,8 @@ void MainWindow::initializeDatabase() {
         setupMaterialModel(db);  // 调用初始化函数
     }
 }
+=======
+>>>>>>> recovery-branch
 
 void MainWindow::loadMaterials()
 {
