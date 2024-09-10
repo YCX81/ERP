@@ -2,9 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "materialdialog.h"
-#include <QStack>
-#include <QVariant>
+#include <QSqlTableModel>
+#include <QDialog>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QSettings>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,18 +21,23 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_addMaterialButton_clicked();
-    void on_editMaterialButton_clicked();
-    void on_undoButton_clicked();
-    void loadMaterials(); //
+    void on_buttonLoginMain_clicked();
+    void handleLoginDialogAccepted();
+    void handleAddMaterial();
+    void handleRemoveMaterial();
+    void handleEditMaterial();
+    void handleRegisterUser();
 
 private:
     Ui::MainWindow *ui;
-    MaterialDialog *materialDialog;
-    QStack<QVariant> undoStack; // 撤销栈，用于存储历史操作
-    void addMaterial(const QString &name, const QString &type, int quantity, double price);
-    void updateMaterial(int row, const QString &name, const QString &type, int quantity, double price);
+    QDialog *loginDialog;
+    QLineEdit *usernameEdit;
+    QLineEdit *passwordEdit;
+    QCheckBox *rememberMeCheckBox;
+    QSqlTableModel *materialModel;
+
+    void loadSettings();
+    void saveSettings();
 };
 
 #endif // MAINWINDOW_H
-

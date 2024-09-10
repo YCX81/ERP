@@ -13,12 +13,7 @@
 #include <QObject>  // 确保connect函数声明正确
 #include <QSqlError> // 确保QSqlError类型完整
 
-<<<<<<< HEAD
 extern QSqlTableModel *materialModel;
-=======
-QStandardItemModel *materialModel = nullptr; // 实际定义和初始化
-
->>>>>>> recovery-branch
 
 void addMaterial()
 {

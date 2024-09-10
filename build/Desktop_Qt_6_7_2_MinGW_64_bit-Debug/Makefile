@@ -29,7 +29,7 @@ DEL_FILE      = del
 SYMLINK       = $(QMAKE) -install ln -f -s
 DEL_DIR       = rmdir
 MOVE          = move
-IDC           = C:\Qt\6.7.2\mingw_64\bin\idc.exe
+IDC           = idc
 IDL           = midl
 ZIP           = zip -r -9
 DEF_FILE      = 
@@ -400,8 +400,6 @@ Makefile: ../../ERP.pro C:/Qt/6.7.2/mingw_64/mkspecs/win32-g++/qmake.conf C:/Qt/
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/moc.prf \
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/win32/opengl.prf \
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/uic.prf \
-		C:/Qt/6.7.2/mingw_64/mkspecs/features/win32/idcidl.prf \
-		C:/Qt/6.7.2/mingw_64/mkspecs/features/win32/dumpcpp.prf \
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/qmake_use.prf \
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/file_copies.prf \
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/win32/windows.prf \
@@ -410,8 +408,6 @@ Makefile: ../../ERP.pro C:/Qt/6.7.2/mingw_64/mkspecs/win32-g++/qmake.conf C:/Qt/
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/yacc.prf \
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/lex.prf \
 		../../ERP.pro \
-		C:/Qt/6.7.2/mingw_64/lib/Qt6AxContainer.prl \
-		C:/Qt/6.7.2/mingw_64/lib/Qt6AxServer.prl \
 		C:/Qt/6.7.2/mingw_64/lib/Qt6Widgets.prl \
 		C:/Qt/6.7.2/mingw_64/lib/Qt6Gui.prl \
 		C:/Qt/6.7.2/mingw_64/lib/Qt6Sql.prl \
@@ -751,8 +747,6 @@ C:/Qt/6.7.2/mingw_64/mkspecs/features/resources.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/moc.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/win32/opengl.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/uic.prf:
-C:/Qt/6.7.2/mingw_64/mkspecs/features/win32/idcidl.prf:
-C:/Qt/6.7.2/mingw_64/mkspecs/features/win32/dumpcpp.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/qmake_use.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/file_copies.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/win32/windows.prf:
@@ -761,8 +755,6 @@ C:/Qt/6.7.2/mingw_64/mkspecs/features/exceptions.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/yacc.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/lex.prf:
 ../../ERP.pro:
-C:/Qt/6.7.2/mingw_64/lib/Qt6AxContainer.prl:
-C:/Qt/6.7.2/mingw_64/lib/Qt6AxServer.prl:
 C:/Qt/6.7.2/mingw_64/lib/Qt6Widgets.prl:
 C:/Qt/6.7.2/mingw_64/lib/Qt6Gui.prl:
 C:/Qt/6.7.2/mingw_64/lib/Qt6Sql.prl:
@@ -779,8 +771,6 @@ qmake_all: FORCE
 make_first: debug-make_first release-make_first  FORCE
 all: debug-all release-all  FORCE
 clean: debug-clean release-clean  FORCE
-	-$(DEL_FILE) \ERP.idl
-	-$(DEL_FILE) \ERP.tlb
 distclean: debug-distclean release-distclean  FORCE
 	-$(DEL_FILE) Makefile
 	-$(DEL_FILE) .qmake.stash

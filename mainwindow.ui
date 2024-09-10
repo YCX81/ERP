@@ -1,37 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ERP系统</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="mainVerticalLayout">
     <item>
-     <widget class="QTableWidget" name="materialTable"/>
+     <widget class="QToolButton" name="buttonLoginMain">
+      <property name="text">
+       <string>登录</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>:/icons/login.png</normaloff>:/icons/login.png</iconset>
+      </property>
+     </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="addMaterialButton">
-        <property name="text">
-         <string>添加物料</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="editMaterialButton">
-        <property name="text">
-         <string>编辑物料</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="undoButton">
-        <property name="text">
-         <string>撤销</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <layout class="QHBoxLayout" name="topHorizontalLayout"/>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabMaterials">
+       <attribute name="title">
+        <string>物料管理</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayoutMaterials">
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QTableView" name="tableViewMaterials"/>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayoutMaterialDetails">
+          <!-- 新增的输入项 -->
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelCategory">
+            <property name="text">
+             <string>类别</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBoxCategory">
+            <item>
+             <property name="text">
+              <string>电子元件</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>机械零件</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+
+          <!-- 采购类型 -->
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelPurchaseType">
+            <property name="text">
+             <string>采购类型</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBoxPurchaseType">
+            <item>
+             <property name="text">
+              <string>自制</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>采购</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+
+          <!-- 描述 -->
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelDescription">
+            <property name="text">
+             <string>描述</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineEditDescription"/>
+          </item>
+
+          <!-- 版本号 -->
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelVersion">
+            <property name="text">
+             <string>版本号</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="lineEditVersion"/>
+          </item>
+
+          <!-- 序列号 -->
+          <item row="4" column="0">
+           <widget class="QLabel" name="labelSN">
+            <property name="text">
+             <string>序列号</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="lineEditSN"/>
+          </item>
+
+          <!-- 状态 -->
+          <item row="5" column="0">
+           <widget class="QLabel" name="labelStatus">
+            <property name="text">
+             <string>状态</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QComboBox" name="comboBoxStatus">
+            <item>
+             <property name="text">
+              <string>PP</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>FP</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+
+          <!-- 供应商 -->
+          <item row="6" column="0">
+           <widget class="QLabel" name="labelSupplier">
+            <property name="text">
+             <string>供应商</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QComboBox" name="comboBoxSupplier">
+            <item>
+             <property name="text">
+              <string>供应商A</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>供应商B</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+
+          <!-- 供应商料号 -->
+          <item row="7" column="0">
+           <widget class="QLabel" name="labelSupplierPartNumber">
+            <property name="text">
+             <string>供应商料号</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="lineEditSupplierPartNumber"/>
+          </item>
+
+          <!-- 供应商规格书 -->
+          <item row="8" column="0">
+           <widget class="QLabel" name="labelSupplierSpec">
+            <property name="text">
+             <string>供应商规格书</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QPushButton" name="buttonUploadSupplierSpec">
+            <property name="text">
+             <string>上传规格书</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/icons/upload.png</normaloff>:/icons/upload.png</iconset>
+            </property>
+           </widget>
+          </item>
+
+          <!-- 货期 -->
+          <item row="9" column="0">
+           <widget class="QLabel" name="labelDeliveryTime">
+            <property name="text">
+             <string>货期</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="1">
+           <widget class="QDateEdit" name="dateEditDeliveryTime"/>
+          </item>
+
+          <!-- 单价 -->
+          <item row="10" column="0">
+           <widget class="QLabel" name="labelPrice">
+            <property name="text">
+             <string>单价</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayoutPrice">
+            <item>
+             <widget class="QComboBox" name="comboBoxCurrency">
+              <item>
+               <property name="text">
+                <string>¥ 人民币</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>$ 美元</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>£ 英镑</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="doubleSpinBoxPrice"/>
+            </item>
+           </layout>
+          </item>
+
+          <!-- 数量 -->
+          <item row="11" column="0">
+           <widget class="QLabel" name="labelQuantity">
+            <property name="text">
+             <string>数量</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="1">
+           <widget class="QSpinBox" name="spinBoxQuantity"/>
+          </item>
+
+          <!-- 备注 -->
+          <item row="12" column="0">
+           <widget class="QLabel" name="labelRemarks">
+            <property name="text">
+             <string>备注</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="1">
+           <widget class="QLineEdit" name="lineEditRemarks"/>
+          </item>
+
+          <!-- 实物照片 -->
+          <item row="13" column="0">
+           <widget class="QLabel" name="labelPhoto">
+            <property name="text">
+             <string>实物照片</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="1">
+           <widget class="QPushButton" name="buttonUploadPhoto">
+            <property name="text">
+             <string>上传照片</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/icons/photo.png</normaloff>:/icons/photo.png</iconset>
+            </property>
+           </widget>
+          </item>
+
+          <!-- 库位 -->
+          <item row="14" column="0">
+           <widget class="QLabel" name="labelLocation">
+            <property name="text">
+             <string>库位</string>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="1">
+           <widget class="QLineEdit" name="lineEditLocation"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutMaterials">
+          <item>
+           <widget class="QPushButton" name="buttonAddMaterial">
+            <property name="text">
+             <string>添加物料</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonRemoveMaterial">
+            <property name="text">
+             <string>删除物料</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonEditMaterial">
+            <property name="text">
+             <string>编辑物料</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/icons/edit.png</normaloff>:/icons/edit.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonExport">
+            <property name="text">
+             <string>导出Excel</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>:/icons/export.png</normaloff>:/icons/export.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1024</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>编辑</string>
+    </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionNew">
+   <property name="text">
+    <string>新建</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>打开</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="text">
+    <string>撤销</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>重做</string>
+   </property>
+  </action>
  </widget>
+ <resources/>
+ <connections/>
 </ui>

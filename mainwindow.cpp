@@ -1,122 +1,159 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "materialdialog.h"
 #include "database.h"
-#include <QMessageBox>
-<<<<<<< HEAD
-#include <QSqlDatabase>
-=======
->>>>>>> recovery-branch
+#include "user.h"
+#include "material.h"
 
-// 构造函数
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QCryptographicHash>
+#include <QSqlError>
+#include <QCheckBox>
+#include <QFormLayout>
+#include <QMessageBox>
+#include <QSettings>
+
+QSqlTableModel *materialModel = nullptr;  // 在这里定义 materialModel
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , materialDialog(new MaterialDialog(this))
+    , loginDialog(nullptr)
+    , usernameEdit(nullptr)
+    , passwordEdit(nullptr)
+    , rememberMeCheckBox(nullptr)
 {
     ui->setupUi(this);
 
-    // 连接到数据库
-    if (!Database::instance().connectToDatabase("localhost", "ERP_database", "root", "108002")) {
-        QMessageBox::critical(this, "数据库错误", "无法连接到数据库。");
+    if (connectToDatabase()) {
+        materialModel = new QSqlTableModel(this, db); // 初始化 materialModel
+        materialModel->setTable("materials");
+        materialModel->select();
+        ui->tableViewMaterials->setModel(materialModel);
+
+        connect(ui->buttonLoginMain, &QPushButton::clicked, this, &MainWindow::on_buttonLoginMain_clicked);
+        connect(ui->buttonAddMaterial, &QPushButton::clicked, this, &MainWindow::handleAddMaterial);
+        connect(ui->buttonRemoveMaterial, &QPushButton::clicked, this, &MainWindow::handleRemoveMaterial);
+        connect(ui->buttonEditMaterial, &QPushButton::clicked, this, &MainWindow::handleEditMaterial);
+
+        loadSettings();
     }
-
-    connect(ui->addMaterialButton, &QPushButton::clicked, this, &MainWindow::on_addMaterialButton_clicked);
-    connect(ui->editMaterialButton, &QPushButton::clicked, this, &MainWindow::on_editMaterialButton_clicked);
-    connect(ui->undoButton, &QPushButton::clicked, this, &MainWindow::on_undoButton_clicked);
-
-    loadMaterials();
 }
 
-// 添加析构函数的实现
+// 其余代码保持不变
+
+
 MainWindow::~MainWindow()
 {
+    saveSettings();
     delete ui;
 }
 
-<<<<<<< HEAD
-void MainWindow::initializeDatabase() {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");  // 使用适当的数据库驱动
-    db.setHostName("localhost");
-    db.setDatabaseName("erp_system");
-    db.setUserName("root");
-    db.setPassword("108002");
+void MainWindow::on_buttonLoginMain_clicked()
+{
+    loginDialog = new QDialog(this);
+    loginDialog->setWindowTitle("登录");
 
-    if (!db.open()) {
-        // 显示错误信息
+    QVBoxLayout *layout = new QVBoxLayout(loginDialog);
+
+    QLabel *usernameLabel = new QLabel("用户名:", loginDialog);
+    usernameEdit = new QLineEdit(loginDialog);
+    QLabel *passwordLabel = new QLabel("密码:", loginDialog);
+    passwordEdit = new QLineEdit(loginDialog);
+    passwordEdit->setEchoMode(QLineEdit::Password);
+
+    rememberMeCheckBox = new QCheckBox("记住我", loginDialog);
+
+    QPushButton *loginButton = new QPushButton("登录", loginDialog);
+    QPushButton *registerButton = new QPushButton("注册", loginDialog);
+
+    connect(loginButton, &QPushButton::clicked, this, &MainWindow::handleLoginDialogAccepted);
+    connect(registerButton, &QPushButton::clicked, this, &MainWindow::handleRegisterUser);
+
+    layout->addWidget(usernameLabel);
+    layout->addWidget(usernameEdit);
+    layout->addWidget(passwordLabel);
+    layout->addWidget(passwordEdit);
+    layout->addWidget(rememberMeCheckBox);
+    layout->addWidget(loginButton);
+    layout->addWidget(registerButton);
+
+    loginDialog->setLayout(layout);
+    loginDialog->exec();
+}
+
+void MainWindow::handleLoginDialogAccepted()
+{
+    QString username = usernameEdit->text();
+    QString password = passwordEdit->text();
+
+    if (authenticateUser(username, password)) {
+        QMessageBox::information(this, "登录成功", "欢迎回来，" + username + "!");
+        loginDialog->accept();
+        if (rememberMeCheckBox->isChecked()) {
+            QSettings settings("MyCompany", "ERPSystem");
+            settings.setValue("username", username);
+            settings.setValue("rememberMe", true);
+        } else {
+            QSettings settings("MyCompany", "ERPSystem");
+            settings.setValue("rememberMe", false);
+        }
     } else {
-        setupMaterialModel(db);  // 调用初始化函数
-    }
-}
-=======
->>>>>>> recovery-branch
-
-void MainWindow::loadMaterials()
-{
-    // 清空表格内容
-    ui->materialTable->setRowCount(0);
-
-    QSqlQuery query = Database::instance().getMaterials();
-    while (query.next()) {
-        int row = ui->materialTable->rowCount();
-        ui->materialTable->insertRow(row);
-        ui->materialTable->setItem(row, 0, new QTableWidgetItem(query.value("name").toString()));
-        ui->materialTable->setItem(row, 1, new QTableWidgetItem(query.value("type").toString()));
-        ui->materialTable->setItem(row, 2, new QTableWidgetItem(query.value("quantity").toString()));
-        ui->materialTable->setItem(row, 3, new QTableWidgetItem(query.value("price").toString()));
+        QMessageBox::warning(this, "登录失败", "用户名或密码错误，请重试。");
     }
 }
 
-void MainWindow::on_addMaterialButton_clicked()
+void MainWindow::handleAddMaterial()
 {
-    materialDialog->setMaterialData("", "", 0, 0.0);
-    if (materialDialog->exec() == QDialog::Accepted) {
-        QString name = materialDialog->getName();
-        QString type = materialDialog->getType();
-        int quantity = materialDialog->getQuantity();
-        double price = materialDialog->getPrice();
-        if (Database::instance().addMaterial(name, type, quantity, price)) {
-            loadMaterials();
-        } else {
-            QMessageBox::warning(this, "错误", "无法添加物料到数据库。");
+    addMaterial(); // 调用Material模块中的函数
+}
+
+void MainWindow::handleRemoveMaterial()
+{
+    removeMaterial(); // 调用Material模块中的函数
+}
+
+void MainWindow::handleEditMaterial()
+{
+    editMaterial(); // 调用Material模块中的函数
+}
+
+void MainWindow::handleRegisterUser()
+{
+    QString username = usernameEdit->text();
+    QString password = passwordEdit->text();
+
+    if (registerUser(username, password)) {
+        QMessageBox::information(this, "注册成功", "用户注册成功！");
+    } else {
+        QMessageBox::warning(this, "注册失败", "用户注册失败，可能是用户名已存在。");
+    }
+}
+
+void MainWindow::loadSettings()
+{
+    QSettings settings("MyCompany", "ERPSystem");
+    if (settings.value("rememberMe", false).toBool()) {
+        if (usernameEdit) {
+            usernameEdit->setText(settings.value("username", "").toString());
+        }
+        if (rememberMeCheckBox) {
+            rememberMeCheckBox->setChecked(true);
+        }
+    } else {
+        if (rememberMeCheckBox) {
+            rememberMeCheckBox->setChecked(false);
         }
     }
 }
 
-void MainWindow::on_editMaterialButton_clicked()
+void MainWindow::saveSettings()
 {
-    int row = ui->materialTable->currentRow();
-    if (row < 0) {
-        QMessageBox::warning(this, "警告", "请选择一个物料进行编辑");
-        return;
-    }
-
-    int id = ui->materialTable->item(row, 0)->data(Qt::UserRole).toInt();
-    QString name = ui->materialTable->item(row, 0)->text();
-    QString type = ui->materialTable->item(row, 1)->text();
-    int quantity = ui->materialTable->item(row, 2)->text().toInt();
-    double price = ui->materialTable->item(row, 3)->text().toDouble();
-
-    materialDialog->setMaterialData(name, type, quantity, price);
-
-    if (materialDialog->exec() == QDialog::Accepted) {
-        name = materialDialog->getName();
-        type = materialDialog->getType();
-        quantity = materialDialog->getQuantity();
-        price = materialDialog->getPrice();
-        if (Database::instance().updateMaterial(id, name, type, quantity, price)) {
-            loadMaterials();
-        } else {
-            QMessageBox::warning(this, "错误", "无法更新数据库中的物料信息。");
-        }
-    }
-}
-
-void MainWindow::on_undoButton_clicked()
-{
-    // 实现撤销逻辑
-    if (!undoStack.isEmpty()) {
-        QVariant lastAction = undoStack.pop();
-        // 恢复代码逻辑
+    QSettings settings("MyCompany", "ERPSystem");
+    if (rememberMeCheckBox && rememberMeCheckBox->isChecked()) {
+        settings.setValue("username", usernameEdit->text());
+        settings.setValue("rememberMe", true);
+    } else {
+        settings.setValue("rememberMe", false);
     }
 }
