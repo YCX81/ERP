@@ -483,4 +483,9 @@ CMakeFiles/ERP.dir/materialdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlField \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlfield.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h

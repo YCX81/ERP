@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "registerdialog.h"  // 假设有一个注册对话框
-#include "logindialog.h"  // 假设有一个登录对话框
+#include "registerdialog.h"
+#include "logindialog.h"
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QSqlTableModel>
@@ -9,7 +9,6 @@
 #include <QSqlError>
 #include <QDebug>
 #include <xlsxdocument.h>
-  // 假设你使用QXlsx库
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // 初始化模型
-    model->setTable("materials");
+    model->setTable("Material");
     model->select();
     ui->materialTableView->setModel(model);
 
@@ -47,14 +46,11 @@ void MainWindow::on_addButton_clicked()
     MaterialDialog dialog(this);
     setMaintainer();  // 设置当前用户为物料维护人
     if (dialog.exec() == QDialog::Accepted) {
-        QSqlRecord newRecord = dialog.getMaterialData();
-        model->insertRecord(-1, newRecord);
-        if (!model->submitAll()) {
-            QMessageBox::critical(this, "错误", "无法保存物料信息：" + model->lastError().text());
-        }
-        refreshMaterialTable();
+        // 对话框已经在内部保存了数据，直接刷新模型
+        model->select();  // 重新从数据库获取数据
     }
 }
+
 
 void MainWindow::on_editButton_clicked()
 {
@@ -65,7 +61,7 @@ void MainWindow::on_editButton_clicked()
     }
 
     int row = selectedRows.first().row();
-    MaterialDialog dialog(this);
+    MaterialDialog dialog(currentUser, this);
     dialog.setMaterialData(model->record(row));
     if (dialog.exec() == QDialog::Accepted) {
         model->setRecord(row, dialog.getMaterialData());

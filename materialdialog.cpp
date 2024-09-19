@@ -4,14 +4,28 @@
 #include <QBuffer>
 #include <QFile>
 #include <QMessageBox>
-#include <QSqlQuery>      // 添加此行
+#include <QSqlQuery>
 #include <QSqlError>
+#include <QSqlField>
+#include <QVariant>
+#include <QDebug>
 
-MaterialDialog::MaterialDialog(QWidget *parent) :
+MaterialDialog::MaterialDialog(const QString &currentUser, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::MaterialDialog)
+    ui(new Ui::MaterialDialog),
+    currentMaintainer(currentUser)
 {
     ui->setupUi(this);
+
+    // 设置 sourceComboBox 的选项和用户数据
+    ui->sourceComboBox->clear();
+    ui->sourceComboBox->addItem("自制 (P)", QVariant("P"));
+    ui->sourceComboBox->addItem("采购 (M)", QVariant("M"));
+
+    // 设置 statusComboBox 的选项和用户数据
+    ui->statusComboBox->clear();
+    ui->statusComboBox->addItem("预生产 (PP)", QVariant("PP"));
+    ui->statusComboBox->addItem("正式生产 (FP)", QVariant("FP"));
 
     // 默认将当前登录用户名设置为物料维护人
     currentMaintainer = "当前用户名";  // 请替换为实际登录用户名逻辑
@@ -33,11 +47,25 @@ void MaterialDialog::setMaterialData(const QSqlRecord &record)
     ui->descriptionTextEdit->setPlainText(record.value("描述").toString());
     ui->quantitySpinBox->setValue(record.value("数量").toInt());
     ui->unitPriceDoubleSpinBox->setValue(record.value("单价").toDouble());
-    ui->sourceComboBox->setCurrentText(record.value("来源").toString());
+
+    // 根据数据库中的值设置 sourceComboBox 的当前索引
+    QString selfMadeOrPurchase = record.value("来源").toString();
+    int sourceIndex = ui->sourceComboBox->findData(selfMadeOrPurchase);
+    if (sourceIndex != -1) {
+        ui->sourceComboBox->setCurrentIndex(sourceIndex);
+    }
+
     ui->versionLineEdit->setText(record.value("版本号").toString());
     ui->serialNumberLineEdit->setText(record.value("序列号").toString());
     ui->locationLineEdit->setText(record.value("库位号").toString());
-    ui->statusComboBox->setCurrentText(record.value("状态").toString());
+
+    // 根据数据库中的值设置 statusComboBox 的当前索引
+    QString status = record.value("状态").toString();
+    int statusIndex = ui->statusComboBox->findData(status);
+    if (statusIndex != -1) {
+        ui->statusComboBox->setCurrentIndex(statusIndex);
+    }
+
     ui->supplierLineEdit->setText(record.value("供应商").toString());
     ui->supplierPartNumberLineEdit->setText(record.value("供应商料号").toString());
     ui->deliveryDateEdit->setDate(record.value("货期").toDate());
@@ -60,35 +88,69 @@ void MaterialDialog::setMaterialData(const QSqlRecord &record)
     }
 }
 
-
 QSqlRecord MaterialDialog::getMaterialData() const
 {
     QSqlRecord record;
+
+    // 先定义字段
+    record.append(QSqlField("型号", QVariant::String));
+    record.append(QSqlField("描述", QVariant::String));
+    record.append(QSqlField("数量", QVariant::Int));
+    record.append(QSqlField("单价", QVariant::Double));
+    record.append(QSqlField("来源", QVariant::String));
+    record.append(QSqlField("版本号", QVariant::String));
+    record.append(QSqlField("序列号", QVariant::String));
+    record.append(QSqlField("库位号", QVariant::String));
+    record.append(QSqlField("状态", QVariant::String));
+    record.append(QSqlField("供应商", QVariant::String));
+    record.append(QSqlField("供应商料号", QVariant::String));
+    record.append(QSqlField("货期", QVariant::Date));
+    record.append(QSqlField("备注", QVariant::String));
+    record.append(QSqlField("物料维护人", QVariant::String));
+    record.append(QSqlField("更新日期", QVariant::DateTime));
+    record.append(QSqlField("drawing", QVariant::ByteArray));
+    record.append(QSqlField("photo", QVariant::ByteArray));
+    record.append(QSqlField("specification", QVariant::ByteArray));
+
+    // 然后设置值
     record.setValue("型号", ui->modelComboBox->currentText());
     record.setValue("描述", ui->descriptionTextEdit->toPlainText());
     record.setValue("数量", ui->quantitySpinBox->value());
     record.setValue("单价", ui->unitPriceDoubleSpinBox->value());
-    record.setValue("来源", ui->sourceComboBox->currentText());
+
+    // 获取来源的用户数据（'P' 或 'M'）
+    QString selfMadeOrPurchase = ui->sourceComboBox->currentData().toString();
+    record.setValue("来源", selfMadeOrPurchase);
+
     record.setValue("版本号", ui->versionLineEdit->text());
     record.setValue("序列号", ui->serialNumberLineEdit->text());
     record.setValue("库位号", ui->locationLineEdit->text());
-    record.setValue("状态", ui->statusComboBox->currentText());
+
+    // 获取状态的用户数据（'PP' 或 'FP'）
+    QString status = ui->statusComboBox->currentData().toString();
+    record.setValue("状态", status);
+
     record.setValue("供应商", ui->supplierLineEdit->text());
     record.setValue("供应商料号", ui->supplierPartNumberLineEdit->text());
     record.setValue("货期", ui->deliveryDateEdit->date());
     record.setValue("备注", ui->noteTextEdit->toPlainText());
+    record.setValue("物料维护人", ui->maintainerLineEdit->text());
+    record.setValue("更新日期", ui->updateDateEdit->date());
+
+    // 设置文件数据
+    record.setValue("drawing", drawingData);
+    record.setValue("photo", photoData);
+    record.setValue("specification", specificationData);
+
+    // 调试输出
     qDebug() << "型号:" << record.value("型号").toString();
     qDebug() << "描述:" << record.value("描述").toString();
     qDebug() << "版本号:" << record.value("版本号").toString();
-
-    // 获取文件数据
-    record.setValue("drawing", drawingData); // 获取图纸数据
-    record.setValue("photo", photoData); // 获取实物照片数据
-    record.setValue("specification", specificationData); // 获取供应商规格书数据
+    qDebug() << "来源:" << record.value("来源").toString();
+    qDebug() << "状态:" << record.value("状态").toString();
 
     return record;
 }
-
 
 void MaterialDialog::on_uploadDrawingButton_clicked()
 {

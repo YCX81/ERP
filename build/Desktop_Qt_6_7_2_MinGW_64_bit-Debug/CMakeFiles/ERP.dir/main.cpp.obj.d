@@ -400,4 +400,8 @@ CMakeFiles/ERP.dir/main.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMessageBox \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmessagebox.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialogbuttonbox.h
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlQuery \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h
