@@ -1,0 +1,1 @@
+ C:/Qt/6.7.2/mingw_64/lib/libQt6Widgets.a C:/Qt/6.7.2/mingw_64/lib/libQt6Sql.a 3rdparty/QXlsx/libQXlsxQt6.a C:/Qt/6.7.2/mingw_64/lib/libQt6Gui.a -ld3d11 -ldxgi -ldxguid -ld3d12 C:/Qt/6.7.2/mingw_64/lib/libQt6Core.a -lmpr -luserenv -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
