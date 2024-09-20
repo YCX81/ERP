@@ -29,6 +29,11 @@ private slots:
     void on_switchUserButton_clicked();    // 切换用户按钮槽函数
     void onMaterialTableViewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected); // 表格选中行更改槽函数
 
+    void on_viewDrawingButton_clicked();
+    void on_viewPhotoButton_clicked();
+    void on_viewSpecificationButton_clicked();
+    void displayDataInPreview(const QByteArray &data);
+
 private:
     Ui::MainWindow *ui;
     QSqlTableModel *model;

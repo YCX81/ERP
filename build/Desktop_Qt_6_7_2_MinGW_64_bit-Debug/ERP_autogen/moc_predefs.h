@@ -12,6 +12,7 @@
 #define __INTMAX_C(c) c ## LL
 #define __CHAR_BIT__ 8
 #define __MINGW32__ 1
+#define QT_PDF_LIB 1
 #define __UINT8_MAX__ 0xff
 #define __SCHAR_WIDTH__ 8
 #define _WIN64 1

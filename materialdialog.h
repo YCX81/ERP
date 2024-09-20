@@ -14,7 +14,7 @@ class MaterialDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit MaterialDialog(QWidget *parent = nullptr);
+    explicit MaterialDialog(const QString &currentUser, QWidget *parent = nullptr);
     ~MaterialDialog();
 
     void setMaterialData(const QSqlRecord &record);  // 设置物料数据

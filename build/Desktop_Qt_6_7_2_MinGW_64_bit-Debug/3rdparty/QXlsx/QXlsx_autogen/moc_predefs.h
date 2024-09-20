@@ -222,6 +222,7 @@
 #define __FLOAT_WORD_ORDER__ __ORDER_LITTLE_ENDIAN__
 #define SIZEOF_DPTR (sizeof(void*))
 #define __cpp_aggregate_bases 201603L
+#define QT_BUILD_MYSQL_DRIVER 1
 #define __FLT128_HAS_DENORM__ 1
 #define __FLT32_DECIMAL_DIG__ 9
 #define __FLT128_DIG__ 33

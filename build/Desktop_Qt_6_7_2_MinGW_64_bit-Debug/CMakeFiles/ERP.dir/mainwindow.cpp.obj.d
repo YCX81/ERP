@@ -530,4 +530,23 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QPointF \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qpoint.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QUrl \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h \
+ C:/Qt/6.7.2/mingw_64/include/QtPdf/QPdfDocument \
+ C:/Qt/6.7.2/mingw_64/include/QtPdf/qpdfdocument.h \
+ C:/Qt/6.7.2/mingw_64/include/QtPdf/qtpdfglobal.h \
+ C:/Qt/6.7.2/mingw_64/include/QtPdf/qtpdfexports.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QAbstractListModel \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtPdf/qpdfdocumentrenderoptions.h \
+ C:/Qt/6.7.2/mingw_64/include/QtPdf/qpdfselection.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qclipboard.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QPainter \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qpainter.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qtextoption.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qpen.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QBuffer \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qbuffer.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QPixmap \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qpixmap.h \
+ C:/Qt/6.7.2/mingw_64/include/QtPdf/QPdfDocumentRenderOptions \
+ C:/Qt/6.7.2/mingw_64/include/QtPdf/qpdfdocumentrenderoptions.h

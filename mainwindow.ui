@@ -58,6 +58,31 @@
      </layout>
     </item>
     <item>
+         <layout class="QHBoxLayout" name="previewButtonLayout">
+          <item>
+           <widget class="QPushButton" name="viewDrawingButton">
+            <property name="text">
+             <string>查看图纸</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="viewPhotoButton">
+            <property name="text">
+             <string>查看实物照片</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="viewSpecificationButton">
+            <property name="text">
+             <string>查看供应商规格书</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+    <item>
      <layout class="QHBoxLayout" name="loginPreviewLayout">
       <item>
        <layout class="QVBoxLayout" name="loginLayout">

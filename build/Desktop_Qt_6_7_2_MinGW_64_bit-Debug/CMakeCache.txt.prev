@@ -338,6 +338,9 @@ MYSQL_INCLUDE_DIR:PATH=C:/Program Files/MySQL/MySQL Server 8.0/include
 //Path to a library.
 MYSQL_LIBRARY:FILEPATH=C:/Program Files/MySQL/MySQL Server 8.0/lib/libmysql.lib
 
+//Path to a library.
+MySQL_LIBRARY:FILEPATH=C:/Program Files/MySQL/MySQL Server 8.0/lib/libmysql.lib
+
 //Additional directories where find(Qt6 ...) host Qt components
 // are searched
 QT_ADDITIONAL_HOST_PACKAGES_PREFIX_PATH:STRING=

@@ -187,6 +187,7 @@ ERP.exe: CMakeFiles/ERP.dir/build.make
 ERP.exe: C:/Qt/6.7.2/mingw_64/lib/libQt6Widgets.a
 ERP.exe: C:/Qt/6.7.2/mingw_64/lib/libQt6Sql.a
 ERP.exe: 3rdparty/QXlsx/libQXlsxQt6.a
+ERP.exe: C:/Qt/6.7.2/mingw_64/lib/libQt6Pdf.a
 ERP.exe: C:/Qt/6.7.2/mingw_64/lib/libQt6Gui.a
 ERP.exe: C:/Qt/6.7.2/mingw_64/lib/libQt6Core.a
 ERP.exe: CMakeFiles/ERP.dir/linkLibs.rsp

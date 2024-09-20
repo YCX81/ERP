@@ -69,6 +69,11 @@ add_definitions(-DQT_BUILD_MYSQL_DRIVER)
 add_subdirectory(3rdparty/QXlsx)
 target_link_libraries(ERP PRIVATE QXlsx::QXlsx)
 
+#添加 QPDF
+find_package(Qt6 REQUIRED COMPONENTS Pdf)
+target_link_libraries(ERP PRIVATE Qt6::Pdf)
+
+
 # 安装目标设置
 install(TARGETS ERP
     BUNDLE DESTINATION .
