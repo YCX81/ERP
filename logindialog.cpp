@@ -1,29 +1,57 @@
-#include "logindialog.h"
-#include <QVBoxLayout>
+// 文件路径: src/LoginDialog.cpp
 
-LoginDialog::LoginDialog(QWidget *parent) : QDialog(parent) {
-    setWindowTitle("登录");
+#include "LoginDialog.h"
+#include "ui_LoginDialog.h"
+#include <QSqlQuery>
+#include <QMessageBox>
+#include <QCryptographicHash>
 
-    usernameLineEdit = new QLineEdit(this);
-    usernameLineEdit->setPlaceholderText("用户名");
+LoginDialog::LoginDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::LoginDialog)
+{
+    ui->setupUi(this);
+}
 
-    passwordLineEdit = new QLineEdit(this);
-    passwordLineEdit->setPlaceholderText("密码");
-    passwordLineEdit->setEchoMode(QLineEdit::Password); // 密码模式
+LoginDialog::~LoginDialog()
+{
+    delete ui;
+}
 
-    loginButton = new QPushButton("登录", this);
-    cancelButton = new QPushButton("取消", this);
+QString LoginDialog::getUsername() const
+{
+    return ui->usernameLineEdit->text();
+}
 
-    // 布局设置
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(usernameLineEdit);
-    layout->addWidget(passwordLineEdit);
-    layout->addWidget(loginButton);
-    layout->addWidget(cancelButton);
+void LoginDialog::on_loginButton_clicked()
+{
+    QString username = ui->usernameLineEdit->text();
+    QString password = ui->passwordLineEdit->text();
 
-    setLayout(layout);
+    if (username.isEmpty() || password.isEmpty()) {
+        QMessageBox::warning(this, "登录失败", "用户名或密码不能为空。");
+        return;
+    }
 
-    // 连接信号与槽
-    connect(loginButton, &QPushButton::clicked, this, &LoginDialog::accept); // 点击登录，关闭对话框
-    connect(cancelButton, &QPushButton::clicked, this, &LoginDialog::reject); // 点击取消，关闭对话框
+    QSqlQuery query;
+    query.prepare("SELECT password_hash FROM Users WHERE username = :username");
+    query.bindValue(":username", username);
+    query.exec();
+
+    if (query.next()) {
+        QString storedHash = query.value(0).toString();
+        if (storedHash == hashPassword(password)) {
+            accept();
+        } else {
+            QMessageBox::warning(this, "登录失败", "密码错误。");
+        }
+    } else {
+        QMessageBox::warning(this, "登录失败", "用户不存在。");
+    }
+}
+
+QString LoginDialog::hashPassword(const QString &password) const
+{
+    // 使用某种散列算法（如 SHA-256）生成密码哈希值
+    return QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
 }

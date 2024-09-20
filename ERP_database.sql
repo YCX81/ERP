@@ -1,42 +1,50 @@
+-- 创建数据库
 CREATE DATABASE erp_system;
 
+-- 使用数据库
 USE erp_system;
 
--- 用户信息表
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,  -- 存储哈希后的密码
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- 物料表
+CREATE TABLE Material (
+                          id INT AUTO_INCREMENT PRIMARY KEY,
+                          model VARCHAR(255) NOT NULL,
+                          description TEXT,
+                          quantity INT DEFAULT 0,
+                          unit_price DECIMAL(10, 2) DEFAULT 0.0,
+                          self_made_or_purchase CHAR(1) CHECK (self_made_or_purchase IN ('P', 'M')),
+                          drawing LONGBLOB, -- 存储图纸数据
+                          photo LONGBLOB, -- 存储实物照片数据
+                          version VARCHAR(50),
+                          serial_number VARCHAR(255),
+                          location_number VARCHAR(255),
+                          status CHAR(2) CHECK (status IN ('PP', 'FP')),
+                          supplier VARCHAR(255),
+                          supplier_material_number VARCHAR(255),
+                          supplier_specification LONGBLOB, -- 存储供应商规格书数据
+                          delivery_period DATE,
+                          material_maintainer VARCHAR(255),
+                          update_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                          remarks TEXT
 );
 
--- 物料信息表
-CREATE TABLE materials (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    category VARCHAR(50) NOT NULL,
-    description TEXT,
-    drawing_path VARCHAR(255),
-    supplier VARCHAR(50),
-    maintainer VARCHAR(50),
-    sn VARCHAR(50),
-    version VARCHAR(20),
-    update_date DATE,
-    remarks TEXT,
-    price DECIMAL(10, 2),
-    currency VARCHAR(10),
-    quantity INT,
-    delivery_time DATE,
-    photo_path VARCHAR(255),
-    specification TEXT,
-    location VARCHAR(50),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+-- 日志表
+CREATE TABLE MaterialLog (
+                             id INT AUTO_INCREMENT PRIMARY KEY,
+                             material_id INT,
+                             operation_type ENUM('CREATE', 'UPDATE', 'DELETE'),
+                             operation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                             operator VARCHAR(255),
+                             details TEXT,
+                             FOREIGN KEY (material_id) REFERENCES Material(id)
 );
 
-CREATE TABLE IF NOT EXISTS materials (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    category TEXT,
-    quantity INTEGER,
-    price REAL
+-- 用户表
+CREATE TABLE Users (
+                       id INT AUTO_INCREMENT PRIMARY KEY,
+                       username VARCHAR(50) UNIQUE NOT NULL,
+                       password_hash VARCHAR(255) NOT NULL,
+                       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 检查表结构
+DESCRIBE Users;
