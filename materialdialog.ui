@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>700</height>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,74 +16,60 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="9" column="1">
-      <widget class="QComboBox" name="statusComboBox">
-       <item>
-        <property name="text">
-         <string>PP</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>FP</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="versionLabel">
+     <item row="1" column="0">
+      <widget class="QLabel" name="descriptionLabel">
        <property name="text">
-        <string>版本号：</string>
+        <string>描述：</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QTextEdit" name="descriptionTextEdit"/>
+     <item row="7" column="2">
+      <widget class="QLineEdit" name="locationLineEdit"/>
+     </item>
+     <item row="12" column="2">
+      <widget class="QSpinBox" name="deliverySpinBox">
+       <property name="maximum">
+        <number>365</number>
+       </property>
+      </widget>
      </item>
      <item row="9" column="0">
-      <widget class="QLabel" name="statusLabel">
+      <widget class="QLabel" name="defectiveQuantityLabel">
        <property name="text">
-        <string>状态：</string>
+        <string>不良品数量：</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QDoubleSpinBox" name="unitPriceDoubleSpinBox">
-       <property name="maximum">
-        <double>9999999.990000000223517</double>
+     <item row="3" column="0">
+      <widget class="QLabel" name="unitPriceLabel">
+       <property name="text">
+        <string>单价（不含税）：</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QSpinBox" name="quantitySpinBox">
-       <property name="minimum">
-        <number>0</number>
-       </property>
-       <property name="maximum">
-        <number>1000000</number>
+     <item row="0" column="2">
+      <widget class="QComboBox" name="categoryComboBox"/>
+     </item>
+     <item row="15" column="2">
+      <widget class="QPushButton" name="materialNumberGenerateButton">
+       <property name="text">
+        <string>生成物料号</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0" colspan="2">
-      <layout class="QHBoxLayout" name="uploadDownloadLayout">
-       <item>
-        <widget class="QPushButton" name="uploadDrawingButton">
-         <property name="text">
-          <string>上传图纸</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="downloadDrawingButton">
-         <property name="text">
-          <string>下载图纸</string>
-         </property>
-        </widget>
-       </item>
+     <item row="21" column="0" colspan="3">
+      <layout class="QHBoxLayout" name="photoLayout">
        <item>
         <widget class="QPushButton" name="uploadPhotoButton">
          <property name="text">
           <string>上传实物照片</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="photoStatusLabel">
+         <property name="text">
+          <string>未上传</string>
          </property>
         </widget>
        </item>
@@ -96,114 +82,12 @@
        </item>
       </layout>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="descriptionLabel">
+     <item row="0" column="0">
+      <widget class="QLabel" name="modelLabel">
        <property name="text">
-        <string>描述：</string>
+        <string>类别：</string>
        </property>
       </widget>
-     </item>
-     <item row="14" column="1">
-      <widget class="QLineEdit" name="maintainerLineEdit">
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="16" column="0">
-      <widget class="QLabel" name="noteLabel">
-       <property name="text">
-        <string>备注：</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="1">
-      <widget class="QLineEdit" name="supplierLineEdit"/>
-     </item>
-     <item row="16" column="1">
-      <widget class="QTextEdit" name="noteTextEdit"/>
-     </item>
-     <item row="11" column="1">
-      <widget class="QLineEdit" name="supplierPartNumberLineEdit"/>
-     </item>
-     <item row="4" column="1">
-      <widget class="QComboBox" name="sourceComboBox">
-       <item>
-        <property name="text">
-         <string>自制 (P)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>采购 (M)</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="modelComboBox">
-       <item>
-        <property name="text">
-         <string>线束</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>开关</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>成品</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>半成品</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="serialNumberLineEdit"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="quantityLabel">
-       <property name="text">
-        <string>数量：</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="0" colspan="2">
-      <layout class="QHBoxLayout" name="specificationLayout">
-       <item>
-        <widget class="QPushButton" name="uploadSpecificationButton">
-         <property name="text">
-          <string>上传供应商规格书</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="downloadSpecificationButton">
-         <property name="text">
-          <string>下载供应商规格书</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="serialNumberLabel">
-       <property name="text">
-        <string>序列号：</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLineEdit" name="versionLineEdit"/>
-     </item>
-     <item row="8" column="1">
-      <widget class="QLineEdit" name="locationLineEdit"/>
      </item>
      <item row="4" column="0">
       <widget class="QLabel" name="sourceLabel">
@@ -212,38 +96,24 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="locationLabel">
+     <item row="23" column="0">
+      <widget class="QLabel" name="updateDateLabel">
        <property name="text">
-        <string>库位号：</string>
+        <string>更新日期：</string>
        </property>
       </widget>
      </item>
-     <item row="14" column="0">
-      <widget class="QLabel" name="maintainerLabel">
+     <item row="2" column="0">
+      <widget class="QLabel" name="quantityLabel">
        <property name="text">
-        <string>物料维护人：</string>
+        <string>数量：</string>
        </property>
       </widget>
      </item>
-     <item row="13" column="0">
-      <widget class="QLabel" name="deliveryDateLabel">
-       <property name="text">
-        <string>货期：</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="modelLabel">
-       <property name="text">
-        <string>型号：</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="0">
-      <widget class="QLabel" name="supplierPartNumberLabel">
-       <property name="text">
-        <string>供应商料号：</string>
+     <item row="9" column="2">
+      <widget class="QSpinBox" name="defectiveQuantitySpinBox">
+       <property name="maximum">
+        <number>1000000</number>
        </property>
       </widget>
      </item>
@@ -254,36 +124,164 @@
        </property>
       </widget>
      </item>
-     <item row="15" column="1">
-      <widget class="QDateEdit" name="updateDateEdit">
+     <item row="5" column="2">
+      <widget class="QSpinBox" name="versionSpinBox"/>
+     </item>
+     <item row="22" column="2">
+      <widget class="QLineEdit" name="maintainerLineEdit">
        <property name="readOnly">
         <bool>true</bool>
        </property>
+      </widget>
+     </item>
+     <item row="20" column="0" colspan="3">
+      <layout class="QHBoxLayout" name="fileLayout">
+       <item>
+        <widget class="QPushButton" name="uploadDrawingButton">
+         <property name="text">
+          <string>上传图纸</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="drawingStatusLabel">
+         <property name="text">
+          <string>未上传</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="downloadDrawingButton">
+         <property name="text">
+          <string>下载图纸</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="serialNumberLabel">
+       <property name="text">
+        <string>序列号：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="22" column="0">
+      <widget class="QLabel" name="maintainerLabel">
+       <property name="text">
+        <string>物料维护人：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QComboBox" name="sourceComboBox"/>
+     </item>
+     <item row="6" column="2">
+      <widget class="QLineEdit" name="serialNumberLineEdit"/>
+     </item>
+     <item row="12" column="0">
+      <widget class="QLabel" name="deliveryLabel">
+       <property name="text">
+        <string>货期（天）：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="versionLabel">
+       <property name="text">
+        <string>版本号：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="supplierMaterialNumberLabel">
+       <property name="text">
+        <string>供应商料号：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QSpinBox" name="quantitySpinBox">
+       <property name="maximum">
+        <number>1000000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="locationLabel">
+       <property name="text">
+        <string>库位号：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="2">
+      <widget class="QComboBox" name="supplierComboBox"/>
+     </item>
+     <item row="23" column="2">
+      <widget class="QDateTimeEdit" name="updateDateTimeEdit">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="displayFormat">
+        <string>yyyy-MM-dd HH:mm:ss</string>
+       </property>
        <property name="calendarPopup">
         <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="unitPriceLabel">
-       <property name="text">
-        <string>单价：</string>
+     <item row="3" column="2">
+      <widget class="QDoubleSpinBox" name="unitPriceDoubleSpinBox">
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <double>9999999.990000000223517</double>
        </property>
       </widget>
      </item>
-     <item row="13" column="1">
-      <widget class="QDateEdit" name="deliveryDateEdit">
-       <property name="calendarPopup">
-        <bool>true</bool>
+     <item row="8" column="0">
+      <widget class="QLabel" name="goodQuantityLabel">
+       <property name="text">
+        <string>良品数量：</string>
        </property>
       </widget>
      </item>
-     <item row="15" column="0">
-      <widget class="QLabel" name="updateDateLabel">
+     <item row="1" column="2">
+      <widget class="QTextEdit" name="descriptionTextEdit"/>
+     </item>
+     <item row="24" column="0">
+      <widget class="QLabel" name="noteLabel">
        <property name="text">
-        <string>更新日期：</string>
+        <string>备注：</string>
        </property>
       </widget>
+     </item>
+     <item row="14" column="0">
+      <widget class="QLabel" name="materialNumberLabel">
+       <property name="text">
+        <string>物料号</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="2">
+      <widget class="QLineEdit" name="supplierMaterialNumberLineEdit"/>
+     </item>
+     <item row="14" column="2">
+      <widget class="QLineEdit" name="materialNumberLineEdit"/>
+     </item>
+     <item row="8" column="2">
+      <widget class="QSpinBox" name="goodQuantitySpinBox">
+       <property name="maximum">
+        <number>1000000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="24" column="2">
+      <widget class="QTextEdit" name="noteTextEdit"/>
+     </item>
+     <item row="13" column="2">
+      <layout class="QHBoxLayout" name="horizontalLayout_2"/>
      </item>
     </layout>
    </item>

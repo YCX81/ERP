@@ -1,6 +1,9 @@
 ERP_autogen/timestamp: \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \
+	C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+	C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
+	C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/q20type_traits.h \
@@ -120,6 +123,7 @@ ERP_autogen/timestamp: \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/qversiontagging.h \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/qxptype_traits.h \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/qyieldcpu.h \
+	C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qaction.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qbitmap.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qbrush.h \
@@ -139,6 +143,7 @@ ERP_autogen/timestamp: \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qregion.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qrgb.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qrgba64.h \
+	C:/Qt/6.7.2/mingw_64/include/QtGui/qstandarditemmodel.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qtgui-config.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qtguiexports.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qtguiglobal.h \
@@ -146,10 +151,12 @@ ERP_autogen/timestamp: \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs_win.h \
 	C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
+	C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel \
 	C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlTableModel \
 	C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
 	C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquerymodel.h \
 	C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
+	C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h \
 	C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
 	C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h \
 	C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlexports.h \
@@ -631,11 +638,15 @@ ERP_autogen/timestamp: \
 	C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
 	C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
 	C:/Users/ycx/Documents/QTProjects/ERP/CMakeLists.txt \
+	C:/Users/ycx/Documents/QTProjects/ERP/bomdialog.cpp \
+	C:/Users/ycx/Documents/QTProjects/ERP/bomdialog.h \
 	C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake \
 	C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeCXXCompiler.cmake \
 	C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeRCCompiler.cmake \
 	C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeSystem.cmake \
 	C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/moc_predefs.h \
+	C:/Users/ycx/Documents/QTProjects/ERP/defectivedialog.cpp \
+	C:/Users/ycx/Documents/QTProjects/ERP/defectivedialog.h \
 	C:/Users/ycx/Documents/QTProjects/ERP/logindialog.cpp \
 	C:/Users/ycx/Documents/QTProjects/ERP/logindialog.h \
 	C:/Users/ycx/Documents/QTProjects/ERP/main.cpp \
@@ -644,10 +655,17 @@ ERP_autogen/timestamp: \
 	C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.h \
 	C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.cpp \
 	C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.h \
+	C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.cpp \
+	C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.h \
 	C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.cpp \
 	C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h \
+	C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.cpp \
+	C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.h \
+	C:/Users/ycx/Documents/QTProjects/ERP/BOMdialog.ui \
 	C:/Users/ycx/Documents/QTProjects/ERP/logindialog.ui \
 	C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.ui \
 	C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.ui \
+	C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.ui \
 	C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.ui \
+	C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.ui \
 	C:/Qt/Tools/CMake_64/bin/cmake.exe

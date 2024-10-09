@@ -74,21 +74,35 @@ set(OLD_GLOB
   "C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/source/xlsxworksheet.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/source/xlsxzipreader.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/source/xlsxzipwriter.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/bomdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/3rdparty/QXlsx-1.4.9/QXlsx/QXlsx_autogen/6OFTS6FJJP/moc_xlsxdocument.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/3rdparty/QXlsx-1.4.9/QXlsx/QXlsx_autogen/mocs_compilation.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/3rdparty/QXlsx/QXlsx_autogen/6OFTS6FJJP/moc_xlsxdocument.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/3rdparty/QXlsx/QXlsx_autogen/mocs_compilation.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_bomdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_logindialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_mainwindow.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_materialdialog.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_orderdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_registerdialog.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_supplierdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/mocs_compilation.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/moc_logindialog.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/moc_mainwindow.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/moc_materialdialog.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/qrc_qmake_qmake_qm_files.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/database.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/defectivedialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/logindialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/main.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/material.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/user.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -154,18 +168,31 @@ set(OLD_GLOB
   "C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxworksheet_p.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxzipreader_p.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxzipwriter_p.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/bomdialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/3rdparty/QXlsx-1.4.9/QXlsx/QXlsx_autogen/moc_predefs.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/3rdparty/QXlsx/QXlsx_autogen/moc_predefs.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_LoginDialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_RegisterDialog.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_bomdialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_mainwindow.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_materialdialog.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_orderdialog.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_supplierdialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/moc_predefs.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/moc_predefs.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ui_mainwindow.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ui_materialdialog.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/database.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/defectivedialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/logindialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/main.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/material.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/user.h"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -247,6 +274,8 @@ endif()
 # _directory_contents at C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6LinguistTools/Qt6LinguistToolsMacros.cmake:55 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/ycx/Documents/QTProjects/ERP/*.qrc")
 set(OLD_GLOB
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/qmake_qmake_qm_files.qrc"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/qmake_qmake_qm_files.qrc"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -265,10 +294,13 @@ endif()
 # _directory_contents at C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6LinguistTools/Qt6LinguistToolsMacros.cmake:55 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/ycx/Documents/QTProjects/ERP/*.ui")
 set(OLD_GLOB
+  "C:/Users/ycx/Documents/QTProjects/ERP/BOMdialog.ui"
   "C:/Users/ycx/Documents/QTProjects/ERP/logindialog.ui"
   "C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.ui"
   "C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.ui"
+  "C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.ui"
   "C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.ui"
+  "C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.ui"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

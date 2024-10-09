@@ -29,11 +29,11 @@
 		[
 			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6Core/Qt6CoreMacros.cmake",
 			"CMakeLists.txt",
-			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6Gui/Qt6GuiTargets.cmake",
-			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfig.cmake",
-			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6/Qt6Config.cmake",
 			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6Core/Qt6CoreTargets.cmake",
-			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake"
+			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake",
+			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6/Qt6Config.cmake",
+			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6Gui/Qt6GuiTargets.cmake",
+			"C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfig.cmake"
 		],
 		"nodes" : 
 		[
@@ -67,56 +67,26 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 73,
+				"line" : 85,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 57,
+				"line" : 64,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 70,
+				"line" : 77,
 				"parent" : 0
 			},
 			{
-				"command" : 8,
+				"command" : 5,
 				"file" : 1,
-				"line" : 13,
+				"line" : 81,
 				"parent" : 0
-			},
-			{
-				"file" : 4,
-				"parent" : 8
-			},
-			{
-				"command" : 8,
-				"file" : 4,
-				"line" : 169,
-				"parent" : 9
-			},
-			{
-				"file" : 3,
-				"parent" : 10
-			},
-			{
-				"command" : 7,
-				"file" : 3,
-				"line" : 55,
-				"parent" : 11
-			},
-			{
-				"file" : 2,
-				"parent" : 12
-			},
-			{
-				"command" : 6,
-				"file" : 2,
-				"line" : 61,
-				"parent" : 13
 			},
 			{
 				"command" : 5,
@@ -126,40 +96,76 @@
 			},
 			{
 				"command" : 8,
+				"file" : 1,
+				"line" : 13,
+				"parent" : 0
+			},
+			{
+				"file" : 4,
+				"parent" : 10
+			},
+			{
+				"command" : 8,
 				"file" : 4,
 				"line" : 169,
-				"parent" : 9
+				"parent" : 11
+			},
+			{
+				"file" : 3,
+				"parent" : 12
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 57,
+				"parent" : 13
+			},
+			{
+				"file" : 2,
+				"parent" : 14
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 61,
+				"parent" : 15
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 169,
+				"parent" : 11
 			},
 			{
 				"file" : 6,
-				"parent" : 16
+				"parent" : 17
 			},
 			{
 				"command" : 7,
 				"file" : 6,
-				"line" : 57,
-				"parent" : 17
+				"line" : 55,
+				"parent" : 18
 			},
 			{
 				"file" : 5,
-				"parent" : 18
+				"parent" : 19
 			},
 			{
 				"command" : 6,
 				"file" : 5,
 				"line" : 61,
-				"parent" : 19
+				"parent" : 20
 			},
 			{
 				"command" : 9,
 				"file" : 1,
-				"line" : 66,
+				"line" : 73,
 				"parent" : 0
 			},
 			{
 				"command" : 10,
 				"file" : 1,
-				"line" : 63,
+				"line" : 70,
 				"parent" : 0
 			}
 		]
@@ -176,20 +182,24 @@
 			"defines" : 
 			[
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"define" : "MINGW_HAS_SECURE_API=1"
 				},
 				{
-					"backtrace" : 21,
+					"backtrace" : 22,
 					"define" : "QT_BUILD_MYSQL_DRIVER"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"define" : "QT_CORE_LIB"
 				},
 				{
 					"backtrace" : 6,
 					"define" : "QT_GUI_LIB"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "QT_PDF_LIB"
 				},
 				{
 					"backtrace" : 6,
@@ -200,27 +210,27 @@
 					"define" : "QT_WIDGETS_LIB"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"define" : "UNICODE"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"define" : "WIN32"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"define" : "WIN64"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"define" : "_ENABLE_EXTENDED_ALIGNED_STORAGE"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"define" : "_UNICODE"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"define" : "_WIN64"
 				}
 			],
@@ -231,7 +241,7 @@
 					"path" : "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include"
 				},
 				{
-					"backtrace" : 22,
+					"backtrace" : 23,
 					"path" : "C:/Program Files/MySQL/MySQL Server 8.0/include"
 				},
 				{
@@ -239,17 +249,17 @@
 					"path" : "C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"isSystem" : true,
 					"path" : "C:/Qt/6.7.2/mingw_64/include/QtCore"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"isSystem" : true,
 					"path" : "C:/Qt/6.7.2/mingw_64/include"
 				},
 				{
-					"backtrace" : 15,
+					"backtrace" : 9,
 					"isSystem" : true,
 					"path" : "C:/Qt/6.7.2/mingw_64/mkspecs/win32-g++"
 				},
@@ -287,6 +297,11 @@
 					"backtrace" : 7,
 					"isSystem" : true,
 					"path" : "C:/Qt/6.7.2/mingw_64/include/QtCore/6.7.2/QtCore"
+				},
+				{
+					"backtrace" : 8,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.7.2/mingw_64/include/QtPdf"
 				}
 			],
 			"language" : "CXX",
@@ -294,8 +309,8 @@
 			{
 				"backtraces" : 
 				[
-					15,
-					15,
+					9,
+					9,
 					7
 				],
 				"standard" : "17"
@@ -307,12 +322,19 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				17,
+				19,
+				23,
+				25
 			]
 		}
 	],
 	"dependencies" : 
 	[
+		{
+			"id" : "ERP_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+		},
 		{
 			"backtrace" : 0,
 			"id" : "ERP_autogen::@6890427a1f51a3e7e1df"
@@ -320,9 +342,6 @@
 		{
 			"backtrace" : 7,
 			"id" : "QXlsx::@3818bd16993d0aa5c0b8"
-		},
-		{
-			"id" : "ERP_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "ERP::@6890427a1f51a3e7e1df",
@@ -368,43 +387,48 @@
 				"role" : "libraries"
 			},
 			{
+				"backtrace" : 8,
+				"fragment" : "C:\\Qt\\6.7.2\\mingw_64\\lib\\libQt6Pdf.a",
+				"role" : "libraries"
+			},
+			{
 				"backtrace" : 6,
 				"fragment" : "C:\\Qt\\6.7.2\\mingw_64\\lib\\libQt6Gui.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 14,
-				"fragment" : "-ld3d11",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 14,
-				"fragment" : "-ldxgi",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 14,
-				"fragment" : "-ldxguid",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 14,
-				"fragment" : "-ld3d12",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 15,
+				"backtrace" : 9,
 				"fragment" : "C:\\Qt\\6.7.2\\mingw_64\\lib\\libQt6Core.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 20,
+				"backtrace" : 16,
 				"fragment" : "-lmpr",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 20,
+				"backtrace" : 16,
 				"fragment" : "-luserenv",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 21,
+				"fragment" : "-ld3d11",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 21,
+				"fragment" : "-ldxgi",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 21,
+				"fragment" : "-ldxguid",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 21,
+				"fragment" : "-ld3d12",
 				"role" : "libraries"
 			},
 			{
@@ -432,7 +456,11 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				17,
+				19,
+				23,
+				25
 			]
 		},
 		{
@@ -445,9 +473,16 @@
 				9,
 				10,
 				16,
-				17,
 				18,
-				19
+				22,
+				24,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33
 			]
 		},
 		{
@@ -459,14 +494,17 @@
 				13,
 				14,
 				15,
-				20
+				20,
+				21,
+				26,
+				34
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				21
+				35
 			]
 		}
 	],
@@ -560,6 +598,65 @@
 			"sourceGroupIndex" : 2
 		},
 		{
+			"backtrace" : 4,
+			"path" : "bomdialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "bomdialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "orderdialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "orderdialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "orderdialog.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"path" : "BOMdialog.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"path" : "defectivedialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "defectivedialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "supplierdialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "supplierdialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "supplierdialog.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
 			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_mainwindow.h",
@@ -581,6 +678,24 @@
 			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_registerdialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_orderdialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_BOMdialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_supplierdialog.h",
 			"sourceGroupIndex" : 1
 		},
 		{

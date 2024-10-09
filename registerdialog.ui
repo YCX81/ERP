@@ -13,10 +13,7 @@
   <property name="windowTitle">
    <string>注册</string>
   </property>
-
   <layout class="QVBoxLayout" name="verticalLayout">
-
-   <!-- 用户名 -->
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
@@ -29,8 +26,6 @@
      <item row="0" column="1">
       <widget class="QLineEdit" name="usernameLineEdit"/>
      </item>
-
-     <!-- 密码 -->
      <item row="1" column="0">
       <widget class="QLabel" name="passwordLabel">
        <property name="text">
@@ -41,24 +36,20 @@
      <item row="1" column="1">
       <widget class="QLineEdit" name="passwordLineEdit">
        <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
+        <enum>QLineEdit::EchoMode::Password</enum>
        </property>
       </widget>
      </item>
-
-     <!-- 密码提示 -->
      <item row="2" column="1">
       <widget class="QLabel" name="passwordRequirementsLabel">
        <property name="text">
         <string>密码最少6位。</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignLeft</set>
+        <set>Qt::AlignmentFlag::AlignLeading</set>
        </property>
       </widget>
      </item>
-
-     <!-- 确认密码 -->
      <item row="3" column="0">
       <widget class="QLabel" name="confirmPasswordLabel">
        <property name="text">
@@ -69,24 +60,14 @@
      <item row="3" column="1">
       <widget class="QLineEdit" name="confirmPasswordLineEdit">
        <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
+        <enum>QLineEdit::EchoMode::Password</enum>
        </property>
       </widget>
      </item>
-
     </layout>
    </item>
-
-   <!-- 按钮布局 -->
    <item>
     <layout class="QHBoxLayout" name="buttonLayout">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </spacer>
-     </item>
      <item>
       <widget class="QPushButton" name="registerButton">
        <property name="text">
@@ -103,7 +84,6 @@
      </item>
     </layout>
    </item>
-
   </layout>
  </widget>
  <resources/>

@@ -1,7 +1,7 @@
 C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.h \
   C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/moc_predefs.h \
-  C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
   C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \
+  C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q20type_traits.h \
@@ -146,18 +146,16 @@ C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/
   C:/Qt/6.7.2/mingw_64/include/QtGui/qtransform.h \
   C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs_win.h \
-  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
+  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel \
   C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlTableModel \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquerymodel.h \
-  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
+  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlexports.h \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlglobal.h \
-  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
   C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
-  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
   C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmainwindow.h \
   C:/Qt/6.7.2/mingw_64/include/QtWidgets/qsizepolicy.h \
   C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtabwidget.h \
@@ -363,5 +361,4 @@ C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/sys/types.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/time.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
-  C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
-  C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.h
+  C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h

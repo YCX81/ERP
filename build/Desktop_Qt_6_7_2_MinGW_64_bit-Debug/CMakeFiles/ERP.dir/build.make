@@ -165,6 +165,66 @@ CMakeFiles/ERP.dir/registerdialog.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ERP.dir/registerdialog.cpp.s"
 	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ycx\Documents\QTProjects\ERP\registerdialog.cpp -o CMakeFiles\ERP.dir\registerdialog.cpp.s
 
+CMakeFiles/ERP.dir/bomdialog.cpp.obj: CMakeFiles/ERP.dir/flags.make
+CMakeFiles/ERP.dir/bomdialog.cpp.obj: CMakeFiles/ERP.dir/includes_CXX.rsp
+CMakeFiles/ERP.dir/bomdialog.cpp.obj: C:/Users/ycx/Documents/QTProjects/ERP/bomdialog.cpp
+CMakeFiles/ERP.dir/bomdialog.cpp.obj: CMakeFiles/ERP.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/ERP.dir/bomdialog.cpp.obj"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ERP.dir/bomdialog.cpp.obj -MF CMakeFiles\ERP.dir\bomdialog.cpp.obj.d -o CMakeFiles\ERP.dir\bomdialog.cpp.obj -c C:\Users\ycx\Documents\QTProjects\ERP\bomdialog.cpp
+
+CMakeFiles/ERP.dir/bomdialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ERP.dir/bomdialog.cpp.i"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ycx\Documents\QTProjects\ERP\bomdialog.cpp > CMakeFiles\ERP.dir\bomdialog.cpp.i
+
+CMakeFiles/ERP.dir/bomdialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ERP.dir/bomdialog.cpp.s"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ycx\Documents\QTProjects\ERP\bomdialog.cpp -o CMakeFiles\ERP.dir\bomdialog.cpp.s
+
+CMakeFiles/ERP.dir/orderdialog.cpp.obj: CMakeFiles/ERP.dir/flags.make
+CMakeFiles/ERP.dir/orderdialog.cpp.obj: CMakeFiles/ERP.dir/includes_CXX.rsp
+CMakeFiles/ERP.dir/orderdialog.cpp.obj: C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.cpp
+CMakeFiles/ERP.dir/orderdialog.cpp.obj: CMakeFiles/ERP.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/ERP.dir/orderdialog.cpp.obj"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ERP.dir/orderdialog.cpp.obj -MF CMakeFiles\ERP.dir\orderdialog.cpp.obj.d -o CMakeFiles\ERP.dir\orderdialog.cpp.obj -c C:\Users\ycx\Documents\QTProjects\ERP\orderdialog.cpp
+
+CMakeFiles/ERP.dir/orderdialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ERP.dir/orderdialog.cpp.i"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ycx\Documents\QTProjects\ERP\orderdialog.cpp > CMakeFiles\ERP.dir\orderdialog.cpp.i
+
+CMakeFiles/ERP.dir/orderdialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ERP.dir/orderdialog.cpp.s"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ycx\Documents\QTProjects\ERP\orderdialog.cpp -o CMakeFiles\ERP.dir\orderdialog.cpp.s
+
+CMakeFiles/ERP.dir/defectivedialog.cpp.obj: CMakeFiles/ERP.dir/flags.make
+CMakeFiles/ERP.dir/defectivedialog.cpp.obj: CMakeFiles/ERP.dir/includes_CXX.rsp
+CMakeFiles/ERP.dir/defectivedialog.cpp.obj: C:/Users/ycx/Documents/QTProjects/ERP/defectivedialog.cpp
+CMakeFiles/ERP.dir/defectivedialog.cpp.obj: CMakeFiles/ERP.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/ERP.dir/defectivedialog.cpp.obj"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ERP.dir/defectivedialog.cpp.obj -MF CMakeFiles\ERP.dir\defectivedialog.cpp.obj.d -o CMakeFiles\ERP.dir\defectivedialog.cpp.obj -c C:\Users\ycx\Documents\QTProjects\ERP\defectivedialog.cpp
+
+CMakeFiles/ERP.dir/defectivedialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ERP.dir/defectivedialog.cpp.i"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ycx\Documents\QTProjects\ERP\defectivedialog.cpp > CMakeFiles\ERP.dir\defectivedialog.cpp.i
+
+CMakeFiles/ERP.dir/defectivedialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ERP.dir/defectivedialog.cpp.s"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ycx\Documents\QTProjects\ERP\defectivedialog.cpp -o CMakeFiles\ERP.dir\defectivedialog.cpp.s
+
+CMakeFiles/ERP.dir/supplierdialog.cpp.obj: CMakeFiles/ERP.dir/flags.make
+CMakeFiles/ERP.dir/supplierdialog.cpp.obj: CMakeFiles/ERP.dir/includes_CXX.rsp
+CMakeFiles/ERP.dir/supplierdialog.cpp.obj: C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.cpp
+CMakeFiles/ERP.dir/supplierdialog.cpp.obj: CMakeFiles/ERP.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/ERP.dir/supplierdialog.cpp.obj"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ERP.dir/supplierdialog.cpp.obj -MF CMakeFiles\ERP.dir\supplierdialog.cpp.obj.d -o CMakeFiles\ERP.dir\supplierdialog.cpp.obj -c C:\Users\ycx\Documents\QTProjects\ERP\supplierdialog.cpp
+
+CMakeFiles/ERP.dir/supplierdialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ERP.dir/supplierdialog.cpp.i"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ycx\Documents\QTProjects\ERP\supplierdialog.cpp > CMakeFiles\ERP.dir\supplierdialog.cpp.i
+
+CMakeFiles/ERP.dir/supplierdialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ERP.dir/supplierdialog.cpp.s"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ycx\Documents\QTProjects\ERP\supplierdialog.cpp -o CMakeFiles\ERP.dir\supplierdialog.cpp.s
+
 # Object files for target ERP
 ERP_OBJECTS = \
 "CMakeFiles/ERP.dir/ERP_autogen/mocs_compilation.cpp.obj" \
@@ -172,7 +232,11 @@ ERP_OBJECTS = \
 "CMakeFiles/ERP.dir/mainwindow.cpp.obj" \
 "CMakeFiles/ERP.dir/logindialog.cpp.obj" \
 "CMakeFiles/ERP.dir/materialdialog.cpp.obj" \
-"CMakeFiles/ERP.dir/registerdialog.cpp.obj"
+"CMakeFiles/ERP.dir/registerdialog.cpp.obj" \
+"CMakeFiles/ERP.dir/bomdialog.cpp.obj" \
+"CMakeFiles/ERP.dir/orderdialog.cpp.obj" \
+"CMakeFiles/ERP.dir/defectivedialog.cpp.obj" \
+"CMakeFiles/ERP.dir/supplierdialog.cpp.obj"
 
 # External object files for target ERP
 ERP_EXTERNAL_OBJECTS =
@@ -183,6 +247,10 @@ ERP.exe: CMakeFiles/ERP.dir/mainwindow.cpp.obj
 ERP.exe: CMakeFiles/ERP.dir/logindialog.cpp.obj
 ERP.exe: CMakeFiles/ERP.dir/materialdialog.cpp.obj
 ERP.exe: CMakeFiles/ERP.dir/registerdialog.cpp.obj
+ERP.exe: CMakeFiles/ERP.dir/bomdialog.cpp.obj
+ERP.exe: CMakeFiles/ERP.dir/orderdialog.cpp.obj
+ERP.exe: CMakeFiles/ERP.dir/defectivedialog.cpp.obj
+ERP.exe: CMakeFiles/ERP.dir/supplierdialog.cpp.obj
 ERP.exe: CMakeFiles/ERP.dir/build.make
 ERP.exe: C:/Qt/6.7.2/mingw_64/lib/libQt6Widgets.a
 ERP.exe: C:/Qt/6.7.2/mingw_64/lib/libQt6Sql.a
@@ -193,7 +261,7 @@ ERP.exe: C:/Qt/6.7.2/mingw_64/lib/libQt6Core.a
 ERP.exe: CMakeFiles/ERP.dir/linkLibs.rsp
 ERP.exe: CMakeFiles/ERP.dir/objects1.rsp
 ERP.exe: CMakeFiles/ERP.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable ERP.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable ERP.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\ERP.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

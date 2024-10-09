@@ -1,7 +1,7 @@
 CMakeFiles/ERP.dir/ERP_autogen/mocs_compilation.cpp.obj: \
  C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\mocs_compilation.cpp \
- C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_logindialog.cpp \
- C:/Users/ycx/Documents/QTProjects/ERP/logindialog.h \
+ C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_bomdialog.cpp \
+ C:/Users/ycx/Documents/QTProjects/ERP/bomdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -362,7 +362,17 @@ CMakeFiles/ERP.dir/ERP_autogen/mocs_compilation.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qsizepolicy.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qbitmap.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlglobal.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlexports.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qstandarditemmodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qtmochelpers.h \
+ C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_logindialog.cpp \
+ C:/Users/ycx/Documents/QTProjects/ERP/logindialog.h \
  C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_mainwindow.cpp \
  C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -370,20 +380,26 @@ CMakeFiles/ERP.dir/ERP_autogen/mocs_compilation.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtabwidget.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlTableModel \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlglobal.h \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlexports.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquerymodel.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qitemselectionmodel.h \
- C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.h \
- C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearray.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
  C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_materialdialog.cpp \
  C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearray.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qmetatype.h \
+ C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_orderdialog.cpp \
+ C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.h \
  C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_registerdialog.cpp \
- C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h
+ C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h \
+ C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_supplierdialog.cpp \
+ C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.h

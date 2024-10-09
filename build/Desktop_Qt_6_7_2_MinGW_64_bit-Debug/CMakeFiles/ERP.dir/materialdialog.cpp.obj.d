@@ -368,6 +368,10 @@ CMakeFiles/ERP.dir/materialdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlexports.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearray.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qmetatype.h \
  C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_materialdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
@@ -399,7 +403,7 @@ CMakeFiles/ERP.dir/materialdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qrubberband.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDateEdit \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDateTimeEdit \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdatetimeedit.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qtimezone.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
@@ -488,4 +492,6 @@ CMakeFiles/ERP.dir/materialdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlfield.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h

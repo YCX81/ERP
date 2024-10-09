@@ -384,6 +384,18 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/ycx/Documents/QTProjects/ERP/bomdialog.h",
+			"MU",
+			"EWIEGA46WW/moc_bomdialog.cpp",
+			null
+		],
+		[
+			"C:/Users/ycx/Documents/QTProjects/ERP/defectivedialog.h",
+			"MU",
+			"EWIEGA46WW/moc_defectivedialog.cpp",
+			null
+		],
+		[
 			"C:/Users/ycx/Documents/QTProjects/ERP/logindialog.h",
 			"MU",
 			"EWIEGA46WW/moc_logindialog.cpp",
@@ -408,9 +420,21 @@
 			null
 		],
 		[
+			"C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.h",
+			"MU",
+			"EWIEGA46WW/moc_orderdialog.cpp",
+			null
+		],
+		[
 			"C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h",
 			"MU",
 			"EWIEGA46WW/moc_registerdialog.cpp",
+			null
+		],
+		[
+			"C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.h",
+			"MU",
+			"EWIEGA46WW/moc_supplierdialog.cpp",
 			null
 		]
 	],
@@ -495,6 +519,12 @@
 	"SETTINGS_FILE" : "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/CMakeFiles/ERP_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[ "C:/Users/ycx/Documents/QTProjects/ERP/bomdialog.cpp", "MU", null ],
+		[
+			"C:/Users/ycx/Documents/QTProjects/ERP/defectivedialog.cpp",
+			"MU",
+			null
+		],
 		[ "C:/Users/ycx/Documents/QTProjects/ERP/logindialog.cpp", "MU", null ],
 		[ "C:/Users/ycx/Documents/QTProjects/ERP/main.cpp", "MU", null ],
 		[ "C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.cpp", "MU", null ],
@@ -503,8 +533,14 @@
 			"MU",
 			null
 		],
+		[ "C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.cpp", "MU", null ],
 		[
 			"C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.cpp",
 			"MU",
 			null
 		]

@@ -9,6 +9,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
+#include <QUndoStack>
 
 bool testDatabase() {
     QSqlQuery query;

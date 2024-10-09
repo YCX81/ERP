@@ -404,8 +404,6 @@ CMakeFiles/ERP.dir/registerdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSpacerItem \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlQuery \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \

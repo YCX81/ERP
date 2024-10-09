@@ -1,6 +1,8 @@
 C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_materialdialog.cpp: C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.h \
   C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/moc_predefs.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
+  C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+  C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q20type_traits.h \

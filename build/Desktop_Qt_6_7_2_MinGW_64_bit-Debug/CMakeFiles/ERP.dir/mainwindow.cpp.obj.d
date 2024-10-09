@@ -370,18 +370,18 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquerymodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qitemselectionmodel.h \
- C:\Users\ycx\Documents\QTProjects\ERP\materialdialog.h \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
- C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearray.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
  C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_mainwindow.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QAction \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qaction.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qcoreapplication.h \
@@ -424,18 +424,43 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qtextdocument.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMenu \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmenu.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMenuBar \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmenubar.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmenu.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QStackedWidget \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qstackedwidget.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QStatusBar \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qstatusbar.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTabWidget \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtabwidget.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableView \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtableview.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qwidget.h \
  C:\Users\ycx\Documents\QTProjects\ERP\registerdialog.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
  C:\Users\ycx\Documents\QTProjects\ERP\logindialog.h \
+ C:\Users\ycx\Documents\QTProjects\ERP\materialdialog.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearray.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qmetatype.h \
+ C:\Users\ycx\Documents\QTProjects\ERP\defectivedialog.h \
+ C:\Users\ycx\Documents\QTProjects\ERP\bomdialog.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qstandarditemmodel.h \
+ C:\Users\ycx\Documents\QTProjects\ERP\orderdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMessageBox \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmessagebox.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
@@ -485,6 +510,17 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelectionModel \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QStackedWidget \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableView \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlField \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlfield.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTabWidget \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxdocument.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxformat.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxglobal.h \
@@ -506,47 +542,20 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/QFont \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qfont.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxworksheet.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxabstractsheet.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxabstractooxmlfile.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxcell.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDate \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QTime \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxcelllocation.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qmetatype.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qvector.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxcellrange.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxcellreference.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/QImage \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qimage.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QPointF \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qpoint.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QUrl \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h \
- C:/Qt/6.7.2/mingw_64/include/QtPdf/QPdfDocument \
- C:/Qt/6.7.2/mingw_64/include/QtPdf/qpdfdocument.h \
- C:/Qt/6.7.2/mingw_64/include/QtPdf/qtpdfglobal.h \
- C:/Qt/6.7.2/mingw_64/include/QtPdf/qtpdfexports.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QAbstractListModel \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
- C:/Qt/6.7.2/mingw_64/include/QtPdf/qpdfdocumentrenderoptions.h \
- C:/Qt/6.7.2/mingw_64/include/QtPdf/qpdfselection.h \
- C:/Qt/6.7.2/mingw_64/include/QtGui/qclipboard.h \
- C:/Qt/6.7.2/mingw_64/include/QtGui/QPainter \
- C:/Qt/6.7.2/mingw_64/include/QtGui/qpainter.h \
- C:/Qt/6.7.2/mingw_64/include/QtGui/qtextoption.h \
- C:/Qt/6.7.2/mingw_64/include/QtGui/qpen.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QBuffer \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qbuffer.h \
- C:/Qt/6.7.2/mingw_64/include/QtGui/QPixmap \
- C:/Qt/6.7.2/mingw_64/include/QtGui/qpixmap.h \
- C:/Qt/6.7.2/mingw_64/include/QtPdf/QPdfDocumentRenderOptions \
- C:/Qt/6.7.2/mingw_64/include/QtPdf/qpdfdocumentrenderoptions.h
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h

@@ -2,8 +2,11 @@ file(REMOVE_RECURSE
   "CMakeFiles/ERP_autogen"
   "ERP_autogen/include/ui_LoginDialog.h"
   "ERP_autogen/include/ui_RegisterDialog.h"
+  "ERP_autogen/include/ui_bomdialog.h"
   "ERP_autogen/include/ui_mainwindow.h"
   "ERP_autogen/include/ui_materialdialog.h"
+  "ERP_autogen/include/ui_orderdialog.h"
+  "ERP_autogen/include/ui_supplierdialog.h"
   "ERP_autogen/mocs_compilation.cpp"
   "ERP_autogen/timestamp"
 )

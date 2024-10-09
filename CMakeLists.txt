@@ -38,6 +38,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ERP
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        bomdialog.h bomdialog.cpp
+        orderdialog.h orderdialog.cpp
+        orderdialog.ui
+        BOMdialog.ui
+        defectivedialog.h defectivedialog.cpp
+        supplierdialog.h supplierdialog.cpp
+        supplierdialog.ui
     )
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()

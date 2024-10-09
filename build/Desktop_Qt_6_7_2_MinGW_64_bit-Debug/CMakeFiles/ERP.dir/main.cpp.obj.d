@@ -370,15 +370,13 @@ CMakeFiles/ERP.dir/main.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquerymodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qitemselectionmodel.h \
- C:\Users\ycx\Documents\QTProjects\ERP\materialdialog.h \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
- C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearray.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
  C:\Users\ycx\Documents\QTProjects\ERP\main.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
@@ -404,4 +402,6 @@ CMakeFiles/ERP.dir/main.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlQuery \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoStack \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qundostack.h
