@@ -370,6 +370,10 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquerymodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QSortFilterProxyModel \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qsortfilterproxymodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractproxymodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \
@@ -411,7 +415,6 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qstyleoption.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractspinbox.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qvalidator.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qslider.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qstyle.h \
@@ -461,6 +464,7 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qstandarditemmodel.h \
  C:\Users\ycx\Documents\QTProjects\ERP\orderdialog.h \
+ C:\Users\ycx\Documents\QTProjects\ERP\supplierdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMessageBox \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmessagebox.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \

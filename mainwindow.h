@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSqlTableModel>
+#include <QSortFilterProxyModel> // 添加 QSortFilterProxyModel
 #include <QMap>
 #include <QItemSelection>
 #include <QSqlRelationalTableModel>
@@ -77,16 +78,23 @@ private:
     QSqlTableModel *materialModel;
     QSqlTableModel *defectiveModel;
     QSqlTableModel *bomModel;
-    QSqlTableModel *supplierModel; // 添加供应商模型
-    QSqlRelationalTableModel *supplierMaterialModel; // 用于显示供应商及其物料
+    QSqlTableModel *supplierModel; // 供应商模型
+
+    // 使用代理模型进行过滤
+    QSortFilterProxyModel *materialProxyModel; // 用于根据供应商过滤物料
+    QSortFilterProxyModel *supplierProxyModel; // 如果需要对供应商进行额外过滤
 
     QMap<QString, QSqlTableModel*> orderModels;
     QMap<QString, QTableView*> orderTableViews;
+
+    // 其他模型
+    QSqlRelationalTableModel *supplierMaterialModel; // 如果仍然需要使用
 
     // 更新登录状态
     void updateLoginStatus();
     // 显示预览数据
     void displayDataInPreview(const QByteArray &data);
+    // 库存处理函数
     void processMaterialInventory(int orderId, const QString &operation);
     void processProductInventory(int orderId, const QString &operation);
 };

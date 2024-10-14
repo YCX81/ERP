@@ -382,6 +382,10 @@ CMakeFiles/ERP.dir/ERP_autogen/mocs_compilation.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquerymodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QSortFilterProxyModel \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qsortfilterproxymodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractproxymodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \

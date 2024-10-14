@@ -2,11 +2,13 @@ C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/
   C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/moc_predefs.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \
   C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
+  C:/Qt/6.7.2/mingw_64/include/QtCore/QSortFilterProxyModel \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q20type_traits.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/q23utility.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+  C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractproxymodel.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qalgorithms.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qanystringview.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qarraydata.h \
@@ -74,6 +76,7 @@ C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/
   C:/Qt/6.7.2/mingw_64/include/QtCore/qprocessordetection.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qrect.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qrefcount.h \
+  C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qscopedpointer.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qscopeguard.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qset.h \
@@ -82,6 +85,7 @@ C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/
   C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer_impl.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qsize.h \
+  C:/Qt/6.7.2/mingw_64/include/QtCore/qsortfilterproxymodel.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qstring.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qstringalgorithms.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qstringbuilder.h \

@@ -95,7 +95,7 @@ void MaterialDialog::enableDefectiveQuantityEditing(bool enable)
         // 隐藏其他不需要的控件
         ui->categoryComboBox->setVisible(false);
         ui->descriptionTextEdit->setVisible(false);
-        ui->quantitySpinBox->setVisible(false);
+        ui->goodQuantitySpinBox->setVisible(false);
         ui->unitPriceDoubleSpinBox->setVisible(false);
         ui->sourceComboBox->setVisible(false);
         ui->versionSpinBox->setVisible(false);
@@ -128,7 +128,7 @@ void MaterialDialog::enableDefectiveQuantityEditing(bool enable)
         ui->goodQuantitySpinBox->setVisible(true);
         ui->categoryComboBox->setVisible(true);
         ui->descriptionTextEdit->setVisible(true);
-        ui->quantitySpinBox->setVisible(true);
+        ui->goodQuantitySpinBox->setVisible(true);
         ui->unitPriceDoubleSpinBox->setVisible(true);
         ui->sourceComboBox->setVisible(true);
         ui->versionSpinBox->setVisible(true);
@@ -160,7 +160,7 @@ void MaterialDialog::setMaterialData(const QSqlRecord &record)
     if (!defectiveQuantityEditingEnabled) {
         ui->categoryComboBox->setCurrentText(record.value("model").toString());
         ui->descriptionTextEdit->setPlainText(record.value("description").toString());
-        ui->quantitySpinBox->setValue(record.value("quantity").toInt());
+        ui->goodQuantitySpinBox->setValue(record.value("quantity").toInt());
         ui->unitPriceDoubleSpinBox->setValue(record.value("unit_price").toDouble());
 
         // 设置来源
