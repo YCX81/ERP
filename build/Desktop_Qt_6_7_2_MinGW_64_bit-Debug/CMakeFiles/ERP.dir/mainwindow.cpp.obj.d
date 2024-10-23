@@ -426,6 +426,12 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qiodevice.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qtextdocument.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLineEdit \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qtextcursor.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qtextformat.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qpen.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qtextoption.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMenu \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmenu.h \
@@ -451,14 +457,9 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
  C:\Users\ycx\Documents\QTProjects\ERP\logindialog.h \
  C:\Users\ycx\Documents\QTProjects\ERP\materialdialog.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearray.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qmetatype.h \
  C:\Users\ycx\Documents\QTProjects\ERP\defectivedialog.h \
  C:\Users\ycx\Documents\QTProjects\ERP\bomdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
@@ -523,12 +524,16 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlField \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlfield.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTabWidget \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QRegularExpression \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxdocument.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxformat.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxglobal.h \
  C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/iostream \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearray.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QIODevice \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qiodevice.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QObject \
@@ -537,7 +542,6 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qstring.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QStringList \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qstringlist.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QtGlobal \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qglobal.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/QColor \
@@ -546,6 +550,8 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/QFont \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qfont.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxworksheet.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxabstractsheet.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxabstractooxmlfile.h \
@@ -553,6 +559,8 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDate \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QTime \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxcelllocation.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qmetatype.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qvector.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxcellrange.h \

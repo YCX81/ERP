@@ -361,20 +361,15 @@ CMakeFiles/ERP.dir/materialdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qsizepolicy.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qbitmap.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlglobal.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlexports.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearray.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qmetatype.h \
  C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_materialdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qcoreapplication.h \
@@ -490,7 +485,6 @@ CMakeFiles/ERP.dir/materialdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlField \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlfield.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime \

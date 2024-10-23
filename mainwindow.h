@@ -65,6 +65,8 @@ private slots:
     void on_addSupplierButton_clicked();
     void on_editSupplierButton_clicked();
     void on_deleteSupplierButton_clicked();
+    void on_supplierSearchLineEdit_textChanged(const QString &text);
+
 
     // 其他辅助函数
     void onMaterialTableViewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);

@@ -382,6 +382,21 @@ CMakeFiles/ERP.dir/supplierdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qinputmethod.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qlocale.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qguiapplication_platform.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QComboBox \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qcombobox.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qstyleoption.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractspinbox.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qvalidator.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qslider.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qstyle.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtabbar.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtabwidget.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qrubberband.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHBoxLayout \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
@@ -391,7 +406,6 @@ CMakeFiles/ERP.dir/supplierdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgridlayout.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlabel.h \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qpicture.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qiodevice.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qtextdocument.h \
@@ -414,4 +428,7 @@ CMakeFiles/ERP.dir/supplierdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlField \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlfield.h

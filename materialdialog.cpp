@@ -22,50 +22,32 @@ MaterialDialog::MaterialDialog(const QString &currentUser, QWidget *parent) :
     // 注册 CategoryInfo 类型
     qRegisterMetaType<CategoryInfo>("CategoryInfo");
 
-    // 初始化类别列表
-    QList<CategoryInfo> categoryList = {
-        {10, "线束连接器", "XL"},
-        {16, "紧固件", "TS"},
-        {17, "胶水", "GL"},
-        {18, "标签及辅材", "LA"},
-        {4,  "开关", "SW"},
-        {3,  "滚轮", "RO"},
-        {5,  "摇杆", "MJ"},
-        {1,  "电控手柄", "JC"},
-        {6,  "电子油门", "MO"},
-        {7,  "传感器", "SE"},
-        {8,  "电路板", "PC"},
-        {9,  "电子件", "EM"},
-        {2,  "半成品", "SM"},
-        {11, "模具五金", "TM"},
-        {12, "机加工五金", "CM"},
-        {13, "模具塑料", "TP"},
-        {14, "机加工塑料", "CP"},
-        {15, "橡胶", "RB"}
-    };
-
     // 初始化类别下拉框
     ui->categoryComboBox->clear();
-    for (const CategoryInfo &category : categoryList) {
-        QString displayText = QString("%1 - %2").arg(category.name).arg(category.letterCode);
+    QSqlQuery query("SELECT category_code, category_name, letter_code FROM Categories ORDER BY category_code");
+    while (query.next()) {
+        int code = query.value("category_code").toInt();
+        QString name = query.value("category_name").toString();
+        QString letterCode = query.value("letter_code").toString();
+        CategoryInfo category = { code, name, letterCode };
+        QString displayText = QString("%1 - %2").arg(name).arg(letterCode);
         ui->categoryComboBox->addItem(displayText, QVariant::fromValue(category));
     }
 
-    // 设置 sourceComboBox 的选项和用户数据
+    // 设置来源下拉框
     ui->sourceComboBox->clear();
     ui->sourceComboBox->addItem("自制 (P)", QVariant("P"));
     ui->sourceComboBox->addItem("采购 (M)", QVariant("M"));
 
     // 初始化供应商下拉框
     ui->supplierComboBox->clear();
-    QSqlQuery supplierQuery("SELECT supplier_id, supplier_name FROM Suppliers");
+    QSqlQuery supplierQuery("SELECT supplier_id, supplier_name FROM Suppliers ORDER BY supplier_id");
     while (supplierQuery.next()) {
         QString supplierID = supplierQuery.value("supplier_id").toString();
         QString supplierName = supplierQuery.value("supplier_name").toString();
         QString displayText = QString("%1 - %2").arg(supplierID, supplierName);
         ui->supplierComboBox->addItem(displayText, supplierID);
     }
-
 
     // 设置物料维护人为当前用户名
     ui->maintainerLineEdit->setText(currentMaintainer);
@@ -108,7 +90,7 @@ void MaterialDialog::enableDefectiveQuantityEditing(bool enable)
         ui->downloadDrawingButton->setVisible(false);
         ui->uploadPhotoButton->setVisible(false);
         ui->downloadPhotoButton->setVisible(false);
-        ui->materialNumberGenerateButton->setVisible(false);
+        ui->generateMaterialNumberButton->setVisible(false);
         ui->deliverySpinBox->setVisible(false);
         ui->deliveryLabel->setVisible(false);
         ui->materialNumberLabel->setVisible(false);
@@ -141,7 +123,7 @@ void MaterialDialog::enableDefectiveQuantityEditing(bool enable)
         ui->downloadDrawingButton->setVisible(true);
         ui->uploadPhotoButton->setVisible(true);
         ui->downloadPhotoButton->setVisible(true);
-        ui->materialNumberGenerateButton->setVisible(true);
+        ui->generateMaterialNumberButton->setVisible(true);
         ui->deliverySpinBox->setVisible(true);
         ui->deliveryLabel->setVisible(true);
         ui->materialNumberLabel->setVisible(true);
@@ -158,9 +140,31 @@ void MaterialDialog::enableDefectiveQuantityEditing(bool enable)
 void MaterialDialog::setMaterialData(const QSqlRecord &record)
 {
     if (!defectiveQuantityEditingEnabled) {
-        ui->categoryComboBox->setCurrentText(record.value("model").toString());
+        int categoryCode = record.value("category_code").toInt();
+
+        // 遍历 categoryComboBox，找到匹配的 category_code 并设置当前索引
+        int index = -1;
+        for (int i = 0; i < ui->categoryComboBox->count(); ++i) {
+            QVariant data = ui->categoryComboBox->itemData(i);
+            if (data.isValid()) {
+                CategoryInfo category = data.value<CategoryInfo>();
+                if (category.category_code == categoryCode) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        if (index != -1) {
+            ui->categoryComboBox->setCurrentIndex(index);
+        } else {
+            // 如果未找到匹配项，可以选择设置为第一个或提示用户
+            ui->categoryComboBox->setCurrentIndex(0);
+            QMessageBox::warning(this, "警告", "未找到匹配的物料类别。");
+        }
+
+        // 设置其他字段
         ui->descriptionTextEdit->setPlainText(record.value("description").toString());
-        ui->goodQuantitySpinBox->setValue(record.value("quantity").toInt());
+        ui->goodQuantitySpinBox->setValue(record.value("good_quantity").toInt());
         ui->unitPriceDoubleSpinBox->setValue(record.value("unit_price").toDouble());
 
         // 设置来源
@@ -170,52 +174,53 @@ void MaterialDialog::setMaterialData(const QSqlRecord &record)
             ui->sourceComboBox->setCurrentIndex(sourceIndex);
         }
 
-        ui->versionSpinBox->setValue(record.value("version_number").toInt());
+        ui->versionSpinBox->setValue(record.value("version").toInt());
         ui->serialNumberLineEdit->setText(record.value("serial_number").toString());
         ui->locationLineEdit->setText(record.value("location_number").toString());
 
-        // 设置良品数量
-        ui->goodQuantitySpinBox->setValue(record.value("good_quantity").toInt());
+        // 设置供应商
+        QString supplierID = record.value("supplier_id").toString();
+        int supplierIndex = ui->supplierComboBox->findData(supplierID);
+        if (supplierIndex != -1) {
+            ui->supplierComboBox->setCurrentIndex(supplierIndex);
+        }
+
+        ui->supplierMaterialNumberLineEdit->setText(record.value("supplier_material_number").toString());
+        ui->deliverySpinBox->setValue(record.value("delivery_period").toInt());
+        ui->noteTextEdit->setPlainText(record.value("remarks").toString());
+
+        // 设置不良品数量
+        ui->defectiveQuantitySpinBox->setValue(record.value("defective_quantity").toInt());
+
+        // 设置文件数据
+        drawingData = record.value("drawing").toByteArray();
+        photoData = record.value("photo").toByteArray();
+
+        // 更新界面状态以显示文件上传情况（可选）
+        if (!drawingData.isEmpty()) {
+            ui->drawingStatusLabel->setText("图纸已加载");
+        } else {
+            ui->drawingStatusLabel->setText("无图纸");
+        }
+        if (!photoData.isEmpty()) {
+            ui->photoStatusLabel->setText("照片已加载");
+        } else {
+            ui->photoStatusLabel->setText("无照片");
+        }
+
+        // 设置物料维护人
+        QString maintainerInDb = record.value("material_maintainer").toString();
+        if (!maintainerInDb.isEmpty()) {
+            currentMaintainer = maintainerInDb;
+        }
+        ui->maintainerLineEdit->setText(currentMaintainer);
+
+        // 设置更新日期为数据库中的日期
+        ui->updateDateTimeEdit->setDateTime(record.value("update_date").toDateTime());
+
+        // 设置物料号
+        ui->materialNumberLineEdit->setText(record.value("material_number").toString());
     }
-
-    // 设置不良品数量
-    ui->defectiveQuantitySpinBox->setValue(record.value("defective_quantity").toInt());
-
-    // 设置供应商
-    QString supplierID = record.value("supplier").toString();
-    int supplierIndex = ui->supplierComboBox->findData(supplierID);
-    if (supplierIndex != -1) {
-        ui->supplierComboBox->setCurrentIndex(supplierIndex);
-    }
-
-    ui->supplierMaterialNumberLineEdit->setText(record.value("supplier_material_number").toString());
-    ui->deliverySpinBox->setValue(record.value("delivery_period").toInt());
-    ui->noteTextEdit->setPlainText(record.value("remarks").toString());
-
-    // 设置文件数据
-    drawingData = record.value("drawing").toByteArray();
-    photoData = record.value("photo").toByteArray();
-
-    // 更新界面状态以显示文件上传情况（可选）
-    if (!drawingData.isEmpty()) {
-        ui->drawingStatusLabel->setText("图纸已加载");
-    }
-    if (!photoData.isEmpty()) {
-        ui->photoStatusLabel->setText("照片已加载");
-    }
-
-    // 设置物料维护人
-    QString maintainerInDb = record.value("material_maintainer").toString();
-    if (!maintainerInDb.isEmpty()) {
-        currentMaintainer = maintainerInDb;
-    }
-    ui->maintainerLineEdit->setText(currentMaintainer);
-
-    // 设置更新日期为数据库中的日期
-    ui->updateDateTimeEdit->setDateTime(record.value("update_date").toDateTime());
-
-    // 设置物料号
-    ui->materialNumberLineEdit->setText(record.value("material_number").toString());
 }
 
 QSqlRecord MaterialDialog::getMaterialData() const
@@ -243,11 +248,20 @@ QSqlRecord MaterialDialog::getMaterialData() const
     record.append(QSqlField("drawing", QVariant::ByteArray));
     record.append(QSqlField("photo", QVariant::ByteArray));
 
+    // 获取当前选中的类别信息
+    QVariant categoryData = ui->categoryComboBox->currentData();
+    if (categoryData.isValid()) {
+        CategoryInfo category = categoryData.value<CategoryInfo>();
+        record.setValue("category_code", category.category_code);
+    } else {
+        record.setValue("category_code", QVariant());
+    }
+
     // 设置值
     record.setValue("material_number", ui->materialNumberLineEdit->text());
     record.setValue("category", ui->categoryComboBox->currentText());
     record.setValue("description", ui->descriptionTextEdit->toPlainText());
-    record.setValue("quantity", ui->quantitySpinBox->value());
+    record.setValue("quantity", ui->goodQuantitySpinBox->value());
     record.setValue("unit_price", ui->unitPriceDoubleSpinBox->value());
 
     QString selfMadeOrPurchase = ui->sourceComboBox->currentData().toString();
@@ -264,7 +278,6 @@ QSqlRecord MaterialDialog::getMaterialData() const
     // 设置供应商
     QString supplierID = ui->supplierComboBox->currentData().toString();
     record.setValue("supplier_id", supplierID);
-
     record.setValue("supplier_material_number", ui->supplierMaterialNumberLineEdit->text());
     record.setValue("delivery_period", ui->deliverySpinBox->value());
     record.setValue("remarks", ui->noteTextEdit->toPlainText());
@@ -278,8 +291,10 @@ QSqlRecord MaterialDialog::getMaterialData() const
     return record;
 }
 
-void MaterialDialog::on_materialNumberGenerateButton_clicked()
+void MaterialDialog::on_generateMaterialNumberButton_clicked()
 {
+    qDebug() << "Generate Material Number button clicked.";
+
     // 获取类别信息
     QVariant categoryData = ui->categoryComboBox->currentData();
     if (!categoryData.isValid()) {
@@ -287,37 +302,94 @@ void MaterialDialog::on_materialNumberGenerateButton_clicked()
         return;
     }
     CategoryInfo category = categoryData.value<CategoryInfo>();
-    QString categoryLetterCode = category.letterCode;
+    QString categoryLetterCode = category.letter_code;
 
     // 获取供应商ID
     QString supplierID = ui->supplierComboBox->currentData().toString();
+    if (supplierID.isEmpty()) {
+        QMessageBox::warning(this, "警告", "请选择供应商。");
+        return;
+    }
 
-    // 获取版本号
-    int versionNumber = ui->versionSpinBox->value();
+    // 获取供应商名称
+    QString displayText = ui->supplierComboBox->currentText(); // 格式为 "supplierID - supplierName"
+    QStringList parts = displayText.split(" - ");
+    QString supplierName = parts.size() > 1 ? parts[1].trimmed() : "";
+
+    qDebug() << "Selected Supplier ID:" << supplierID;
+    qDebug() << "Selected Supplier Name:" << supplierName;
+
+    // 检查供应商是否为 P&G
+    if (supplierName.compare("P&G", Qt::CaseInsensitive) == 0) {
+        QString supplierMaterialNumber = ui->supplierMaterialNumberLineEdit->text().trimmed();
+        if (supplierMaterialNumber.isEmpty()) {
+            QMessageBox::warning(this, "警告", "供应商料号为空，无法生成物料号。");
+            return;
+        }
+
+        ui->materialNumberLineEdit->setText(supplierMaterialNumber);
+        QMessageBox::information(this, "生成成功", "物料号已设为供应商料号：" + supplierMaterialNumber);
+        return;
+    }
+
+    // 如果供应商不是 P&G，则按照原逻辑生成物料号
+
+    // 获取 MK 号
+    QString mkNumber = ui->mkNumberComboBox->currentText(); // 例如 "MK1"
+    if (mkNumber.isEmpty()) {
+        QMessageBox::warning(this, "警告", "请选择 MK 号。");
+        return;
+    }
 
     // 生成三位自动编号，确保不重复
     QSqlQuery query;
-    query.prepare("SELECT MAX(CAST(SUBSTRING(material_number, 5, 3) AS UNSIGNED)) FROM Material WHERE material_number LIKE :pattern");
-    QString pattern = QString("%1%2___%").arg(categoryLetterCode).arg(supplierID);
+    // 假设 material_number 格式为 [categoryLetterCode][supplierID][autoGeneratedCode][mkNumber]
+    // 例如: CATSUP001MK1
+    // 需要根据实际格式调整 SUBSTRING 的位置和长度
+
+    // 构建匹配模式，确保包含当前的 MK 号
+    QString pattern = QString("%1%2___%3%").arg(categoryLetterCode).arg(supplierID).arg(mkNumber);
+    int startPosition = categoryLetterCode.length() + supplierID.length() + 1; // +1 因为 SUBSTRING 的位置从1开始
+
+    qDebug() << "Pattern:" << pattern;
+    qDebug() << "Start Position:" << startPosition;
+
+    query.prepare("SELECT MAX(CAST(SUBSTRING(material_number, :start, 3) AS UNSIGNED)) AS max_code "
+                  "FROM Material WHERE material_number LIKE :pattern");
+    query.bindValue(":start", startPosition);
     query.bindValue(":pattern", pattern);
-    int maxCode = 0;
-    if (query.exec() && query.next()) {
-        maxCode = query.value(0).toInt();
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "错误", "查询数据库失败: " + query.lastError().text());
+        qDebug() << "SQL Error:" << query.lastError().text();
+        return;
     }
+
+    int maxCode = 0;
+    if (query.next()) {
+        maxCode = query.value("max_code").toInt();
+    }
+    qDebug() << "Max Code:" << maxCode;
+
     int newCode = maxCode + 1;
-    QString autoGeneratedCode = QString("%1").arg(newCode, 3, 10, QChar('0'));
+    if (newCode > 999) {
+        QMessageBox::critical(this, "错误", "自动编号已达到最大值 (999)。无法生成新的物料号。");
+        return;
+    }
+    QString autoGeneratedCode = QString::number(newCode).rightJustified(3, '0');
+    qDebug() << "Auto Generated Code:" << autoGeneratedCode;
 
     // 生成物料号
-    QString materialNumber = QString("%1%2%3").arg(categoryLetterCode).arg(supplierID).arg(autoGeneratedCode);
-
-    // 如果版本号不为 0，则添加 "MK" 和版本号
-    if (versionNumber != 0) {
-        materialNumber += QString("MK%1").arg(versionNumber);
-    }
+    QString materialNumber = QString("%1%2%3%4")
+                                 .arg(categoryLetterCode)
+                                 .arg(supplierID)
+                                 .arg(autoGeneratedCode)
+                                 .arg(mkNumber);
+    qDebug() << "Generated Material Number:" << materialNumber;
 
     ui->materialNumberLineEdit->setText(materialNumber);
+    QMessageBox::information(this, "生成成功", "物料号已成功生成：" + materialNumber);
 }
-
 
 void MaterialDialog::on_uploadDrawingButton_clicked()
 {
@@ -393,29 +465,28 @@ void MaterialDialog::on_saveButton_clicked()
     QSqlQuery query;
     if (record.value("id").isNull()) {
         // 新增物料
-        query.prepare("INSERT INTO Material (material_number,  description, quantity, unit_price, self_made_or_purchase, version, "
-                      "serial_number, location_number, good_quantity, defective_quantity, supplier, supplier_material_number, "
+        query.prepare("INSERT INTO Material (material_number, category_code, description, unit_price, self_made_or_purchase, version, "
+                      "serial_number, location_number, good_quantity, defective_quantity, supplier_id, supplier_material_number, "
                       "delivery_period, material_maintainer, update_date, remarks, drawing, photo) "
-                      "VALUES (:material_number, :description, :quantity, :unit_price, :self_made_or_purchase, :version, "
-                      ":serial_number, :location_number, :good_quantity, :defective_quantity, :supplier, "
-                      ":supplier_material_number, :delivery_period, :material_maintainer, :update_date, :remarks, "
-                      ":drawing, :photo)");
+                      "VALUES (:material_number, :category_code, :description, :unit_price, :self_made_or_purchase, :version, "
+                      ":serial_number, :location_number, :good_quantity, :defective_quantity, :supplier_id, :supplier_material_number, "
+                      ":delivery_period, :material_maintainer, :update_date, :remarks, :drawing, :photo)");
     } else {
         // 更新物料
-        query.prepare("UPDATE Material SET material_number = :material_number,  description = :description, quantity = :quantity, "
-                      "unit_price = :unit_price, self_made_or_purchase = :self_made_or_purchase, version = :version, "
-                      "serial_number = :serial_number, location_number = :location_number, good_quantity = :good_quantity, "
-                      "defective_quantity = :defective_quantity, supplier = :supplier, supplier_material_number = :supplier_material_number, "
-                      "delivery_period = :delivery_period, material_maintainer = :material_maintainer, update_date = :update_date, "
-                      "remarks = :remarks, drawing = :drawing, photo = :photo WHERE id = :id");
+        query.prepare("UPDATE Material SET material_number = :material_number, category_code = :category_code, "
+                      "description = :description, unit_price = :unit_price, self_made_or_purchase = :self_made_or_purchase, "
+                      "version = :version, serial_number = :serial_number, location_number = :location_number, "
+                      "good_quantity = :good_quantity, defective_quantity = :defective_quantity, supplier_id = :supplier_id, "
+                      "supplier_material_number = :supplier_material_number, delivery_period = :delivery_period, "
+                      "material_maintainer = :material_maintainer, update_date = :update_date, remarks = :remarks, "
+                      "drawing = :drawing, photo = :photo WHERE id = :id");
         query.bindValue(":id", record.value("id"));
     }
 
     // 绑定数据到查询语句
     query.bindValue(":material_number", record.value("material_number"));
-    //query.bindValue(":model", record.value("model"));
+    query.bindValue(":category_code", record.value("category_code"));
     query.bindValue(":description", record.value("description"));
-    query.bindValue(":quantity", record.value("quantity"));
     query.bindValue(":unit_price", record.value("unit_price"));
     query.bindValue(":self_made_or_purchase", record.value("self_made_or_purchase"));
     query.bindValue(":version", record.value("version"));
@@ -423,7 +494,7 @@ void MaterialDialog::on_saveButton_clicked()
     query.bindValue(":location_number", record.value("location_number"));
     query.bindValue(":good_quantity", record.value("good_quantity"));
     query.bindValue(":defective_quantity", record.value("defective_quantity"));
-    query.bindValue(":supplier", record.value("supplier"));
+    query.bindValue(":supplier_id", record.value("supplier_id"));
     query.bindValue(":supplier_material_number", record.value("supplier_material_number"));
     query.bindValue(":delivery_period", record.value("delivery_period"));
     query.bindValue(":material_maintainer", record.value("material_maintainer"));

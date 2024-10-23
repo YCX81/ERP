@@ -33,7 +33,7 @@
         From Wikipedia: The Open Packaging Conventions (OPC) is a
         container-file technology initially created by Microsoft to store
         a combination of XML and non-XML files that together form a single
-        entity such as an Open XML Paper Specification (OpenXPS)
+        entity such as an Open XML Paper remarks (OpenXPS)
         document. http://en.wikipedia.org/wiki/Open_Packaging_Conventions.
 
         At its simplest an Excel XLSX file contains the following elements:

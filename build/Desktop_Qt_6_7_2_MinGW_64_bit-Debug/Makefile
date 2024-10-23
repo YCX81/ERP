@@ -475,6 +475,30 @@ registerdialog.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\ERP.dir\build.make CMakeFiles/ERP.dir/registerdialog.cpp.s
 .PHONY : registerdialog.cpp.s
 
+selectmaterialdialog.obj: selectmaterialdialog.cpp.obj
+.PHONY : selectmaterialdialog.obj
+
+# target to build an object file
+selectmaterialdialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ERP.dir\build.make CMakeFiles/ERP.dir/selectmaterialdialog.cpp.obj
+.PHONY : selectmaterialdialog.cpp.obj
+
+selectmaterialdialog.i: selectmaterialdialog.cpp.i
+.PHONY : selectmaterialdialog.i
+
+# target to preprocess a source file
+selectmaterialdialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ERP.dir\build.make CMakeFiles/ERP.dir/selectmaterialdialog.cpp.i
+.PHONY : selectmaterialdialog.cpp.i
+
+selectmaterialdialog.s: selectmaterialdialog.cpp.s
+.PHONY : selectmaterialdialog.s
+
+# target to generate assembly for a file
+selectmaterialdialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ERP.dir\build.make CMakeFiles/ERP.dir/selectmaterialdialog.cpp.s
+.PHONY : selectmaterialdialog.cpp.s
+
 supplierdialog.obj: supplierdialog.cpp.obj
 .PHONY : supplierdialog.obj
 
@@ -546,6 +570,9 @@ help:
 	@echo ... registerdialog.obj
 	@echo ... registerdialog.i
 	@echo ... registerdialog.s
+	@echo ... selectmaterialdialog.obj
+	@echo ... selectmaterialdialog.i
+	@echo ... selectmaterialdialog.s
 	@echo ... supplierdialog.obj
 	@echo ... supplierdialog.i
 	@echo ... supplierdialog.s

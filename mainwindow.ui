@@ -57,7 +57,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="materialPage">
        <layout class="QVBoxLayout" name="verticalLayoutMaterial">
@@ -285,58 +285,8 @@
         <item>
          <widget class="QTabWidget" name="orderTabWidget">
           <property name="currentIndex">
-           <number>3</number>
+           <number>-1</number>
           </property>
-          <widget class="QWidget" name="preOrderTab">
-           <attribute name="title">
-            <string>预下单</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="preOrderLayout">
-            <item>
-             <widget class="QTableView" name="preOrderTableView"/>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="shortageTab">
-           <attribute name="title">
-            <string>缺料</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="shortageLayout">
-            <item>
-             <widget class="QTableView" name="shortageTableView"/>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="inProductionTab">
-           <attribute name="title">
-            <string>制作中</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="inProductionLayout">
-            <item>
-             <widget class="QTableView" name="inProductionTableView"/>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="completedTab">
-           <attribute name="title">
-            <string>制作完毕</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="completedLayout">
-            <item>
-             <widget class="QTableView" name="completedTableView"/>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="shippedTab">
-           <attribute name="title">
-            <string>已出库</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="shippedLayout">
-            <item>
-             <widget class="QTableView" name="shippedTableView"/>
-            </item>
-           </layout>
-          </widget>
          </widget>
         </item>
         <item>
@@ -375,6 +325,20 @@
       </widget>
       <widget class="QWidget" name="supplierPage">
        <layout class="QVBoxLayout" name="verticalLayoutSupplier">
+        <item>
+         <layout class="QHBoxLayout" name="searchLayout">
+          <item>
+           <widget class="QLabel" name="searchLabel">
+            <property name="text">
+             <string>搜索：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="supplierSearchLineEdit"/>
+          </item>
+         </layout>
+        </item>
         <item>
          <widget class="QTableView" name="supplierTableView"/>
         </item>

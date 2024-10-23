@@ -45,6 +45,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         defectivedialog.h defectivedialog.cpp
         supplierdialog.h supplierdialog.cpp
         supplierdialog.ui
+        selectmaterialdialog.h selectmaterialdialog.cpp
+        selectmaterialdialog.ui
     )
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()

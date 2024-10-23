@@ -20,6 +20,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ERP.dir/orderdialog.cpp.obj.d"
   "CMakeFiles/ERP.dir/registerdialog.cpp.obj"
   "CMakeFiles/ERP.dir/registerdialog.cpp.obj.d"
+  "CMakeFiles/ERP.dir/selectmaterialdialog.cpp.obj"
+  "CMakeFiles/ERP.dir/selectmaterialdialog.cpp.obj.d"
   "CMakeFiles/ERP.dir/supplierdialog.cpp.obj"
   "CMakeFiles/ERP.dir/supplierdialog.cpp.obj.d"
   "ERP.exe"

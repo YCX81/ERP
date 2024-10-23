@@ -2,12 +2,26 @@
 #define BOMDIALOG_H
 
 #include <QDialog>
-#include <QSqlRecord>
 #include <QStandardItemModel>
+#include <QSqlRecord>
 
 namespace Ui {
 class BOMDialog;
 }
+
+struct BOMMaterial {
+    int materialId;
+    QString materialNumber;
+    int version;
+    QString description;
+    QString remarks;
+    //QString usageMM;
+    int quantity;
+    QString source;
+    QString supplier;
+    double unitPrice;
+    double bomPrice;
+};
 
 class BOMDialog : public QDialog
 {
@@ -25,12 +39,17 @@ private slots:
     void on_removeMaterialButton_clicked();
     void on_saveButton_clicked();
     void on_cancelButton_clicked();
-    bool validateInput();
 
 private:
     Ui::BOMDialog *ui;
-    QSqlRecord bomRecord;
     QStandardItemModel *materialListModel;
+    QSqlRecord bomRecord;
+    QList<BOMMaterial> bomMaterials;
+
+    void loadMaterials();
+    void updateMaterialTable();
+    bool validateInput();
+    void calculateTotalCost();
 };
 
 #endif // BOMDIALOG_H

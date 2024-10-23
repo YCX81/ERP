@@ -5,4 +5,5 @@
 #include "EWIEGA46WW/moc_materialdialog.cpp"
 #include "EWIEGA46WW/moc_orderdialog.cpp"
 #include "EWIEGA46WW/moc_registerdialog.cpp"
+#include "EWIEGA46WW/moc_selectmaterialdialog.cpp"
 #include "EWIEGA46WW/moc_supplierdialog.cpp"

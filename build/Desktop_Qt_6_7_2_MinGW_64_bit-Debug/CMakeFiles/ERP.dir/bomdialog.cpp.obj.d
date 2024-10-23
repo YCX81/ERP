@@ -361,14 +361,14 @@ CMakeFiles/ERP.dir/bomdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qsizepolicy.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qbitmap.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qstandarditemmodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlglobal.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlexports.h \
- C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
- C:/Qt/6.7.2/mingw_64/include/QtGui/qstandarditemmodel.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
  C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_bomdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
@@ -426,9 +426,8 @@ CMakeFiles/ERP.dir/bomdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableView \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtableview.h \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTextEdit \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtextedit.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
+ C:\Users\ycx\Documents\QTProjects\ERP\selectmaterialdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMessageBox \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmessagebox.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
@@ -440,4 +439,8 @@ CMakeFiles/ERP.dir/bomdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItem \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlDatabase \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h

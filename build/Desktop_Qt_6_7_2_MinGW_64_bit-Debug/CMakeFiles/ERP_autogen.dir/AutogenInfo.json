@@ -432,6 +432,12 @@
 			null
 		],
 		[
+			"C:/Users/ycx/Documents/QTProjects/ERP/selectmaterialdialog.h",
+			"MU",
+			"EWIEGA46WW/moc_selectmaterialdialog.cpp",
+			null
+		],
+		[
 			"C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.h",
 			"MU",
 			"EWIEGA46WW/moc_supplierdialog.cpp",
@@ -536,6 +542,11 @@
 		[ "C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.cpp", "MU", null ],
 		[
 			"C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/ycx/Documents/QTProjects/ERP/selectmaterialdialog.cpp",
 			"MU",
 			null
 		],

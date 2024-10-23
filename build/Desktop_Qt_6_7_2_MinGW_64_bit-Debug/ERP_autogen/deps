@@ -1,10 +1,8 @@
 ERP_autogen/timestamp: \
-	C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \
-	C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
-	C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/QSortFilterProxyModel \
+	C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/q20type_traits.h \
@@ -663,6 +661,8 @@ ERP_autogen/timestamp: \
 	C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.h \
 	C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.cpp \
 	C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h \
+	C:/Users/ycx/Documents/QTProjects/ERP/selectmaterialdialog.cpp \
+	C:/Users/ycx/Documents/QTProjects/ERP/selectmaterialdialog.h \
 	C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.cpp \
 	C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.h \
 	C:/Users/ycx/Documents/QTProjects/ERP/BOMdialog.ui \
@@ -671,5 +671,6 @@ ERP_autogen/timestamp: \
 	C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.ui \
 	C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.ui \
 	C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.ui \
+	C:/Users/ycx/Documents/QTProjects/ERP/selectmaterialdialog.ui \
 	C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.ui \
 	C:/Qt/Tools/CMake_64/bin/cmake.exe

@@ -18,6 +18,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.cpp" "CMakeFiles/ERP.dir/materialdialog.cpp.obj" "gcc" "CMakeFiles/ERP.dir/materialdialog.cpp.obj.d"
   "C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.cpp" "CMakeFiles/ERP.dir/orderdialog.cpp.obj" "gcc" "CMakeFiles/ERP.dir/orderdialog.cpp.obj.d"
   "C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.cpp" "CMakeFiles/ERP.dir/registerdialog.cpp.obj" "gcc" "CMakeFiles/ERP.dir/registerdialog.cpp.obj.d"
+  "C:/Users/ycx/Documents/QTProjects/ERP/selectmaterialdialog.cpp" "CMakeFiles/ERP.dir/selectmaterialdialog.cpp.obj" "gcc" "CMakeFiles/ERP.dir/selectmaterialdialog.cpp.obj.d"
   "C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.cpp" "CMakeFiles/ERP.dir/supplierdialog.cpp.obj" "gcc" "CMakeFiles/ERP.dir/supplierdialog.cpp.obj.d"
   )
 
