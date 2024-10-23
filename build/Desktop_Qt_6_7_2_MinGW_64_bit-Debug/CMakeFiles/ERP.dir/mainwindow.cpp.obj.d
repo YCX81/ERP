@@ -465,6 +465,8 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qstandarditemmodel.h \
  C:\Users\ycx\Documents\QTProjects\ERP\orderdialog.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
  C:\Users\ycx\Documents\QTProjects\ERP\supplierdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMessageBox \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmessagebox.h \
@@ -528,6 +530,12 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHeaderView \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QStyledItemDelegate \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qstyleditemdelegate.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QFont \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qfont.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxdocument.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxformat.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxglobal.h \
@@ -548,10 +556,6 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qcolor.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QExplicitlySharedDataPointer \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata.h \
- C:/Qt/6.7.2/mingw_64/include/QtGui/QFont \
- C:/Qt/6.7.2/mingw_64/include/QtGui/qfont.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxworksheet.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxabstractsheet.h \
  C:/Users/ycx/Documents/QTProjects/ERP/3rdparty/QXlsx/header/xlsxabstractooxmlfile.h \

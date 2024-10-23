@@ -426,6 +426,8 @@ CMakeFiles/ERP.dir/bomdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableView \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtableview.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTextEdit \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtextedit.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
  C:\Users\ycx\Documents\QTProjects\ERP\selectmaterialdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMessageBox \
@@ -443,4 +445,6 @@ CMakeFiles/ERP.dir/bomdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItem \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlDatabase \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlField \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlfield.h

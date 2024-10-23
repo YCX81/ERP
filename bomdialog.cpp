@@ -1,3 +1,5 @@
+// bomdialog.cpp
+
 #include "bomdialog.h"
 #include "ui_bomdialog.h"
 #include "selectmaterialdialog.h"
@@ -9,6 +11,7 @@
 #include <QSqlRecord>
 #include <QVariant>
 #include <QSqlDatabase>
+#include <QSqlField> // 添加 QSqlField 头文件
 
 BOMDialog::BOMDialog(QWidget *parent) :
     QDialog(parent),
@@ -18,7 +21,7 @@ BOMDialog::BOMDialog(QWidget *parent) :
     ui->setupUi(this);
 
     // 初始化物料清单模型
-    materialListModel->setColumnCount(10);
+    materialListModel->setColumnCount(9);  // 修改为9列
     QStringList headers;
     headers << "物料号" << "版本号" << "描述" << "备注"
             << "数量" << "来源" << "供应商" << "单价(元)" << "BOM单价(元)";
@@ -42,59 +45,36 @@ void BOMDialog::setBOMData(const QSqlRecord &record)
     bomRecord = record;
 
     ui->bomNameLineEdit->setText(record.value("name").toString());
+    ui->bomDescriptionTextEdit->setText(record.value("description").toString()); // 加载描述
+    ui->bomRemarksTextEdit->setText(record.value("remarks").toString());         // 加载备注
 
     // 清空现有数据
     bomMaterials.clear();
     materialListModel->removeRows(0, materialListModel->rowCount());
 
-    // 加载物料清单
+    // 加载物料清单，使用JOIN获取物料和供应商信息
     QSqlQuery query;
-    query.prepare("SELECT material_id, quantity FROM BOM_Material WHERE bom_id = :bom_id");
+    query.prepare(R"(
+        SELECT m.id, m.material_number, m.version, m.description, m.remarks, m.unit_price, s.supplier_name, bm.quantity
+        FROM BOM_Material bm
+        JOIN Material m ON bm.material_id = m.id
+        LEFT JOIN Suppliers s ON m.supplier_id = s.supplier_id
+        WHERE bm.bom_id = :bom_id
+    )");
     query.bindValue(":bom_id", record.value("id"));
     if (query.exec()) {
         while (query.next()) {
             BOMMaterial bm;
-            bm.materialId = query.value("material_id").toInt();
+            bm.materialId = query.value("id").toInt();
+            bm.materialNumber = query.value("material_number").toString();
+            bm.version = query.value("version").toInt();
+            bm.description = query.value("description").toString();
+            bm.remarks = query.value("remarks").toString();
+            bm.unitPrice = query.value("unit_price").toDouble();
+            bm.supplier = query.value("supplier_name").toString();
             bm.quantity = query.value("quantity").toInt();
-
-            // 查询物料详细信息
-            QSqlQuery materialQuery;
-            materialQuery.prepare("SELECT material_number, version, description, remarks, unit_price, supplier_id FROM Material WHERE id = :id");
-            materialQuery.bindValue(":id", bm.materialId);
-            if (materialQuery.exec() && materialQuery.next()) {
-                bm.materialNumber = materialQuery.value("material_number").toString();
-                bm.version = materialQuery.value("version").toInt();
-                bm.description = materialQuery.value("description").toString();
-                bm.remarks = materialQuery.value("remarks").toString();
-                bm.unitPrice = materialQuery.value("unit_price").toDouble();
-
-                // 查询供应商名称
-                QString supplierId = materialQuery.value("supplier_id").toString();
-                QSqlQuery supplierQuery;
-                supplierQuery.prepare("SELECT supplier_name FROM Suppliers WHERE supplier_id = :supplier_id");
-                supplierQuery.bindValue(":supplier_id", supplierId);
-                if (supplierQuery.exec() && supplierQuery.next()) {
-                    bm.supplier = supplierQuery.value("supplier_name").toString();
-                } else {
-                    bm.supplier = "未知供应商";
-                }
-
-                bm.source = "采购"; // 默认来源为采购，根据需要调整
-
-                //bm.usageMM = ""; // 根据实际情况填写，如果有数据来源
-
-                bm.bomPrice = bm.unitPrice * bm.quantity;
-            } else {
-                bm.materialNumber = "未知物料";
-                bm.version = 0;
-                bm.description = "未知物料";
-                bm.remarks = "";
-                bm.unitPrice = 0.0;
-                bm.supplier = "未知供应商";
-                bm.source = "未知";
-                //bm.usageMM = "";
-                bm.bomPrice = 0.0;
-            }
+            bm.source = "采购"; // 默认来源为采购，根据需要调整
+            bm.bomPrice = bm.unitPrice * bm.quantity;
 
             bomMaterials.append(bm);
         }
@@ -107,9 +87,20 @@ void BOMDialog::setBOMData(const QSqlRecord &record)
 
 QSqlRecord BOMDialog::getBOMData() const
 {
-    QSqlRecord record = bomRecord;
+    QSqlRecord record;
+
+    // 定义字段，使用 QMetaType 代替 QVariant::Type
+    record.append(QSqlField("id", QMetaType::fromType<int>()));
+    record.append(QSqlField("name", QMetaType::fromType<QString>()));
+    record.append(QSqlField("description", QMetaType::fromType<QString>())); // 新增描述
+    record.append(QSqlField("remarks", QMetaType::fromType<QString>()));     // 新增备注
+
+    // 设置值
+    record.setValue("id", bomRecord.value("id")); // 保持ID
     record.setValue("name", ui->bomNameLineEdit->text().trimmed());
-    // 其他字段根据需要添加
+    record.setValue("description", ui->bomDescriptionTextEdit->toPlainText().trimmed());
+    record.setValue("remarks", ui->bomRemarksTextEdit->toPlainText().trimmed());
+
     return record;
 }
 
@@ -129,6 +120,7 @@ void BOMDialog::on_addMaterialButton_clicked()
         if (!ok) return;
 
         BOMMaterial bm;
+        bm.materialId = selectedMaterial.value("id").toInt();
         bm.materialNumber = selectedMaterial.value("material_number").toString();
         bm.version = selectedMaterial.value("version").toInt();
         bm.description = selectedMaterial.value("description").toString();
@@ -136,14 +128,8 @@ void BOMDialog::on_addMaterialButton_clicked()
         bm.unitPrice = selectedMaterial.value("unit_price").toDouble();
         bm.quantity = quantity;
 
-        // 查询物料ID和供应商名称
-        QSqlQuery materialQuery;
-        materialQuery.prepare("SELECT id, supplier_id FROM Material WHERE material_number = :material_number");
-        materialQuery.bindValue(":material_number", bm.materialNumber);
-        if (materialQuery.exec() && materialQuery.next()) {
-            bm.materialId = materialQuery.value("id").toInt();
-            QString supplierId = materialQuery.value("supplier_id").toString();
-
+        QString supplierId = selectedMaterial.value("supplier_id").toString();
+        if (!supplierId.isEmpty()) {
             QSqlQuery supplierQuery;
             supplierQuery.prepare("SELECT supplier_name FROM Suppliers WHERE supplier_id = :supplier_id");
             supplierQuery.bindValue(":supplier_id", supplierId);
@@ -153,12 +139,10 @@ void BOMDialog::on_addMaterialButton_clicked()
                 bm.supplier = "未知供应商";
             }
         } else {
-            QMessageBox::warning(this, "警告", "无法获取物料的详细信息。");
-            return;
+            bm.supplier = "未知供应商";
         }
 
         bm.source = "采购"; // 默认来源为采购，根据需要调整
-        //bm.usageMM = ""; // 根据实际情况填写，如果有数据来源
         bm.bomPrice = bm.unitPrice * bm.quantity;
 
         bomMaterials.append(bm);
@@ -200,9 +184,10 @@ void BOMDialog::on_saveButton_clicked()
 
     if (isNew) {
         // 新增 BOM
-        query.prepare("INSERT INTO BOM (name, description) VALUES (:name, :description)");
+        query.prepare("INSERT INTO BOM (name, description, remarks) VALUES (:name, :description, :remarks)");
         query.bindValue(":name", record.value("name"));
-        query.bindValue(":description", ""); // 根据需要填写
+        query.bindValue(":description", record.value("description"));
+        query.bindValue(":remarks", record.value("remarks"));
         if (!query.exec()) {
             db.rollback();
             QMessageBox::critical(this, "错误", "无法保存 BOM 信息：" + query.lastError().text());
@@ -212,10 +197,11 @@ void BOMDialog::on_saveButton_clicked()
         record.setValue("id", bomId);
     } else {
         // 更新 BOM
-        query.prepare("UPDATE BOM SET name = :name, description = :description WHERE id = :id");
+        query.prepare("UPDATE BOM SET name = :name, description = :description, remarks = :remarks WHERE id = :id");
         query.bindValue(":id", record.value("id"));
         query.bindValue(":name", record.value("name"));
-        query.bindValue(":description", ""); // 根据需要填写
+        query.bindValue(":description", record.value("description"));
+        query.bindValue(":remarks", record.value("remarks"));
         if (!query.exec()) {
             db.rollback();
             QMessageBox::critical(this, "错误", "无法更新 BOM 信息：" + query.lastError().text());
@@ -231,19 +217,21 @@ void BOMDialog::on_saveButton_clicked()
     if (!query.exec()) {
         db.rollback();
         QMessageBox::warning(this, "警告", "无法清除旧的物料清单：" + query.lastError().text());
+        return;
     }
 
-    // 插入新的物料清单
+    // 插入新的物料清单（使用批量插入）
+    query.prepare("INSERT INTO BOM_Material (bom_id, material_id, quantity) VALUES (?, ?, ?)");
     for (const BOMMaterial &bm : bomMaterials) {
-        query.prepare("INSERT INTO BOM_Material (bom_id, material_id, quantity) VALUES (:bom_id, :material_id, :quantity)");
-        query.bindValue(":bom_id", bomId);
-        query.bindValue(":material_id", bm.materialId);
-        query.bindValue(":quantity", bm.quantity);
-        if (!query.exec()) {
-            db.rollback();
-            QMessageBox::warning(this, "警告", "无法保存物料清单：" + query.lastError().text());
-            return;
-        }
+        query.addBindValue(bomId);
+        query.addBindValue(bm.materialId);
+        query.addBindValue(bm.quantity);
+    }
+
+    if (!query.execBatch()) {
+        db.rollback();
+        QMessageBox::warning(this, "警告", "无法保存物料清单：" + query.lastError().text());
+        return;
     }
 
     // 提交事务
@@ -253,6 +241,7 @@ void BOMDialog::on_saveButton_clicked()
         return;
     }
 
+    QMessageBox::information(this, "成功", "BOM已成功保存！");
     accept();
 }
 
@@ -284,7 +273,6 @@ void BOMDialog::updateMaterialTable()
         rowItems << new QStandardItem(QString::number(bm.version));
         rowItems << new QStandardItem(bm.description);
         rowItems << new QStandardItem(bm.remarks);
-        //rowItems << new QStandardItem(bm.usageMM.isEmpty() ? "-" : bm.usageMM);
         rowItems << new QStandardItem(QString::number(bm.quantity));
         rowItems << new QStandardItem(bm.source);
         rowItems << new QStandardItem(bm.supplier);

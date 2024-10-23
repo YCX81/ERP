@@ -3,10 +3,19 @@
 
 #include <QDialog>
 #include <QSqlRecord>
+#include <QList>
 
 namespace Ui {
 class OrderDialog;
 }
+
+struct OrderProduct {
+    int productId;
+    QString productModel;
+    QString description;
+    int quantity;
+    QString status;
+};
 
 class OrderDialog : public QDialog
 {
@@ -17,32 +26,22 @@ public:
     ~OrderDialog();
 
     void setOrderData(const QSqlRecord &record);
-    QSqlRecord getOrderData() const;
 
 private slots:
     void on_saveButton_clicked();
     void on_cancelButton_clicked();
-    void on_checkInventoryButton_clicked();
     void on_addProductButton_clicked();
     void on_removeProductButton_clicked();
+    void on_checkInventoryButton_clicked();
 
 private:
     Ui::OrderDialog *ui;
-    QSqlRecord orderRecord;
     QString currentUser;
-
-    bool validateInput();
-
-    // 存储订单成品列表
-    struct OrderProduct {
-        int productId;
-        QString productModel;
-        QString description;
-        int quantity;
-        QString status;
-    };
+    QSqlRecord orderRecord;
     QList<OrderProduct> orderProducts;
 
+    QSqlRecord getOrderData();
+    bool validateInput();
     void updateProductTable();
 };
 

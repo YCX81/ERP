@@ -1,3 +1,5 @@
+// materialdialog.cpp
+
 #include "materialdialog.h"
 #include "ui_materialdialog.h"
 #include <QFileDialog>
@@ -228,18 +230,18 @@ QSqlRecord MaterialDialog::getMaterialData() const
     QSqlRecord record;
 
     // 定义字段，使用与数据库一致的英文字段名
+    record.append(QSqlField("category_code",QVariant::Int));
+    record.append(QSqlField("category_name", QVariant::String));
     record.append(QSqlField("material_number", QVariant::String));
-    //record.append(QSqlField("model", QVariant::String));
     record.append(QSqlField("description", QVariant::String));
-    record.append(QSqlField("quantity", QVariant::Int));
     record.append(QSqlField("unit_price", QVariant::Double));
     record.append(QSqlField("self_made_or_purchase", QVariant::String));
-    record.append(QSqlField("version_number", QVariant::Int));
+    record.append(QSqlField("version", QVariant::Int)); // 从 "version_number" 更改为 "version"
     record.append(QSqlField("serial_number", QVariant::String));
     record.append(QSqlField("location_number", QVariant::String));
     record.append(QSqlField("good_quantity", QVariant::Int));
     record.append(QSqlField("defective_quantity", QVariant::Int));
-    record.append(QSqlField("supplier", QVariant::String));
+    record.append(QSqlField("supplier_id", QVariant::String)); // 从 "supplier" 更改为 "supplier_id"
     record.append(QSqlField("supplier_material_number", QVariant::String));
     record.append(QSqlField("delivery_period", QVariant::Int));
     record.append(QSqlField("remarks", QVariant::String));
@@ -248,26 +250,30 @@ QSqlRecord MaterialDialog::getMaterialData() const
     record.append(QSqlField("drawing", QVariant::ByteArray));
     record.append(QSqlField("photo", QVariant::ByteArray));
 
-    // 获取当前选中的类别信息
     QVariant categoryData = ui->categoryComboBox->currentData();
     if (categoryData.isValid()) {
         CategoryInfo category = categoryData.value<CategoryInfo>();
+        qDebug() << "Selected Category Code:" << category.category_code << "Category Name:" << category.category_name;
         record.setValue("category_code", category.category_code);
+        record.setValue("category_name", category.category_name); // 新增
     } else {
+        qDebug() << "No valid category data selected.";
         record.setValue("category_code", QVariant());
+        record.setValue("category_name", QVariant()); // 新增
     }
 
     // 设置值
     record.setValue("material_number", ui->materialNumberLineEdit->text());
-    record.setValue("category", ui->categoryComboBox->currentText());
+    // 不需要设置 "category"，因为我们已经设置了 "category_code"
     record.setValue("description", ui->descriptionTextEdit->toPlainText());
-    record.setValue("quantity", ui->goodQuantitySpinBox->value());
+    // 移除 "quantity" 字段设置，因为数据库中没有单独的 "quantity"
     record.setValue("unit_price", ui->unitPriceDoubleSpinBox->value());
 
     QString selfMadeOrPurchase = ui->sourceComboBox->currentData().toString();
     record.setValue("self_made_or_purchase", selfMadeOrPurchase);
 
-    record.setValue("version_number", ui->versionSpinBox->value());
+    record.setValue("version", ui->versionSpinBox->value()); // 从 "version_number" 更改为 "version"
+
     record.setValue("serial_number", ui->serialNumberLineEdit->text());
     record.setValue("location_number", ui->locationLineEdit->text());
 
@@ -277,7 +283,7 @@ QSqlRecord MaterialDialog::getMaterialData() const
 
     // 设置供应商
     QString supplierID = ui->supplierComboBox->currentData().toString();
-    record.setValue("supplier_id", supplierID);
+    record.setValue("supplier_id", supplierID); // 从 "supplier" 更改为 "supplier_id"
     record.setValue("supplier_material_number", ui->supplierMaterialNumberLineEdit->text());
     record.setValue("delivery_period", ui->deliverySpinBox->value());
     record.setValue("remarks", ui->noteTextEdit->toPlainText());
@@ -460,32 +466,45 @@ void MaterialDialog::on_saveButton_clicked()
 
     // 获取用户输入的数据
     QSqlRecord record = getMaterialData();
+    QString materialNumber = record.value("material_number").toString();
+
+    // 检查数据库中是否存在相同的物料号
+    QSqlQuery checkQuery;
+    checkQuery.prepare("SELECT * FROM Material WHERE material_number = :material_number");
+    checkQuery.bindValue(":material_number", materialNumber);
+
+    if (!checkQuery.exec()) {
+        QMessageBox::critical(this, "错误", "无法检查物料号是否存在。\n错误信息: " + checkQuery.lastError().text());
+        return;
+    }
+
+    bool isUpdate = checkQuery.next(); // 如果有结果，说明需要更新
 
     // 创建一个 SQL 查询对象
     QSqlQuery query;
-    if (record.value("id").isNull()) {
+    if (!isUpdate) {
         // 新增物料
-        query.prepare("INSERT INTO Material (material_number, category_code, description, unit_price, self_made_or_purchase, version, "
+        query.prepare("INSERT INTO Material (material_number, category_code, category_name, description, unit_price, self_made_or_purchase, version, "
                       "serial_number, location_number, good_quantity, defective_quantity, supplier_id, supplier_material_number, "
                       "delivery_period, material_maintainer, update_date, remarks, drawing, photo) "
-                      "VALUES (:material_number, :category_code, :description, :unit_price, :self_made_or_purchase, :version, "
+                      "VALUES (:material_number, :category_code, :category_name, :description, :unit_price, :self_made_or_purchase, :version, "
                       ":serial_number, :location_number, :good_quantity, :defective_quantity, :supplier_id, :supplier_material_number, "
                       ":delivery_period, :material_maintainer, :update_date, :remarks, :drawing, :photo)");
     } else {
         // 更新物料
-        query.prepare("UPDATE Material SET material_number = :material_number, category_code = :category_code, "
+        query.prepare("UPDATE Material SET category_code = :category_code, category_name = :category_name, "
                       "description = :description, unit_price = :unit_price, self_made_or_purchase = :self_made_or_purchase, "
                       "version = :version, serial_number = :serial_number, location_number = :location_number, "
                       "good_quantity = :good_quantity, defective_quantity = :defective_quantity, supplier_id = :supplier_id, "
                       "supplier_material_number = :supplier_material_number, delivery_period = :delivery_period, "
                       "material_maintainer = :material_maintainer, update_date = :update_date, remarks = :remarks, "
-                      "drawing = :drawing, photo = :photo WHERE id = :id");
-        query.bindValue(":id", record.value("id"));
+                      "drawing = :drawing, photo = :photo WHERE material_number = :material_number");
     }
 
     // 绑定数据到查询语句
     query.bindValue(":material_number", record.value("material_number"));
     query.bindValue(":category_code", record.value("category_code"));
+    query.bindValue(":category_name", record.value("category_name")); // 新增
     query.bindValue(":description", record.value("description"));
     query.bindValue(":unit_price", record.value("unit_price"));
     query.bindValue(":self_made_or_purchase", record.value("self_made_or_purchase"));
@@ -506,6 +525,7 @@ void MaterialDialog::on_saveButton_clicked()
     // 执行查询并检查结果
     if (!query.exec()) {
         QMessageBox::critical(this, "保存失败", "无法保存数据到数据库。\n错误信息: " + query.lastError().text());
+        qDebug() << "SQL Error:" << query.lastError().text(); // 添加调试信息
     } else {
         QMessageBox::information(this, "保存成功", "物料信息已成功保存！");
         accept();  // 关闭对话框
@@ -517,7 +537,7 @@ bool MaterialDialog::validateInput()
     // 检查必要的输入项是否为空，使用 trimmed() 去除空白字符
     if (ui->categoryComboBox->currentText().trimmed().isEmpty() ||
         ui->descriptionTextEdit->toPlainText().trimmed().isEmpty() ||
-        ui->versionSpinBox->text().trimmed().isEmpty()) {
+        ui->versionSpinBox->value() == 0) { // 使用 value() 而不是 text()
         QMessageBox::warning(this, "保存失败", "请填写所有必填项。");
         return false;
     }

@@ -399,6 +399,8 @@ CMakeFiles/ERP.dir/ERP_autogen/mocs_compilation.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
  C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_orderdialog.cpp \
  C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
  C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_registerdialog.cpp \
  C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h \
  C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_selectmaterialdialog.cpp \

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>450</height>
+    <height>500</height> <!-- 增加高度以容纳新字段 -->
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,6 +24,11 @@
      <column>
       <property name="text">
        <string>描述</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>BOM名称</string>
       </property>
      </column>
      <column>
@@ -127,6 +132,24 @@
      </item>
      <item>
       <widget class="QComboBox" name="statusComboBox"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="maintainerLayout">
+     <item>
+      <widget class="QLabel" name="maintainerLabel">
+       <property name="text">
+        <string>维护人：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="maintainerLineEdit">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

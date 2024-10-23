@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QSqlTableModel>
-#include <QSortFilterProxyModel> // 添加 QSortFilterProxyModel
+#include <QSortFilterProxyModel>
 #include <QMap>
 #include <QItemSelection>
 #include <QSqlRelationalTableModel>
@@ -34,7 +34,7 @@ private slots:
     void on_defectiveButton_clicked();
     void on_bomButton_clicked();
     void on_orderButton_clicked();
-    void on_supplierButton_clicked(); // 添加供应商管理按钮的槽函数
+    void on_supplierButton_clicked();
 
     // 物料管理操作
     void on_addButton_clicked();
@@ -65,8 +65,12 @@ private slots:
     void on_addSupplierButton_clicked();
     void on_editSupplierButton_clicked();
     void on_deleteSupplierButton_clicked();
-    void on_supplierSearchLineEdit_textChanged(const QString &text);
 
+    // 搜索功能槽函数
+    void on_materialSearchLineEdit_textChanged(const QString &text);
+    void on_defectiveSearchLineEdit_textChanged(const QString &text);
+    void on_bomSearchLineEdit_textChanged(const QString &text);
+    void on_supplierSearchLineEdit_textChanged(const QString &text);
 
     // 其他辅助函数
     void onMaterialTableViewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
@@ -80,17 +84,17 @@ private:
     QSqlTableModel *materialModel;
     QSqlTableModel *defectiveModel;
     QSqlTableModel *bomModel;
-    QSqlTableModel *supplierModel; // 供应商模型
+    QSqlTableModel *supplierModel;
 
-    // 使用代理模型进行过滤
-    QSortFilterProxyModel *materialProxyModel; // 用于根据供应商过滤物料
-    QSortFilterProxyModel *supplierProxyModel; // 如果需要对供应商进行额外过滤
+    // 代理模型，用于搜索和过滤
+    QSortFilterProxyModel *materialProxyModel;
+    QSortFilterProxyModel *defectiveProxyModel;
+    QSortFilterProxyModel *bomProxyModel;
+    QSortFilterProxyModel *supplierProxyModel;
 
     QMap<QString, QSqlTableModel*> orderModels;
+    QMap<QString, QSortFilterProxyModel*> orderProxyModels; // 新增，用于订单的搜索和过滤
     QMap<QString, QTableView*> orderTableViews;
-
-    // 其他模型
-    QSqlRelationalTableModel *supplierMaterialModel; // 如果仍然需要使用
 
     // 更新登录状态
     void updateLoginStatus();

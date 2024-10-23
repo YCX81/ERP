@@ -1,5 +1,6 @@
 ERP_autogen/timestamp: \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/QItemSelection \
+	C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/QSortFilterProxyModel \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \

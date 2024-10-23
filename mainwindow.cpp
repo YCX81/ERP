@@ -6,7 +6,7 @@
 #include "defectivedialog.h"
 #include "bomdialog.h"
 #include "orderdialog.h"
-#include "supplierdialog.h" // 已包含供应商对话框
+#include "supplierdialog.h"
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QSqlQuery>
@@ -25,7 +25,30 @@
 #include <QTabWidget>
 #include <QRegularExpression>
 #include <QDateTime>
+#include <QHeaderView>
+#include <QApplication>
+#include <QStyledItemDelegate>
+#include <QFont>
 #include <xlsxdocument.h>
+
+// 创建一个委托，用于设置单元格的对齐方式
+class AlignmentDelegate : public QStyledItemDelegate {
+public:
+    explicit AlignmentDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
+
+    // 重写 paint 函数，设置对齐方式
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index) const override {
+        QStyleOptionViewItem alignedOption = option;
+        QVariant value = index.data(Qt::DisplayRole);
+        if (value.type() == QVariant::Int || value.type() == QVariant::Double) {
+            alignedOption.displayAlignment = Qt::AlignRight | Qt::AlignVCenter;
+        } else {
+            alignedOption.displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
+        }
+        QStyledItemDelegate::paint(painter, alignedOption, index);
+    }
+};
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -35,17 +58,35 @@ MainWindow::MainWindow(QWidget *parent)
     , bomModel(new QSqlTableModel(this))
     , supplierModel(new QSqlTableModel(this))
     , materialProxyModel(new QSortFilterProxyModel(this))
+    , defectiveProxyModel(new QSortFilterProxyModel(this))
+    , bomProxyModel(new QSortFilterProxyModel(this))
     , supplierProxyModel(new QSortFilterProxyModel(this))
-    , supplierMaterialModel(new QSqlRelationalTableModel(this)) // 如果仍然需要
 {
     ui->setupUi(this);
+
+    // 设置全局样式表，统一界面风格
+    qApp->setStyleSheet(
+        "QTableView {"
+        "    gridline-color: #dcdcdc;"
+        "}"
+        "QHeaderView::section {"
+        "    background-color: #f0f0f0;"
+        "    border: 1px solid #dcdcdc;"
+        "    padding: 4px;"
+        "    font-weight: bold;"
+        "}"
+        );
+
+    // 设置字体
+    QFont tableFont("Microsoft YaHei", 10);
 
     // 初始化供应商模型
     supplierModel->setTable("Suppliers");
     supplierModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     supplierModel->select();
-    supplierModel->setHeaderData(supplierModel->fieldIndex("id"), Qt::Horizontal, "ID");
-    supplierModel->setHeaderData(supplierModel->fieldIndex("supplier_id"), Qt::Horizontal, "代码");
+
+    // 设置表头名称（翻译为中文）
+    supplierModel->setHeaderData(supplierModel->fieldIndex("supplier_id"), Qt::Horizontal, "供应商代码");
     supplierModel->setHeaderData(supplierModel->fieldIndex("supplier_name"), Qt::Horizontal, "供应商名称");
     supplierModel->setHeaderData(supplierModel->fieldIndex("business_nature"), Qt::Horizontal, "经营性质");
     supplierModel->setHeaderData(supplierModel->fieldIndex("primary_contact"), Qt::Horizontal, "第一联系人");
@@ -59,64 +100,133 @@ MainWindow::MainWindow(QWidget *parent)
     supplierProxyModel->setSourceModel(supplierModel);
     supplierProxyModel->setFilterKeyColumn(-1); // 设置为所有列
     supplierProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+    // 设置供应商表格视图
     ui->supplierTableView->setModel(supplierProxyModel);
-    ui->supplierTableView->setColumnHidden(supplierModel->fieldIndex("id"), true);
+    ui->supplierTableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
+    ui->supplierTableView->setFont(tableFont);
+    ui->supplierTableView->verticalHeader()->setDefaultSectionSize(24);
+    ui->supplierTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+    ui->supplierTableView->horizontalHeader()->setStretchLastSection(true);
     ui->supplierTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->supplierTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->supplierTableView->setSortingEnabled(true); // 启用排序
-    ui->supplierTableView->horizontalHeader()->setStretchLastSection(true); // 自动调整最后一列
+    ui->supplierTableView->setSortingEnabled(true);
+    ui->supplierTableView->setColumnHidden(supplierModel->fieldIndex("id"), true); // 隐藏不需要的列
+    ui->supplierTableView->setColumnHidden(supplierModel->fieldIndex("supplier_id"), true); // 隐藏 supplier_id 列
 
     // 初始化物料模型
     materialModel->setTable("Material");
     materialModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     materialModel->select();
-    // 设置表头名称
-    materialModel->setHeaderData(materialModel->fieldIndex("material_number"), Qt::Horizontal, "代码");
+
+    // 设置表头名称（翻译为中文）
+    materialModel->setHeaderData(materialModel->fieldIndex("material_number"), Qt::Horizontal, "物料号");
     materialModel->setHeaderData(materialModel->fieldIndex("description"), Qt::Horizontal, "描述");
-    materialModel->setHeaderData(materialModel->fieldIndex("supplier_id"), Qt::Horizontal, "供应商");
-    // 设置其他字段...
+    materialModel->setHeaderData(materialModel->fieldIndex("remarks"), Qt::Horizontal, "备注");
+    materialModel->setHeaderData(materialModel->fieldIndex("self_made_or_purchase"), Qt::Horizontal, "自制或采购");
+    materialModel->setHeaderData(materialModel->fieldIndex("serial_number"), Qt::Horizontal, "序列号");
+    materialModel->setHeaderData(materialModel->fieldIndex("location_number"), Qt::Horizontal, "库位号");
+    materialModel->setHeaderData(materialModel->fieldIndex("version"), Qt::Horizontal, "版本号");
+    materialModel->setHeaderData(materialModel->fieldIndex("delivery_period"), Qt::Horizontal, "货期（天）");
+    materialModel->setHeaderData(materialModel->fieldIndex("created_at"), Qt::Horizontal, "创建日期");
+    materialModel->setHeaderData(materialModel->fieldIndex("updated_at"), Qt::Horizontal, "更新日期");
+    materialModel->setHeaderData(materialModel->fieldIndex("unit_price"), Qt::Horizontal, "单价");
+    materialModel->setHeaderData(materialModel->fieldIndex("maintainer"), Qt::Horizontal, "维护人");
+    materialModel->setHeaderData(materialModel->fieldIndex("good_quantity"), Qt::Horizontal, "良品数量");
+    materialModel->setHeaderData(materialModel->fieldIndex("defective_quantity"), Qt::Horizontal, "不良品数量");
+    materialModel->setHeaderData(materialModel->fieldIndex("category_name"), Qt::Horizontal, "类别");
+    materialModel->setHeaderData(materialModel->fieldIndex("supplier_name"), Qt::Horizontal, "供应商名称");
 
-    // 初始化代理模型用于根据供应商过滤物料
+    // 初始化代理模型用于物料搜索和排序
     materialProxyModel->setSourceModel(materialModel);
-    materialProxyModel->setFilterKeyColumn(materialModel->fieldIndex("supplier_id"));
+    materialProxyModel->setFilterKeyColumn(-1); // 所有列
     materialProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    ui->supplierMaterialTableView->setModel(materialProxyModel); // 确保此控件存在于 UI 中
-    ui->supplierMaterialTableView->setColumnHidden(materialModel->fieldIndex("id"), true);
-    ui->supplierMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->supplierMaterialTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->supplierMaterialTableView->setSortingEnabled(true); // 启用排序
-    ui->supplierMaterialTableView->horizontalHeader()->setStretchLastSection(true); // 自动调整最后一列
 
-    // 初始化物料表视图
+    // 设置物料表格视图
     ui->materialTableView->setModel(materialProxyModel);
-    ui->materialTableView->setColumnHidden(materialModel->fieldIndex("id"), true);
+    ui->materialTableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
+    ui->materialTableView->setFont(tableFont);
+    ui->materialTableView->verticalHeader()->setDefaultSectionSize(24);
+    ui->materialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+    ui->materialTableView->horizontalHeader()->setStretchLastSection(true);
     ui->materialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->materialTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->materialTableView->setSortingEnabled(true); // 启用排序
-    ui->materialTableView->horizontalHeader()->setStretchLastSection(true); // 自动调整最后一列
+    ui->materialTableView->setSortingEnabled(true);
+    ui->materialTableView->setColumnHidden(materialModel->fieldIndex("id"), true); // 隐藏不需要的列
+    ui->materialTableView->setColumnHidden(materialModel->fieldIndex("drawing"), true);
+    ui->materialTableView->setColumnHidden(materialModel->fieldIndex("photo"), true);
+    ui->materialTableView->setColumnHidden(materialModel->fieldIndex("category_code"), true); // 隐藏 category_code 列
+    ui->materialTableView->setColumnHidden(materialModel->fieldIndex("mk_number"), true);     // 隐藏 mk_number 列
+    ui->materialTableView->setColumnHidden(materialModel->fieldIndex("supplier_id"), true);   // 隐藏 supplier_id 列
 
-    // 初始化不良品模型，只显示不良品数量大于0的记录
+    // 调整列宽，避免过宽或过窄
+    ui->materialTableView->horizontalHeader()->setDefaultSectionSize(100); // 设置默认列宽
+    ui->materialTableView->horizontalHeader()->setMinimumSectionSize(50);  // 设置最小列宽
+
+    // 初始化不良品模型
     defectiveModel->setTable("Material");
     defectiveModel->setFilter("defective_quantity > 0");
     defectiveModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     defectiveModel->select();
-    ui->defectiveTableView->setModel(defectiveModel);
-    ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("id"), true);
+
+    // 设置表头名称（翻译为中文）
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("material_number"), Qt::Horizontal, "物料号");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("description"), Qt::Horizontal, "描述");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("defective_quantity"), Qt::Horizontal, "不良品数量");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("maintainer"), Qt::Horizontal, "维护人");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("updated_at"), Qt::Horizontal, "更新日期");
+
+    // 初始化代理模型用于不良品搜索和排序
+    defectiveProxyModel->setSourceModel(defectiveModel);
+    defectiveProxyModel->setFilterKeyColumn(-1);
+    defectiveProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+    // 设置不良品表格视图
+    ui->defectiveTableView->setModel(defectiveProxyModel);
+    ui->defectiveTableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
+    ui->defectiveTableView->setFont(tableFont);
+    ui->defectiveTableView->verticalHeader()->setDefaultSectionSize(24);
+    ui->defectiveTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+    ui->defectiveTableView->horizontalHeader()->setStretchLastSection(true);
     ui->defectiveTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->defectiveTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->defectiveTableView->setSortingEnabled(true); // 启用排序
-    ui->defectiveTableView->horizontalHeader()->setStretchLastSection(true); // 自动调整最后一列
+    ui->defectiveTableView->setSortingEnabled(true);
+    ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("id"), true); // 隐藏不需要的列
+    ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("drawing"), true);
+    ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("photo"), true);
+    ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("category_code"), true); // 隐藏 category_code 列
+    ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("mk_number"), true);     // 隐藏 mk_number 列
+    ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("supplier_id"), true);   // 隐藏 supplier_id 列
 
     // 初始化 BOM 模型
     bomModel->setTable("BOM");
     bomModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     bomModel->select();
-    ui->bomTableView->setModel(bomModel);
-    ui->bomTableView->setColumnHidden(bomModel->fieldIndex("id"), true);
+
+    // 设置表头名称（翻译为中文）
+    bomModel->setHeaderData(bomModel->fieldIndex("bom_number"), Qt::Horizontal, "BOM 编号");
+    bomModel->setHeaderData(bomModel->fieldIndex("bom_name"), Qt::Horizontal, "BOM 名称");
+    bomModel->setHeaderData(bomModel->fieldIndex("description"), Qt::Horizontal, "描述");
+    bomModel->setHeaderData(bomModel->fieldIndex("version"), Qt::Horizontal, "版本号");
+    bomModel->setHeaderData(bomModel->fieldIndex("maintainer"), Qt::Horizontal, "维护人");
+    bomModel->setHeaderData(bomModel->fieldIndex("updated_at"), Qt::Horizontal, "更新日期");
+
+    // 初始化代理模型用于 BOM 搜索和排序
+    bomProxyModel->setSourceModel(bomModel);
+    bomProxyModel->setFilterKeyColumn(-1);
+    bomProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+    // 设置 BOM 表格视图
+    ui->bomTableView->setModel(bomProxyModel);
+    ui->bomTableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
+    ui->bomTableView->setFont(tableFont);
+    ui->bomTableView->verticalHeader()->setDefaultSectionSize(24);
+    ui->bomTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+    ui->bomTableView->horizontalHeader()->setStretchLastSection(true);
     ui->bomTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->bomTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->bomTableView->setSortingEnabled(true); // 启用排序
-    ui->bomTableView->horizontalHeader()->setStretchLastSection(true); // 自动调整最后一列
+    ui->bomTableView->setSortingEnabled(true);
+    ui->bomTableView->setColumnHidden(bomModel->fieldIndex("id"), true); // 隐藏不需要的列
 
     // 初始化订单模型和视图
     QStringList statuses = { "预下单", "缺料", "制作中", "制作完毕", "已出库" };
@@ -126,21 +236,51 @@ MainWindow::MainWindow(QWidget *parent)
         orderModel->setFilter(QString("status = '%1'").arg(status));
         orderModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
         orderModel->select();
+
+        // 设置表头名称（翻译为中文）
+        orderModel->setHeaderData(orderModel->fieldIndex("order_number"), Qt::Horizontal, "订单编号");
+        orderModel->setHeaderData(orderModel->fieldIndex("customer_name"), Qt::Horizontal, "客户名称");
+        orderModel->setHeaderData(orderModel->fieldIndex("status"), Qt::Horizontal, "状态");
+        orderModel->setHeaderData(orderModel->fieldIndex("order_date"), Qt::Horizontal, "货期（天）");
+        orderModel->setHeaderData(orderModel->fieldIndex("delivery_date"), Qt::Horizontal, "交付日期");
+        orderModel->setHeaderData(orderModel->fieldIndex("order_manager"), Qt::Horizontal, "订单负责人");
+
         orderModels[status] = orderModel;
 
+        QSortFilterProxyModel *orderProxyModel = new QSortFilterProxyModel(this);
+        orderProxyModel->setSourceModel(orderModel);
+        orderProxyModel->setFilterKeyColumn(-1);
+        orderProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+        orderProxyModels[status] = orderProxyModel;
+
+        QLineEdit *searchLineEdit = new QLineEdit;
+        searchLineEdit->setPlaceholderText("搜索订单...");
+        connect(searchLineEdit, &QLineEdit::textChanged, [orderProxyModel](const QString &text) {
+            QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+            orderProxyModel->setFilterRegularExpression(regExp);
+        });
+
         QTableView *tableView = new QTableView;
-        tableView->setModel(orderModel);
+        tableView->setModel(orderProxyModel);
+        tableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
+        tableView->setFont(tableFont);
+        tableView->verticalHeader()->setDefaultSectionSize(24);
+        tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+        tableView->horizontalHeader()->setStretchLastSection(true);
         tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
         tableView->setSelectionMode(QAbstractItemView::SingleSelection);
-        tableView->setSortingEnabled(true); // 启用排序
-        tableView->horizontalHeader()->setStretchLastSection(true); // 自动调整最后一列
+        tableView->setSortingEnabled(true);
+        tableView->setColumnHidden(orderModel->fieldIndex("id"), true); // 隐藏不需要的列
+
         orderTableViews[status] = tableView;
 
         QWidget *tab = new QWidget;
         QVBoxLayout *tabLayout = new QVBoxLayout(tab);
+        tabLayout->addWidget(searchLineEdit); // 添加搜索框
         tabLayout->addWidget(tableView);
         ui->orderTabWidget->addTab(tab, status);
     }
+
 
     // 连接搜索框信号到槽
     connect(ui->supplierSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::on_supplierSearchLineEdit_textChanged);
@@ -181,6 +321,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->editSupplierButton, &QPushButton::clicked, this, &MainWindow::on_editSupplierButton_clicked);
     connect(ui->deleteSupplierButton, &QPushButton::clicked, this, &MainWindow::on_deleteSupplierButton_clicked);
 
+    // 连接搜索框信号到槽
+    connect(ui->supplierSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::on_supplierSearchLineEdit_textChanged);
+    connect(ui->materialSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::on_materialSearchLineEdit_textChanged);
+    connect(ui->defectiveSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::on_defectiveSearchLineEdit_textChanged);
+    connect(ui->bomSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::on_bomSearchLineEdit_textChanged);
+
     // 连接表视图的选择变化信号到槽
     connect(ui->materialTableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onMaterialTableViewSelectionChanged);
     connect(ui->supplierTableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onSupplierSelectionChanged);
@@ -191,6 +337,9 @@ MainWindow::MainWindow(QWidget *parent)
     // 默认显示物料管理页面
     ui->stackedWidget->setCurrentWidget(ui->materialPage);
 }
+
+// 省略其他函数的实现，与原代码保持一致
+
 
 MainWindow::~MainWindow()
 {
@@ -959,3 +1108,28 @@ void MainWindow::processProductInventory(int orderId, const QString &operation)
         }
     }
 }
+
+// 搜索槽函数的实现
+void MainWindow::on_materialSearchLineEdit_textChanged(const QString &text)
+{
+    QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+    materialProxyModel->setFilterRegularExpression(regExp);
+}
+
+void MainWindow::on_defectiveSearchLineEdit_textChanged(const QString &text)
+{
+    QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+    defectiveProxyModel->setFilterRegularExpression(regExp);
+}
+
+void MainWindow::on_bomSearchLineEdit_textChanged(const QString &text)
+{
+    QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+    bomProxyModel->setFilterRegularExpression(regExp);
+}
+
+// void MainWindow::on_supplierSearchLineEdit_textChanged(const QString &text)
+// {
+//     QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+//     supplierProxyModel->setFilterRegularExpression(regExp);
+// }

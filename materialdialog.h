@@ -1,4 +1,3 @@
-// materialdialog.h
 #ifndef MATERIALDIALOG_H
 #define MATERIALDIALOG_H
 

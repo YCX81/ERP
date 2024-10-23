@@ -366,6 +366,8 @@ CMakeFiles/ERP.dir/orderdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlglobal.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlexports.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qlist.h \
  C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_orderdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
@@ -444,6 +446,9 @@ CMakeFiles/ERP.dir/orderdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qcalendar.h
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QUuid \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/quuid.h \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlField \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlfield.h

@@ -69,6 +69,20 @@
          </widget>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="materialSearchLayout">
+          <item>
+           <widget class="QLabel" name="materialSearchLabel">
+            <property name="text">
+             <string>搜索：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="materialSearchLineEdit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QTableView" name="materialTableView"/>
         </item>
         <item>
@@ -205,6 +219,20 @@
          </widget>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="defectiveSearchLayout">
+          <item>
+           <widget class="QLabel" name="defectiveSearchLabel">
+            <property name="text">
+             <string>搜索：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="defectiveSearchLineEdit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QTableView" name="defectiveTableView"/>
         </item>
         <item>
@@ -242,6 +270,20 @@
            <string>BOM表管理</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="bomSearchLayout">
+          <item>
+           <widget class="QLabel" name="bomSearchLabel">
+            <property name="text">
+             <string>搜索：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="bomSearchLineEdit"/>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QTableView" name="bomTableView"/>

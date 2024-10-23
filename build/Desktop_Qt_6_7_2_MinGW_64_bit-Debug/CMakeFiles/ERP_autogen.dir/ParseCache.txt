@@ -1795,6 +1795,7 @@ C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h
  mdp:C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h
 C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.h
  mmc:Q_OBJECT
+ mdp:C:/Qt/6.7.2/mingw_64/include/QtCore/QList
  mdp:C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtCore/q20type_traits.h
