@@ -127,6 +127,8 @@ ERP_autogen/timestamp: \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/qxptype_traits.h \
 	C:/Qt/6.7.2/mingw_64/include/QtCore/qyieldcpu.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
+	C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoCommand \
+	C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoStack \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qaction.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qbitmap.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qbrush.h \
@@ -151,6 +153,7 @@ ERP_autogen/timestamp: \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qtguiexports.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qtguiglobal.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qtransform.h \
+	C:/Qt/6.7.2/mingw_64/include/QtGui/qundostack.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs.h \
 	C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs_win.h \
 	C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \

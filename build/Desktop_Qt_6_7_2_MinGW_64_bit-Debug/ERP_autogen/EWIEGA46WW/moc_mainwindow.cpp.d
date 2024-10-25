@@ -125,6 +125,8 @@ C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/
   C:/Qt/6.7.2/mingw_64/include/QtCore/qversiontagging.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qxptype_traits.h \
   C:/Qt/6.7.2/mingw_64/include/QtCore/qyieldcpu.h \
+  C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoCommand \
+  C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoStack \
   C:/Qt/6.7.2/mingw_64/include/QtGui/qaction.h \
   C:/Qt/6.7.2/mingw_64/include/QtGui/qbitmap.h \
   C:/Qt/6.7.2/mingw_64/include/QtGui/qbrush.h \
@@ -148,12 +150,15 @@ C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/
   C:/Qt/6.7.2/mingw_64/include/QtGui/qtguiexports.h \
   C:/Qt/6.7.2/mingw_64/include/QtGui/qtguiglobal.h \
   C:/Qt/6.7.2/mingw_64/include/QtGui/qtransform.h \
+  C:/Qt/6.7.2/mingw_64/include/QtGui/qundostack.h \
   C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs_win.h \
+  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
   C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel \
   C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlTableModel \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquerymodel.h \
+  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
   C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h \

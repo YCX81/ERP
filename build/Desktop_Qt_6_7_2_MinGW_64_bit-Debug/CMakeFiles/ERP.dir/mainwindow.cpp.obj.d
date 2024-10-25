@@ -381,6 +381,11 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoStack \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qundostack.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoCommand \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
  C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/include/ui_mainwindow.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
@@ -399,6 +404,8 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qinputmethod.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qlocale.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/qguiapplication_platform.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QFrame \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHBoxLayout \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayout.h \
@@ -441,6 +448,10 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSpacerItem \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSplitter \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qsplitter.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QStackedWidget \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qstackedwidget.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QStatusBar \
@@ -449,6 +460,8 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtabwidget.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableView \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtableview.h \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/QToolBar \
+ C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtoolbar.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qwidget.h \
@@ -458,8 +471,6 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:\Users\ycx\Documents\QTProjects\ERP\logindialog.h \
  C:\Users\ycx\Documents\QTProjects\ERP\materialdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
- C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
  C:\Users\ycx\Documents\QTProjects\ERP\defectivedialog.h \
  C:\Users\ycx\Documents\QTProjects\ERP\bomdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \

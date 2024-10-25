@@ -30,6 +30,8 @@
 #include <QStyledItemDelegate>
 #include <QFont>
 #include <xlsxdocument.h>
+#include <QUndoStack>
+#include <QUndoCommand>
 
 // 创建一个委托，用于设置单元格的对齐方式
 class AlignmentDelegate : public QStyledItemDelegate {
@@ -50,6 +52,81 @@ public:
     }
 };
 
+// Implement AddMaterialCommand
+AddMaterialCommand::AddMaterialCommand(QSqlTableModel *model, const QSqlRecord &record, QUndoCommand *parent)
+    : QUndoCommand(parent), model(model), record(record), row(-1)
+{
+    setText("添加物料");
+}
+
+void AddMaterialCommand::undo()
+{
+    if (row >= 0)
+    {
+        model->removeRow(row);
+        if (!model->submitAll()) {
+            QMessageBox::critical(nullptr, "错误", "无法撤销添加物料：" + model->lastError().text());
+        }
+    }
+}
+
+void AddMaterialCommand::redo()
+{
+    if (row == -1) { // 第一次执行 redo
+        row = model->rowCount();
+        model->insertRecord(row, record);
+    }
+    if (!model->submitAll()) {
+        QMessageBox::critical(nullptr, "错误", "无法添加物料：" + model->lastError().text());
+    }
+}
+
+// Implement EditMaterialCommand
+EditMaterialCommand::EditMaterialCommand(QSqlTableModel *model, int row, const QSqlRecord &oldRecord, const QSqlRecord &newRecord, QUndoCommand *parent)
+    : QUndoCommand(parent), model(model), row(row), oldRecord(oldRecord), newRecord(newRecord)
+{
+    setText("编辑物料");
+}
+
+void EditMaterialCommand::undo()
+{
+    model->setRecord(row, oldRecord);
+    if (!model->submitAll()) {
+        QMessageBox::critical(nullptr, "错误", "无法撤销编辑物料：" + model->lastError().text());
+    }
+}
+
+void EditMaterialCommand::redo()
+{
+    model->setRecord(row, newRecord);
+    if (!model->submitAll()) {
+        QMessageBox::critical(nullptr, "错误", "无法重新编辑物料：" + model->lastError().text());
+    }
+}
+
+// Implement DeleteMaterialCommand
+DeleteMaterialCommand::DeleteMaterialCommand(QSqlTableModel *model, int row, const QSqlRecord &record, QUndoCommand *parent)
+    : QUndoCommand(parent), model(model), row(row), record(record)
+{
+    setText("删除物料");
+}
+
+void DeleteMaterialCommand::undo()
+{
+    model->insertRecord(row, record);
+    if (!model->submitAll()) {
+        QMessageBox::critical(nullptr, "错误", "无法撤销删除物料：" + model->lastError().text());
+    }
+}
+
+void DeleteMaterialCommand::redo()
+{
+    model->removeRow(row);
+    if (!model->submitAll()) {
+        QMessageBox::critical(nullptr, "错误", "无法删除物料：" + model->lastError().text());
+    }
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -61,8 +138,13 @@ MainWindow::MainWindow(QWidget *parent)
     , defectiveProxyModel(new QSortFilterProxyModel(this))
     , bomProxyModel(new QSortFilterProxyModel(this))
     , supplierProxyModel(new QSortFilterProxyModel(this))
+    , undoStack(new QUndoStack(this))
 {
     ui->setupUi(this);
+
+    // 连接撤销和重做按钮
+    connect(ui->undoButton, &QPushButton::clicked, this, &MainWindow::on_undoButton_clicked);
+    connect(ui->redoButton, &QPushButton::clicked, this, &MainWindow::on_redoButton_clicked);
 
     // 设置全局样式表，统一界面风格
     qApp->setStyleSheet(
@@ -106,10 +188,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->supplierTableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
     ui->supplierTableView->setFont(tableFont);
     ui->supplierTableView->verticalHeader()->setDefaultSectionSize(24);
-    ui->supplierTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+    ui->supplierTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); // 自动调整列宽
     ui->supplierTableView->horizontalHeader()->setStretchLastSection(true);
     ui->supplierTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->supplierTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->supplierTableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
     ui->supplierTableView->setSortingEnabled(true);
     ui->supplierTableView->setColumnHidden(supplierModel->fieldIndex("id"), true); // 隐藏不需要的列
     ui->supplierTableView->setColumnHidden(supplierModel->fieldIndex("supplier_id"), true); // 隐藏 supplier_id 列
@@ -147,10 +229,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->materialTableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
     ui->materialTableView->setFont(tableFont);
     ui->materialTableView->verticalHeader()->setDefaultSectionSize(24);
-    ui->materialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+    ui->materialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); // 自动调整列宽
     ui->materialTableView->horizontalHeader()->setStretchLastSection(true);
     ui->materialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->materialTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->materialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
     ui->materialTableView->setSortingEnabled(true);
     ui->materialTableView->setColumnHidden(materialModel->fieldIndex("id"), true); // 隐藏不需要的列
     ui->materialTableView->setColumnHidden(materialModel->fieldIndex("drawing"), true);
@@ -186,10 +268,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->defectiveTableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
     ui->defectiveTableView->setFont(tableFont);
     ui->defectiveTableView->verticalHeader()->setDefaultSectionSize(24);
-    ui->defectiveTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+    ui->defectiveTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); // 自动调整列宽
     ui->defectiveTableView->horizontalHeader()->setStretchLastSection(true);
     ui->defectiveTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->defectiveTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->defectiveTableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
     ui->defectiveTableView->setSortingEnabled(true);
     ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("id"), true); // 隐藏不需要的列
     ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("drawing"), true);
@@ -221,10 +303,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->bomTableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
     ui->bomTableView->setFont(tableFont);
     ui->bomTableView->verticalHeader()->setDefaultSectionSize(24);
-    ui->bomTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+    ui->bomTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); // 自动调整列宽
     ui->bomTableView->horizontalHeader()->setStretchLastSection(true);
     ui->bomTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->bomTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->bomTableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
     ui->bomTableView->setSortingEnabled(true);
     ui->bomTableView->setColumnHidden(bomModel->fieldIndex("id"), true); // 隐藏不需要的列
 
@@ -241,9 +323,10 @@ MainWindow::MainWindow(QWidget *parent)
         orderModel->setHeaderData(orderModel->fieldIndex("order_number"), Qt::Horizontal, "订单编号");
         orderModel->setHeaderData(orderModel->fieldIndex("customer_name"), Qt::Horizontal, "客户名称");
         orderModel->setHeaderData(orderModel->fieldIndex("status"), Qt::Horizontal, "状态");
-        orderModel->setHeaderData(orderModel->fieldIndex("order_date"), Qt::Horizontal, "货期（天）");
+        orderModel->setHeaderData(orderModel->fieldIndex("order_date"), Qt::Horizontal, "订单日期");
         orderModel->setHeaderData(orderModel->fieldIndex("delivery_date"), Qt::Horizontal, "交付日期");
         orderModel->setHeaderData(orderModel->fieldIndex("order_manager"), Qt::Horizontal, "订单负责人");
+        orderModel->setHeaderData(orderModel->fieldIndex("maintainer"), Qt::Horizontal, "维护人"); // 新增字段
 
         orderModels[status] = orderModel;
 
@@ -265,10 +348,10 @@ MainWindow::MainWindow(QWidget *parent)
         tableView->setItemDelegate(new AlignmentDelegate(this)); // 设置委托
         tableView->setFont(tableFont);
         tableView->verticalHeader()->setDefaultSectionSize(24);
-        tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive); // 可调整列宽
+        tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); // 自动调整列宽
         tableView->horizontalHeader()->setStretchLastSection(true);
         tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-        tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+        tableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
         tableView->setSortingEnabled(true);
         tableView->setColumnHidden(orderModel->fieldIndex("id"), true); // 隐藏不需要的列
 
@@ -281,45 +364,27 @@ MainWindow::MainWindow(QWidget *parent)
         ui->orderTabWidget->addTab(tab, status);
     }
 
+    // 初始化供应商物料表视图
+    ui->supplierMaterialTableView->setModel(nullptr);
+    ui->supplierMaterialTableView->setItemDelegate(new AlignmentDelegate(this));
+    ui->supplierMaterialTableView->setFont(tableFont);
+    ui->supplierMaterialTableView->verticalHeader()->setDefaultSectionSize(24);
+    ui->supplierMaterialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->supplierMaterialTableView->horizontalHeader()->setStretchLastSection(true);
+    ui->supplierMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->supplierMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    ui->supplierMaterialTableView->setSortingEnabled(true);
 
-    // 连接搜索框信号到槽
-    connect(ui->supplierSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::on_supplierSearchLineEdit_textChanged);
-
-    // 连接信号槽
-    connect(ui->registerButton, &QPushButton::clicked, this, &MainWindow::on_registerButton_clicked);
-    connect(ui->loginButton, &QPushButton::clicked, this, &MainWindow::on_loginButton_clicked);
-    connect(ui->logoutButton, &QPushButton::clicked, this, &MainWindow::on_logoutButton_clicked);
-    connect(ui->switchUserButton, &QPushButton::clicked, this, &MainWindow::on_switchUserButton_clicked);
-
-    connect(ui->materialButton, &QPushButton::clicked, this, &MainWindow::on_materialButton_clicked);
-    connect(ui->defectiveButton, &QPushButton::clicked, this, &MainWindow::on_defectiveButton_clicked);
-    connect(ui->bomButton, &QPushButton::clicked, this, &MainWindow::on_bomButton_clicked);
-    connect(ui->orderButton, &QPushButton::clicked, this, &MainWindow::on_orderButton_clicked);
-    connect(ui->supplierButton, &QPushButton::clicked, this, &MainWindow::on_supplierButton_clicked);
-
-    connect(ui->addButton, &QPushButton::clicked, this, &MainWindow::on_addButton_clicked);
-    connect(ui->editButton, &QPushButton::clicked, this, &MainWindow::on_editButton_clicked);
-    connect(ui->deleteButton, &QPushButton::clicked, this, &MainWindow::on_deleteButton_clicked);
-    connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::on_exportButton_clicked);
-    connect(ui->viewDrawingButton, &QPushButton::clicked, this, &MainWindow::on_viewDrawingButton_clicked);
-    connect(ui->viewPhotoButton, &QPushButton::clicked, this, &MainWindow::on_viewPhotoButton_clicked);
-
-    connect(ui->addDefectiveButton, &QPushButton::clicked, this, &MainWindow::on_addDefectiveButton_clicked);
-    connect(ui->editDefectiveButton, &QPushButton::clicked, this, &MainWindow::on_editDefectiveButton_clicked);
-    connect(ui->deleteDefectiveButton, &QPushButton::clicked, this, &MainWindow::on_deleteDefectiveButton_clicked);
-
-    connect(ui->addBOMButton, &QPushButton::clicked, this, &MainWindow::on_addBOMButton_clicked);
-    connect(ui->editBOMButton, &QPushButton::clicked, this, &MainWindow::on_editBOMButton_clicked);
-    connect(ui->deleteBOMButton, &QPushButton::clicked, this, &MainWindow::on_deleteBOMButton_clicked);
-
-    connect(ui->addOrderButton, &QPushButton::clicked, this, &MainWindow::on_addOrderButton_clicked);
-    connect(ui->editOrderButton, &QPushButton::clicked, this, &MainWindow::on_editOrderButton_clicked);
-    connect(ui->deleteOrderButton, &QPushButton::clicked, this, &MainWindow::on_deleteOrderButton_clicked);
-    connect(ui->undoButton, &QPushButton::clicked, this, &MainWindow::on_undoButton_clicked);
-
-    connect(ui->addSupplierButton, &QPushButton::clicked, this, &MainWindow::on_addSupplierButton_clicked);
-    connect(ui->editSupplierButton, &QPushButton::clicked, this, &MainWindow::on_editSupplierButton_clicked);
-    connect(ui->deleteSupplierButton, &QPushButton::clicked, this, &MainWindow::on_deleteSupplierButton_clicked);
+    // 初始化 BOM 物料表视图
+    ui->bomMaterialTableView->setModel(nullptr);
+    ui->bomMaterialTableView->setItemDelegate(new AlignmentDelegate(this));
+    ui->bomMaterialTableView->setFont(tableFont);
+    ui->bomMaterialTableView->verticalHeader()->setDefaultSectionSize(24);
+    ui->bomMaterialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->bomMaterialTableView->horizontalHeader()->setStretchLastSection(true);
+    ui->bomMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->bomMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    ui->bomMaterialTableView->setSortingEnabled(true);
 
     // 连接搜索框信号到槽
     connect(ui->supplierSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::on_supplierSearchLineEdit_textChanged);
@@ -330,6 +395,7 @@ MainWindow::MainWindow(QWidget *parent)
     // 连接表视图的选择变化信号到槽
     connect(ui->materialTableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onMaterialTableViewSelectionChanged);
     connect(ui->supplierTableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onSupplierSelectionChanged);
+    connect(ui->bomTableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onBOMSelectionChanged);
 
     // 更新登录状态
     updateLoginStatus();
@@ -338,14 +404,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setCurrentWidget(ui->materialPage);
 }
 
-// 省略其他函数的实现，与原代码保持一致
-
-
+// 主窗口析构函数
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+// 用户注册槽函数
 void MainWindow::on_registerButton_clicked()
 {
     RegisterDialog regDialog(this);
@@ -354,6 +419,7 @@ void MainWindow::on_registerButton_clicked()
     }
 }
 
+// 用户登录槽函数
 void MainWindow::on_loginButton_clicked()
 {
     LoginDialog loginDialog(this);
@@ -363,17 +429,20 @@ void MainWindow::on_loginButton_clicked()
     }
 }
 
+// 用户注销槽函数
 void MainWindow::on_logoutButton_clicked()
 {
     currentUser.clear();
     updateLoginStatus();
 }
 
+// 切换用户槽函数
 void MainWindow::on_switchUserButton_clicked()
 {
     on_loginButton_clicked();
 }
 
+// 更新登录状态的辅助函数
 void MainWindow::updateLoginStatus()
 {
     bool isLoggedIn = !currentUser.isEmpty();
@@ -391,6 +460,7 @@ void MainWindow::updateLoginStatus()
     }
 }
 
+// 界面切换槽函数
 void MainWindow::on_materialButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->materialPage);
@@ -416,6 +486,7 @@ void MainWindow::on_supplierButton_clicked()
     ui->stackedWidget->setCurrentWidget(ui->supplierPage);
 }
 
+// 添加物料槽函数
 void MainWindow::on_addButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -425,10 +496,13 @@ void MainWindow::on_addButton_clicked()
 
     MaterialDialog dialog(currentUser, this);
     if (dialog.exec() == QDialog::Accepted) {
-        materialModel->select();
+        QSqlRecord newRecord = dialog.getMaterialData();
+        // 使用撤销命令
+        undoStack->push(new AddMaterialCommand(materialModel, newRecord));
     }
 }
 
+// 编辑物料槽函数
 void MainWindow::on_editButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -443,16 +517,19 @@ void MainWindow::on_editButton_clicked()
     }
 
     int row = selectedRows.first().row();
-    QSqlRecord record = materialModel->record(materialProxyModel->mapToSource(materialProxyModel->index(row, 0)).row());
+    QModelIndex sourceIndex = materialProxyModel->mapToSource(materialProxyModel->index(row, 0));
+    QSqlRecord oldRecord = materialModel->record(sourceIndex.row());
 
     MaterialDialog dialog(currentUser, this);
-    dialog.setMaterialData(record);
+    dialog.setMaterialData(oldRecord);
     if (dialog.exec() == QDialog::Accepted) {
-        materialModel->select();
-        defectiveModel->select(); // 更新不良品表
+        QSqlRecord newRecord = dialog.getMaterialData();
+        // 使用撤销命令
+        undoStack->push(new EditMaterialCommand(materialModel, sourceIndex.row(), oldRecord, newRecord));
     }
 }
 
+// 删除物料槽函数
 void MainWindow::on_deleteButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -468,27 +545,32 @@ void MainWindow::on_deleteButton_clicked()
 
     int ret = QMessageBox::question(this, "确认删除", "确定要删除选中的物料吗？", QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes) {
-        int row = selectedRows.first().row();
-        QSqlRecord record = materialModel->record(materialProxyModel->mapToSource(materialProxyModel->index(row, 0)).row());
+        foreach (const QModelIndex &index, selectedRows) {
+            int row = index.row();
+            QModelIndex sourceIndex = materialProxyModel->mapToSource(materialProxyModel->index(row, 0));
+            QSqlRecord record = materialModel->record(sourceIndex.row());
 
-        materialModel->removeRow(materialProxyModel->mapToSource(materialProxyModel->index(row, 0)).row());
-        if (!materialModel->submitAll()) {
-            QMessageBox::critical(this, "错误", "无法删除物料：" + materialModel->lastError().text());
-        } else {
-            materialModel->select();
-            defectiveModel->select(); // 更新不良品表
+            // 使用撤销命令
+            undoStack->push(new DeleteMaterialCommand(materialModel, sourceIndex.row(), record));
         }
     }
 }
 
+// 导出物料到Excel槽函数
 void MainWindow::on_exportButton_clicked()
 {
     QString filePath = QFileDialog::getSaveFileName(this, "导出Excel", "", "Excel 文件 (*.xlsx)");
     if (!filePath.isEmpty()) {
         QXlsx::Document xlsxDoc;
 
-        // 获取模型数据
-        int rowCount = materialProxyModel->rowCount();
+        // 获取选中的行
+        QModelIndexList selectedRows = ui->materialTableView->selectionModel()->selectedRows();
+        if (selectedRows.isEmpty()) {
+            QMessageBox::warning(this, "警告", "请先选择要导出的物料。");
+            return;
+        }
+
+        // 获取列数
         int columnCount = materialProxyModel->columnCount();
 
         // 写入表头
@@ -503,16 +585,18 @@ void MainWindow::on_exportButton_clicked()
         }
 
         // 写入数据
-        for (int row = 0; row < rowCount; ++row) {
+        int rowNum = 2;
+        foreach (const QModelIndex &index, selectedRows) {
             colOffset = 1;
             for (int col = 0; col < columnCount; ++col) {
                 if (ui->materialTableView->isColumnHidden(col)) {
                     continue;
                 }
-                QVariant data = materialProxyModel->data(materialProxyModel->index(row, col));
-                xlsxDoc.write(row + 2, colOffset, data);
+                QVariant data = materialProxyModel->data(materialProxyModel->index(index.row(), col));
+                xlsxDoc.write(rowNum, colOffset, data);
                 ++colOffset;
             }
+            ++rowNum;
         }
 
         xlsxDoc.saveAs(filePath);
@@ -520,6 +604,7 @@ void MainWindow::on_exportButton_clicked()
     }
 }
 
+// 查看图纸槽函数
 void MainWindow::on_viewDrawingButton_clicked()
 {
     QModelIndexList selectedRows = ui->materialTableView->selectionModel()->selectedRows();
@@ -547,6 +632,7 @@ void MainWindow::on_viewDrawingButton_clicked()
     }
 }
 
+// 查看实物照片槽函数
 void MainWindow::on_viewPhotoButton_clicked()
 {
     QModelIndexList selectedRows = ui->materialTableView->selectionModel()->selectedRows();
@@ -574,6 +660,7 @@ void MainWindow::on_viewPhotoButton_clicked()
     }
 }
 
+// 显示预览数据的辅助函数
 void MainWindow::displayDataInPreview(const QByteArray &data)
 {
     QPixmap pixmap;
@@ -584,6 +671,7 @@ void MainWindow::displayDataInPreview(const QByteArray &data)
     }
 }
 
+// 添加不良品槽函数
 void MainWindow::on_addDefectiveButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -609,6 +697,7 @@ void MainWindow::on_addDefectiveButton_clicked()
     }
 }
 
+// 编辑不良品槽函数
 void MainWindow::on_editDefectiveButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -634,6 +723,7 @@ void MainWindow::on_editDefectiveButton_clicked()
     }
 }
 
+// 删除不良品槽函数
 void MainWindow::on_deleteDefectiveButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -647,24 +737,27 @@ void MainWindow::on_deleteDefectiveButton_clicked()
         return;
     }
 
-    int row = selectedRows.first().row();
-    QSqlRecord record = defectiveModel->record(row);
-
     int ret = QMessageBox::question(this, "确认删除", "确定要将该物料的不良品数量清零吗？", QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes) {
-        // 将 defective_quantity 设为 0
-        QSqlQuery query;
-        query.prepare("UPDATE Material SET defective_quantity = 0 WHERE id = :id");
-        query.bindValue(":id", record.value("id"));
-        if (!query.exec()) {
-            QMessageBox::critical(this, "错误", "无法删除不良品：" + query.lastError().text());
-        } else {
-            defectiveModel->select();
-            materialModel->select(); // 更新物料表
+        foreach (const QModelIndex &index, selectedRows) {
+            int row = index.row();
+            QSqlRecord record = defectiveModel->record(row);
+
+            // 将 defective_quantity 设为 0
+            QSqlQuery query;
+            query.prepare("UPDATE Material SET defective_quantity = 0 WHERE id = :id");
+            query.bindValue(":id", record.value("id"));
+            if (!query.exec()) {
+                QMessageBox::critical(this, "错误", "无法删除不良品：" + query.lastError().text());
+            } else {
+                defectiveModel->select();
+                materialModel->select(); // 更新物料表
+            }
         }
     }
 }
 
+// 添加 BOM 槽函数
 void MainWindow::on_addBOMButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -678,6 +771,7 @@ void MainWindow::on_addBOMButton_clicked()
     }
 }
 
+// 编辑 BOM 槽函数
 void MainWindow::on_editBOMButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -701,6 +795,7 @@ void MainWindow::on_editBOMButton_clicked()
     }
 }
 
+// 删除 BOM 槽函数
 void MainWindow::on_deleteBOMButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -714,38 +809,41 @@ void MainWindow::on_deleteBOMButton_clicked()
         return;
     }
 
-    int row = selectedRows.first().row();
-    int bomId = bomModel->record(row).value("id").toInt();
-
-    int ret = QMessageBox::question(this, "确认删除", "确定要删除该 BOM 及其物料清单吗？", QMessageBox::Yes | QMessageBox::No);
+    int ret = QMessageBox::question(this, "确认删除", "确定要删除选中的 BOM 及其物料清单吗？", QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes) {
-        QSqlDatabase db = QSqlDatabase::database();
-        db.transaction();
+        foreach (const QModelIndex &index, selectedRows) {
+            int row = index.row();
+            int bomId = bomModel->record(row).value("id").toInt();
 
-        // 删除相关 BOM_Material 记录
-        QSqlQuery deleteBOMMaterials;
-        deleteBOMMaterials.prepare("DELETE FROM BOM_Material WHERE bom_id = :bom_id");
-        deleteBOMMaterials.bindValue(":bom_id", bomId);
-        if (!deleteBOMMaterials.exec()) {
-            db.rollback();
-            QMessageBox::critical(this, "错误", "无法删除 BOM 物料清单：" + deleteBOMMaterials.lastError().text());
-            return;
+            QSqlDatabase db = QSqlDatabase::database();
+            db.transaction();
+
+            // 删除相关 BOM_Material 记录
+            QSqlQuery deleteBOMMaterials;
+            deleteBOMMaterials.prepare("DELETE FROM BOM_Material WHERE bom_id = :bom_id");
+            deleteBOMMaterials.bindValue(":bom_id", bomId);
+            if (!deleteBOMMaterials.exec()) {
+                db.rollback();
+                QMessageBox::critical(this, "错误", "无法删除 BOM 物料清单：" + deleteBOMMaterials.lastError().text());
+                return;
+            }
+
+            // 删除 BOM
+            bomModel->removeRow(row);
+            if (!bomModel->submitAll()) {
+                db.rollback();
+                QMessageBox::critical(this, "错误", "无法删除 BOM：" + bomModel->lastError().text());
+                return;
+            }
+
+            db.commit();
+            QMessageBox::information(this, "成功", "BOM及其物料清单已成功删除。");
+            bomModel->select();
         }
-
-        // 删除 BOM
-        bomModel->removeRow(row);
-        if (!bomModel->submitAll()) {
-            db.rollback();
-            QMessageBox::critical(this, "错误", "无法删除 BOM：" + bomModel->lastError().text());
-            return;
-        }
-
-        db.commit();
-        QMessageBox::information(this, "成功", "BOM及其物料清单已成功删除。");
-        bomModel->select();
     }
 }
 
+// 添加订单槽函数
 void MainWindow::on_addOrderButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -754,7 +852,6 @@ void MainWindow::on_addOrderButton_clicked()
     }
 
     OrderDialog dialog(currentUser, this);
-
     if (dialog.exec() == QDialog::Accepted) {
         // 刷新所有订单模型
         for (auto model : orderModels) {
@@ -763,6 +860,7 @@ void MainWindow::on_addOrderButton_clicked()
     }
 }
 
+// 编辑订单槽函数
 void MainWindow::on_editOrderButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -793,6 +891,7 @@ void MainWindow::on_editOrderButton_clicked()
     }
 }
 
+// 删除订单槽函数
 void MainWindow::on_deleteOrderButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -810,27 +909,39 @@ void MainWindow::on_deleteOrderButton_clicked()
         return;
     }
 
-    int row = selectedRows.first().row();
     int ret = QMessageBox::question(this, "确认删除", "确定要删除选中的订单吗？", QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes) {
-        orderModels[currentStatus]->removeRow(row);
-        if (!orderModels[currentStatus]->submitAll()) {
-            QMessageBox::critical(this, "错误", "无法删除订单：" + orderModels[currentStatus]->lastError().text());
-        } else {
-            // 刷新所有订单模型
-            for (auto model : orderModels) {
-                model->select();
+        foreach (const QModelIndex &index, selectedRows) {
+            int row = index.row();
+            orderModels[currentStatus]->removeRow(row);
+            if (!orderModels[currentStatus]->submitAll()) {
+                QMessageBox::critical(this, "错误", "无法删除订单：" + orderModels[currentStatus]->lastError().text());
             }
+        }
+        // 刷新所有订单模型
+        for (auto model : orderModels) {
+            model->select();
         }
     }
 }
 
+// 撤销槽函数
 void MainWindow::on_undoButton_clicked()
 {
-    // 实现撤销功能（需要维护操作记录）
-    // 可以考虑使用 QUndoStack 或自定义实现
+    if (undoStack->canUndo()) {
+        undoStack->undo();
+    }
 }
 
+// 重做槽函数
+void MainWindow::on_redoButton_clicked()
+{
+    if (undoStack->canRedo()) {
+        undoStack->redo();
+    }
+}
+
+// 添加供应商槽函数
 void MainWindow::on_addSupplierButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -844,6 +955,7 @@ void MainWindow::on_addSupplierButton_clicked()
     }
 }
 
+// 编辑供应商槽函数
 void MainWindow::on_editSupplierButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -868,6 +980,7 @@ void MainWindow::on_editSupplierButton_clicked()
     }
 }
 
+// 删除供应商槽函数
 void MainWindow::on_deleteSupplierButton_clicked()
 {
     if (currentUser.isEmpty()) {
@@ -881,81 +994,84 @@ void MainWindow::on_deleteSupplierButton_clicked()
         return;
     }
 
-    int row = selectedRows.first().row();
-    QString supplierId = supplierProxyModel->data(supplierProxyModel->index(row, supplierModel->fieldIndex("supplier_id"))).toString();
-
     int ret = QMessageBox::question(this, "确认删除", "确定要删除选中的供应商及其所有物料吗？", QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes) {
-        QSqlDatabase db = QSqlDatabase::database();
-        db.transaction();
+        foreach (const QModelIndex &index, selectedRows) {
+            int row = index.row();
+            QString supplierId = supplierProxyModel->data(supplierProxyModel->index(row, supplierModel->fieldIndex("supplier_id"))).toString();
 
-        // 删除相关物料
-        QSqlQuery deleteMaterials;
-        deleteMaterials.prepare("DELETE FROM Material WHERE supplier_id = :supplier_id");
-        deleteMaterials.bindValue(":supplier_id", supplierId);
-        if (!deleteMaterials.exec()) {
-            db.rollback();
-            QMessageBox::critical(this, "错误", "无法删除供应商的物料：" + deleteMaterials.lastError().text());
-            return;
+            QSqlDatabase db = QSqlDatabase::database();
+            db.transaction();
+
+            // 删除相关物料
+            QSqlQuery deleteMaterials;
+            deleteMaterials.prepare("DELETE FROM Material WHERE supplier_id = :supplier_id");
+            deleteMaterials.bindValue(":supplier_id", supplierId);
+            if (!deleteMaterials.exec()) {
+                db.rollback();
+                QMessageBox::critical(this, "错误", "无法删除供应商的物料：" + deleteMaterials.lastError().text());
+                return;
+            }
+
+            // 删除供应商
+            QModelIndex proxyIndex = supplierProxyModel->index(row, 0);
+            QModelIndex sourceIndex = supplierProxyModel->mapToSource(proxyIndex);
+            if (!supplierModel->removeRow(sourceIndex.row())) {
+                db.rollback();
+                QMessageBox::critical(this, "错误", "无法删除供应商。");
+                return;
+            }
+
+            if (!supplierModel->submitAll()) { // 在 QSqlTableModel 上调用 submitAll()
+                db.rollback();
+                QMessageBox::critical(this, "错误", "无法删除供应商：" + supplierModel->lastError().text());
+                return;
+            }
+
+            db.commit();
+            QMessageBox::information(this, "成功", "供应商及其物料已成功删除。");
+            supplierModel->select();
+            materialModel->select();
         }
-
-        // 删除供应商
-        // 首先将代理模型中的行映射到源模型
-        QModelIndex proxyIndex = supplierProxyModel->index(row, 0);
-        QModelIndex sourceIndex = supplierProxyModel->mapToSource(proxyIndex);
-        if (!supplierModel->removeRow(sourceIndex.row())) {
-            db.rollback();
-            QMessageBox::critical(this, "错误", "无法删除供应商。");
-            return;
-        }
-
-        if (!supplierModel->submitAll()) { // 在 QSqlTableModel 上调用 submitAll()
-            db.rollback();
-            QMessageBox::critical(this, "错误", "无法删除供应商：" + supplierModel->lastError().text());
-            return;
-        }
-
-        db.commit();
-        QMessageBox::information(this, "成功", "供应商及其物料已成功删除。");
-        supplierModel->select();
-        materialModel->select();
     }
 }
 
-void MainWindow::onSupplierSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
-{
-    Q_UNUSED(deselected); // 避免未使用参数的警告
-
-    QModelIndexList selectedRows = ui->supplierTableView->selectionModel()->selectedRows();
-    if (!selectedRows.isEmpty()) {
-        int row = selectedRows.first().row();
-        QString supplierId = supplierProxyModel->data(supplierProxyModel->index(row, supplierModel->fieldIndex("supplier_id"))).toString();
-
-        // 使用代理模型设置过滤条件
-        materialProxyModel->setFilterFixedString(supplierId);
-
-        // 检查是否有物料
-        if (materialProxyModel->rowCount() == 0) {
-            QMessageBox::information(this, "提示", "该供应商暂无物料。");
-        }
-    } else {
-        // 如果没有选择供应商，清除过滤
-        materialProxyModel->setFilterFixedString("");
-    }
-}
-
+// 供应商搜索槽函数
 void MainWindow::on_supplierSearchLineEdit_textChanged(const QString &text)
 {
     QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
     supplierProxyModel->setFilterRegularExpression(regExp);
 }
 
+// 物料搜索槽函数
+void MainWindow::on_materialSearchLineEdit_textChanged(const QString &text)
+{
+    QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+    materialProxyModel->setFilterRegularExpression(regExp);
+}
+
+// 不良品搜索槽函数
+void MainWindow::on_defectiveSearchLineEdit_textChanged(const QString &text)
+{
+    QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+    defectiveProxyModel->setFilterRegularExpression(regExp);
+}
+
+// BOM搜索槽函数
+void MainWindow::on_bomSearchLineEdit_textChanged(const QString &text)
+{
+    QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+    bomProxyModel->setFilterRegularExpression(regExp);
+}
+
+// 物料表选择变化槽函数
 void MainWindow::onMaterialTableViewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(deselected); // 避免未使用参数的警告
 
     QModelIndexList selectedRows = ui->materialTableView->selectionModel()->selectedRows();
     if (!selectedRows.isEmpty()) {
+        // 只显示第一个选中物料的照片
         int row = selectedRows.first().row();
         QSqlRecord record = materialModel->record(materialProxyModel->mapToSource(materialProxyModel->index(row, 0)).row());
         int id = record.value("id").toInt();
@@ -979,8 +1095,95 @@ void MainWindow::onMaterialTableViewSelectionChanged(const QItemSelection &selec
     }
 }
 
+// 供应商选择变化槽函数
+void MainWindow::onSupplierSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    Q_UNUSED(deselected); // 避免未使用参数的警告
+
+    QModelIndexList selectedRows = ui->supplierTableView->selectionModel()->selectedRows();
+    if (!selectedRows.isEmpty()) {
+        // 只处理第一个选中的供应商
+        int row = selectedRows.first().row();
+        QString supplierId = supplierProxyModel->data(supplierProxyModel->index(row, supplierModel->fieldIndex("supplier_id"))).toString();
+
+        // 获取 'supplier_id' 列的索引
+        int supplierIdColumn = materialModel->fieldIndex("supplier_id");
+        if (supplierIdColumn != -1) {
+            materialProxyModel->setFilterKeyColumn(supplierIdColumn);
+            materialProxyModel->setFilterFixedString(supplierId);
+        }
+
+        // 设置模型到 supplierMaterialTableView
+        ui->supplierMaterialTableView->setModel(materialProxyModel);
+        ui->supplierMaterialTableView->setItemDelegate(new AlignmentDelegate(this));
+        ui->supplierMaterialTableView->setFont(QFont("Microsoft YaHei", 10));
+        ui->supplierMaterialTableView->verticalHeader()->setDefaultSectionSize(24);
+        ui->supplierMaterialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        ui->supplierMaterialTableView->horizontalHeader()->setStretchLastSection(true);
+        ui->supplierMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        ui->supplierMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        ui->supplierMaterialTableView->setSortingEnabled(true);
+
+        // 检查是否有物料
+        if (materialProxyModel->rowCount() == 0) {
+            QMessageBox::information(this, "提示", "该供应商暂无物料。");
+        }
+    } else {
+        // 如果没有选择供应商，清除过滤
+        materialProxyModel->setFilterFixedString("");
+        materialProxyModel->setFilterKeyColumn(-1); // 显示所有列
+        ui->supplierMaterialTableView->setModel(nullptr);
+    }
+}
+
+// BOM选择变化槽函数
+void MainWindow::onBOMSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    Q_UNUSED(deselected); // 避免未使用参数的警告
+
+    QModelIndexList selectedRows = ui->bomTableView->selectionModel()->selectedRows();
+    if (!selectedRows.isEmpty()) {
+        int row = selectedRows.first().row();
+        int bomId = bomModel->record(row).value("id").toInt();
+
+        // 设置一个新的模型来显示 BOM 中的所有物料
+        QSqlQueryModel *bomMaterialModel = new QSqlQueryModel(this);
+        QString queryStr = QString("SELECT m.material_number, m.description, bm.quantity, m.unit_price, (bm.quantity * m.unit_price) AS total_price "
+                                   "FROM BOM_Material bm "
+                                   "JOIN Material m ON bm.material_id = m.id "
+                                   "WHERE bm.bom_id = %1").arg(bomId);
+        bomMaterialModel->setQuery(queryStr);
+        if (bomMaterialModel->lastError().isValid()) {
+            QMessageBox::critical(this, "错误", "无法加载 BOM 物料：" + bomMaterialModel->lastError().text());
+            return;
+        }
+
+        // 设置表头
+        bomMaterialModel->setHeaderData(0, Qt::Horizontal, "物料号");
+        bomMaterialModel->setHeaderData(1, Qt::Horizontal, "描述");
+        bomMaterialModel->setHeaderData(2, Qt::Horizontal, "数量");
+        bomMaterialModel->setHeaderData(3, Qt::Horizontal, "单价");
+        bomMaterialModel->setHeaderData(4, Qt::Horizontal, "总价");
+
+        // 设置模型到 bomMaterialTableView
+        ui->bomMaterialTableView->setModel(bomMaterialModel);
+        ui->bomMaterialTableView->setItemDelegate(new AlignmentDelegate(this));
+        ui->bomMaterialTableView->setFont(QFont("Microsoft YaHei", 10));
+        ui->bomMaterialTableView->verticalHeader()->setDefaultSectionSize(24);
+        ui->bomMaterialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        ui->bomMaterialTableView->horizontalHeader()->setStretchLastSection(true);
+        ui->bomMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        ui->bomMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        ui->bomMaterialTableView->setSortingEnabled(true);
+    } else {
+        ui->bomMaterialTableView->setModel(nullptr);
+    }
+}
+
+// 订单状态变化槽函数
 void MainWindow::on_orderStatusChanged(int orderId, const QString &newStatus)
 {
+    // 现有实现保持不变
     QSqlQuery query;
     query.prepare("SELECT status FROM `Order` WHERE id = :id"); // 确认表名为 Order
     query.bindValue(":id", orderId);
@@ -1022,9 +1225,10 @@ void MainWindow::on_orderStatusChanged(int orderId, const QString &newStatus)
     }
 }
 
+// 处理物料库存的辅助函数
 void MainWindow::processMaterialInventory(int orderId, const QString &operation)
 {
-    // 扣减或增加物料库存
+    // 现有实现保持不变
     QSqlQuery productQuery;
     productQuery.prepare("SELECT product_id, quantity FROM Order_Product WHERE order_id = :order_id");
     productQuery.bindValue(":order_id", orderId);
@@ -1071,9 +1275,10 @@ void MainWindow::processMaterialInventory(int orderId, const QString &operation)
     }
 }
 
+// 处理成品库存的辅助函数
 void MainWindow::processProductInventory(int orderId, const QString &operation)
 {
-    // 扣减或增加成品库存
+    // 现有实现保持不变
     QSqlQuery productQuery;
     productQuery.prepare("SELECT product_id, quantity FROM Order_Product WHERE order_id = :order_id");
     productQuery.bindValue(":order_id", orderId);
@@ -1109,27 +1314,166 @@ void MainWindow::processProductInventory(int orderId, const QString &operation)
     }
 }
 
-// 搜索槽函数的实现
-void MainWindow::on_materialSearchLineEdit_textChanged(const QString &text)
-{
-    QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
-    materialProxyModel->setFilterRegularExpression(regExp);
-}
-
-void MainWindow::on_defectiveSearchLineEdit_textChanged(const QString &text)
-{
-    QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
-    defectiveProxyModel->setFilterRegularExpression(regExp);
-}
-
-void MainWindow::on_bomSearchLineEdit_textChanged(const QString &text)
-{
-    QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
-    bomProxyModel->setFilterRegularExpression(regExp);
-}
-
-// void MainWindow::on_supplierSearchLineEdit_textChanged(const QString &text)
+// 供应商搜索槽函数
+//void MainWindow::on_supplierSearchLineEdit_textChanged(const QString &text)
 // {
 //     QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
 //     supplierProxyModel->setFilterRegularExpression(regExp);
 // }
+
+// 物料搜索槽函数
+// void MainWindow::on_materialSearchLineEdit_textChanged(const QString &text)
+// {
+//     QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+//     materialProxyModel->setFilterRegularExpression(regExp);
+// }
+
+// // 不良品搜索槽函数
+// void MainWindow::on_defectiveSearchLineEdit_textChanged(const QString &text)
+// {
+//     QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+//     defectiveProxyModel->setFilterRegularExpression(regExp);
+// }
+
+// // BOM搜索槽函数
+// void MainWindow::on_bomSearchLineEdit_textChanged(const QString &text)
+// {
+//     QRegularExpression regExp(text, QRegularExpression::CaseInsensitiveOption);
+//     bomProxyModel->setFilterRegularExpression(regExp);
+// }
+
+// // 物料表选择变化槽函数
+// void MainWindow::onMaterialTableViewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+// {
+//     Q_UNUSED(deselected); // 避免未使用参数的警告
+
+//     QModelIndexList selectedRows = ui->materialTableView->selectionModel()->selectedRows();
+//     if (!selectedRows.isEmpty()) {
+//         // 只显示第一个选中物料的照片
+//         int row = selectedRows.first().row();
+//         QSqlRecord record = materialModel->record(materialProxyModel->mapToSource(materialProxyModel->index(row, 0)).row());
+//         int id = record.value("id").toInt();
+
+//         // 加载实物照片进行预览
+//         QSqlQuery query;
+//         query.prepare("SELECT photo FROM Material WHERE id = :id");
+//         query.bindValue(":id", id);
+//         if (query.exec() && query.next()) {
+//             QByteArray data = query.value(0).toByteArray();
+//             if (!data.isEmpty()) {
+//                 displayDataInPreview(data);
+//             } else {
+//                 ui->previewLabel->clear();
+//                 ui->previewLabel->setText("无预览图像");
+//             }
+//         }
+//     } else {
+//         ui->previewLabel->clear();
+//         ui->previewLabel->setText("无预览图像");
+//     }
+// }
+
+// 供应商选择变化槽函数
+//void MainWindow::onSupplierSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+// {
+//     Q_UNUSED(deselected); // 避免未使用参数的警告
+
+//     QModelIndexList selectedRows = ui->supplierTableView->selectionModel()->selectedRows();
+//     if (!selectedRows.isEmpty()) {
+//         // 只处理第一个选中的供应商
+//         int row = selectedRows.first().row();
+//         QString supplierId = supplierProxyModel->data(supplierProxyModel->index(row, supplierModel->fieldIndex("supplier_id"))).toString();
+
+//         // 使用代理模型设置过滤条件
+//         materialProxyModel->setFilter(QString("supplier_id = '%1'").arg(supplierId));
+
+//         // 设置模型到 supplierMaterialTableView
+//         ui->supplierMaterialTableView->setModel(materialProxyModel);
+//         ui->supplierMaterialTableView->setItemDelegate(new AlignmentDelegate(this));
+//         ui->supplierMaterialTableView->setFont(QFont("Microsoft YaHei", 10));
+//         ui->supplierMaterialTableView->verticalHeader()->setDefaultSectionSize(24);
+//         ui->supplierMaterialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+//         ui->supplierMaterialTableView->horizontalHeader()->setStretchLastSection(true);
+//         ui->supplierMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+//         ui->supplierMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+//         ui->supplierMaterialTableView->setSortingEnabled(true);
+
+//         // 检查是否有物料
+//         if (materialProxyModel->rowCount() == 0) {
+//             QMessageBox::information(this, "提示", "该供应商暂无物料。");
+//         }
+//     } else {
+//         // 如果没有选择供应商，清除过滤
+//         materialProxyModel->setFilter("");
+//         ui->supplierMaterialTableView->setModel(nullptr);
+//     }
+// }
+
+// BOM选择变化槽函数
+//void MainWindow::onBOMSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+// {
+//     Q_UNUSED(deselected); // 避免未使用参数的警告
+
+//     QModelIndexList selectedRows = ui->bomTableView->selectionModel()->selectedRows();
+//     if (!selectedRows.isEmpty()) {
+//         int row = selectedRows.first().row();
+//         int bomId = bomModel->record(row).value("id").toInt();
+
+//         // 设置一个新的模型来显示 BOM 中的所有物料
+//         QSqlQueryModel *bomMaterialModel = new QSqlQueryModel(this);
+//         QString queryStr = QString("SELECT m.material_number, m.description, bm.quantity, m.unit_price, (bm.quantity * m.unit_price) AS total_price "
+//                                    "FROM BOM_Material bm "
+//                                    "JOIN Material m ON bm.material_id = m.id "
+//                                    "WHERE bm.bom_id = %1").arg(bomId);
+//         bomMaterialModel->setQuery(queryStr);
+//         if (bomMaterialModel->lastError().isValid()) {
+//             QMessageBox::critical(this, "错误", "无法加载 BOM 物料：" + bomMaterialModel->lastError().text());
+//             delete bomMaterialModel;
+//             return;
+//         }
+
+//         // 设置表头
+//         bomMaterialModel->setHeaderData(0, Qt::Horizontal, "物料号");
+//         bomMaterialModel->setHeaderData(1, Qt::Horizontal, "描述");
+//         bomMaterialModel->setHeaderData(2, Qt::Horizontal, "数量");
+//         bomMaterialModel->setHeaderData(3, Qt::Horizontal, "单价");
+//         bomMaterialModel->setHeaderData(4, Qt::Horizontal, "总价");
+
+//         // 设置模型到 bomMaterialTableView
+//         ui->bomMaterialTableView->setModel(bomMaterialModel);
+//         ui->bomMaterialTableView->setItemDelegate(new AlignmentDelegate(this));
+//         ui->bomMaterialTableView->setFont(QFont("Microsoft YaHei", 10));
+//         ui->bomMaterialTableView->verticalHeader()->setDefaultSectionSize(24);
+//         ui->bomMaterialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+//         ui->bomMaterialTableView->horizontalHeader()->setStretchLastSection(true);
+//         ui->bomMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+//         ui->bomMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+//         ui->bomMaterialTableView->setSortingEnabled(true);
+//     } else {
+//         ui->bomMaterialTableView->setModel(nullptr);
+//     }
+// }
+
+// 用户操作相关槽函数的实现保持不变...
+
+// 撤销和重做相关槽函数
+// void MainWindow::on_undoButton_clicked()
+// {
+//     if (undoStack->canUndo()) {
+//         undoStack->undo();
+//     }
+// }
+
+// void MainWindow::on_redoButton_clicked()
+// {
+//     if (undoStack->canRedo()) {
+//         undoStack->redo();
+//     }
+// }
+
+// 供应商管理操作槽函数的实现保持不变...
+
+// 搜索槽函数的实现保持不变...
+
+// 其他辅助函数的实现保持不变...
+

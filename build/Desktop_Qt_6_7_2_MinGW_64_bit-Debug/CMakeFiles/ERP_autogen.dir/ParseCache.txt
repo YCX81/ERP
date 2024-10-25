@@ -840,6 +840,8 @@ C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtCore/qversiontagging.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtCore/qxptype_traits.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtCore/qyieldcpu.h
+ mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoCommand
+ mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoStack
  mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/qaction.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/qbitmap.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/qbrush.h
@@ -863,12 +865,15 @@ C:/Users/ycx/Documents/QTProjects/ERP/mainwindow.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/qtguiexports.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/qtguiglobal.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/qtransform.h
+ mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/qundostack.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtGui/qwindowdefs_win.h
+ mdp:C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord
  mdp:C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel
  mdp:C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlTableModel
  mdp:C:/Qt/6.7.2/mingw_64/include/QtSql/qsqldatabase.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquerymodel.h
+ mdp:C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h
  mdp:C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h

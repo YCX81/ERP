@@ -6,79 +6,157 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>ERP系统</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayoutMain">
+   <layout class="QHBoxLayout" name="horizontalLayoutMain">
     <item>
-     <layout class="QHBoxLayout" name="switchLayout">
-      <item>
-       <widget class="QPushButton" name="materialButton">
-        <property name="text">
-         <string>物料管理</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="defectiveButton">
-        <property name="text">
-         <string>不良品库存管理</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="bomButton">
-        <property name="text">
-         <string>BOM表管理</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="orderButton">
-        <property name="text">
-         <string>订单管理</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="supplierButton">
-        <property name="text">
-         <string>供应商管理</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QFrame" name="sidebarFrame">
+      <property name="frameShape">
+       <enum>QFrame::Shape::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayoutSidebar">
+       <item>
+        <widget class="QLabel" name="currentUserLabel">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>当前用户：</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="loginButton">
+         <property name="text">
+          <string>登录</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="registerButton">
+         <property name="text">
+          <string>注册</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="logoutButton">
+         <property name="visible">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>注销</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="switchUserButton">
+         <property name="visible">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>切换用户</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="line">
+         <property name="frameShape">
+          <enum>QFrame::Shape::HLine</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Sunken</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="materialButton">
+         <property name="text">
+          <string>物料管理</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="defectiveButton">
+         <property name="text">
+          <string>不良品管理</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="bomButton">
+         <property name="text">
+          <string>BOM管理</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="orderButton">
+         <property name="text">
+          <string>订单管理</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="supplierButton">
+         <property name="text">
+          <string>供应商管理</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="materialPage">
        <layout class="QVBoxLayout" name="verticalLayoutMaterial">
         <item>
-         <widget class="QLabel" name="currentUserLabel">
-          <property name="text">
-           <string>当前用户：</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="materialSearchLayout">
           <item>
-           <widget class="QLabel" name="materialSearchLabel">
-            <property name="text">
-             <string>搜索：</string>
+           <widget class="QLineEdit" name="materialSearchLineEdit">
+            <property name="placeholderText">
+             <string>搜索物料...</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="materialSearchLineEdit"/>
+           <widget class="QPushButton" name="exportButton">
+            <property name="text">
+             <string>导出Excel</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -86,7 +164,7 @@
          <widget class="QTableView" name="materialTableView"/>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="buttonLayout">
+         <layout class="QHBoxLayout" name="materialButtonLayout">
           <item>
            <widget class="QPushButton" name="addButton">
             <property name="text">
@@ -109,23 +187,19 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="undoButton">
             <property name="text">
-             <string>PushButton</string>
+             <string>撤销</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="redoButton">
             <property name="text">
-             <string>PushButton</string>
+             <string>重做</string>
             </property>
            </widget>
           </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="previewButtonLayout">
           <item>
            <widget class="QPushButton" name="viewDrawingButton">
             <property name="text">
@@ -140,95 +214,49 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="exportButton">
-            <property name="text">
-             <string>导出Excel</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="loginPreviewLayout">
-          <item>
-           <layout class="QVBoxLayout" name="loginLayout">
-            <item>
-             <widget class="QPushButton" name="registerButton">
-              <property name="text">
-               <string>注册</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="loginButton">
-              <property name="text">
-               <string>登录</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="logoutButton">
-              <property name="text">
-               <string>注销</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="switchUserButton">
-              <property name="text">
-               <string>切换用户</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QLabel" name="previewLabel">
-            <property name="minimumSize">
-             <size>
-              <width>200</width>
-              <height>200</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::Shape::Box</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Shadow::Sunken</enum>
-            </property>
-            <property name="text">
-             <string>预览区</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QLabel" name="previewLabel">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>200</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Shape::Box</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Shadow::Sunken</enum>
+          </property>
+          <property name="text">
+           <string>预览图像</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
       <widget class="QWidget" name="defectivePage">
        <layout class="QVBoxLayout" name="verticalLayoutDefective">
         <item>
-         <widget class="QLabel" name="defectiveLabel">
-          <property name="text">
-           <string>不良品库存管理</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="defectiveSearchLayout">
           <item>
-           <widget class="QLabel" name="defectiveSearchLabel">
-            <property name="text">
-             <string>搜索：</string>
+           <widget class="QLineEdit" name="defectiveSearchLineEdit">
+            <property name="placeholderText">
+             <string>搜索不良品...</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="defectiveSearchLineEdit"/>
+           <widget class="QPushButton" name="exportDefectiveButton">
+            <property name="text">
+             <string>导出Excel</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -265,23 +293,20 @@
       <widget class="QWidget" name="bomPage">
        <layout class="QVBoxLayout" name="verticalLayoutBOM">
         <item>
-         <widget class="QLabel" name="bomLabel">
-          <property name="text">
-           <string>BOM表管理</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="bomSearchLayout">
           <item>
-           <widget class="QLabel" name="bomSearchLabel">
-            <property name="text">
-             <string>搜索：</string>
+           <widget class="QLineEdit" name="bomSearchLineEdit">
+            <property name="placeholderText">
+             <string>搜索 BOM...</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="bomSearchLineEdit"/>
+           <widget class="QPushButton" name="exportBOMButton">
+            <property name="text">
+             <string>导出Excel</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -289,25 +314,28 @@
          <widget class="QTableView" name="bomTableView"/>
         </item>
         <item>
+         <widget class="QTableView" name="bomMaterialTableView"/>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="bomButtonLayout">
           <item>
            <widget class="QPushButton" name="addBOMButton">
             <property name="text">
-             <string>添加BOM</string>
+             <string>添加 BOM</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="editBOMButton">
             <property name="text">
-             <string>编辑BOM</string>
+             <string>编辑 BOM</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="deleteBOMButton">
             <property name="text">
-             <string>删除BOM</string>
+             <string>删除 BOM</string>
             </property>
            </widget>
           </item>
@@ -318,18 +346,25 @@
       <widget class="QWidget" name="orderPage">
        <layout class="QVBoxLayout" name="verticalLayoutOrder">
         <item>
-         <widget class="QLabel" name="orderLabel">
-          <property name="text">
-           <string>订单管理</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="orderSearchLayout">
+          <item>
+           <widget class="QLineEdit" name="orderSearchLineEdit">
+            <property name="placeholderText">
+             <string>搜索订单...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="exportOrderButton">
+            <property name="text">
+             <string>导出Excel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QTabWidget" name="orderTabWidget">
-          <property name="currentIndex">
-           <number>-1</number>
-          </property>
-         </widget>
+         <widget class="QTabWidget" name="orderTabWidget"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="orderButtonLayout">
@@ -354,13 +389,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="undoButton">
-            <property name="text">
-             <string>撤销</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
        </layout>
@@ -368,24 +396,31 @@
       <widget class="QWidget" name="supplierPage">
        <layout class="QVBoxLayout" name="verticalLayoutSupplier">
         <item>
-         <layout class="QHBoxLayout" name="searchLayout">
+         <layout class="QHBoxLayout" name="supplierSearchLayout">
           <item>
-           <widget class="QLabel" name="searchLabel">
-            <property name="text">
-             <string>搜索：</string>
+           <widget class="QLineEdit" name="supplierSearchLineEdit">
+            <property name="placeholderText">
+             <string>搜索供应商...</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="supplierSearchLineEdit"/>
+           <widget class="QPushButton" name="exportSupplierButton">
+            <property name="text">
+             <string>导出Excel</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
         <item>
-         <widget class="QTableView" name="supplierTableView"/>
-        </item>
-        <item>
-         <widget class="QTableView" name="supplierMaterialTableView"/>
+         <widget class="QSplitter" name="supplierSplitter">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <widget class="QTableView" name="supplierTableView"/>
+          <widget class="QTableView" name="supplierMaterialTableView"/>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="supplierButtonLayout">
@@ -418,12 +453,26 @@
     </item>
    </layout>
   </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>工具栏</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionUndo"/>
+   <addaction name="actionRedo"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1200</width>
      <height>18</height>
     </rect>
    </property>
@@ -438,7 +487,6 @@
    </widget>
    <addaction name="menuUser"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionLogin">
    <property name="text">
     <string>登录</string>
@@ -457,6 +505,22 @@
   <action name="actionSwitchUser">
    <property name="text">
     <string>切换用户</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="text">
+    <string>撤销</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>重做</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
    </property>
   </action>
  </widget>

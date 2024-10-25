@@ -381,6 +381,11 @@ CMakeFiles/ERP.dir/main.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoStack \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qundostack.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoCommand \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRecord \
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrecord.h \
  C:\Users\ycx\Documents\QTProjects\ERP\main.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
@@ -406,6 +411,4 @@ CMakeFiles/ERP.dir/main.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlQuery \
- C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
- C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoStack \
- C:/Qt/6.7.2/mingw_64/include/QtGui/qundostack.h
+ C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h

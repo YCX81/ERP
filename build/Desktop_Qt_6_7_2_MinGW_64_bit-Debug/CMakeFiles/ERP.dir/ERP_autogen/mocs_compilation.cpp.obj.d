@@ -393,6 +393,9 @@ CMakeFiles/ERP.dir/ERP_autogen/mocs_compilation.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlRelationalTableModel \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlrelationaltablemodel.h \
  C:/Qt/6.7.2/mingw_64/include/QtSql/qsqltablemodel.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoStack \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qundostack.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QUndoCommand \
  C:\Users\ycx\Documents\QTProjects\ERP\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\ERP_autogen\EWIEGA46WW/moc_materialdialog.cpp \
  C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \

@@ -7,12 +7,53 @@
 #include <QMap>
 #include <QItemSelection>
 #include <QSqlRelationalTableModel>
+#include <QUndoStack>
+#include <QUndoCommand>
+#include <QSqlRecord>
 
 namespace Ui {
 class MainWindow;
 }
 
 class QTableView;
+
+// 命令类用于撤销和重做操作
+class AddMaterialCommand : public QUndoCommand
+{
+public:
+    AddMaterialCommand(QSqlTableModel *model, const QSqlRecord &record, QUndoCommand *parent = nullptr);
+    void undo() override;
+    void redo() override;
+private:
+    QSqlTableModel *model;
+    QSqlRecord record;
+    int row;
+};
+
+class EditMaterialCommand : public QUndoCommand
+{
+public:
+    EditMaterialCommand(QSqlTableModel *model, int row, const QSqlRecord &oldRecord, const QSqlRecord &newRecord, QUndoCommand *parent = nullptr);
+    void undo() override;
+    void redo() override;
+private:
+    QSqlTableModel *model;
+    int row;
+    QSqlRecord oldRecord;
+    QSqlRecord newRecord;
+};
+
+class DeleteMaterialCommand : public QUndoCommand
+{
+public:
+    DeleteMaterialCommand(QSqlTableModel *model, int row, const QSqlRecord &record, QUndoCommand *parent = nullptr);
+    void undo() override;
+    void redo() override;
+private:
+    QSqlTableModel *model;
+    int row;
+    QSqlRecord record;
+};
 
 class MainWindow : public QMainWindow
 {
@@ -59,6 +100,7 @@ private slots:
     void on_editOrderButton_clicked();
     void on_deleteOrderButton_clicked();
     void on_undoButton_clicked();
+    void on_redoButton_clicked(); // 新增槽函数
     void on_orderStatusChanged(int orderId, const QString &newStatus);
 
     // 供应商管理操作
@@ -75,6 +117,7 @@ private slots:
     // 其他辅助函数
     void onMaterialTableViewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void onSupplierSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void onBOMSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
 private:
     Ui::MainWindow *ui;
@@ -96,10 +139,15 @@ private:
     QMap<QString, QSortFilterProxyModel*> orderProxyModels; // 新增，用于订单的搜索和过滤
     QMap<QString, QTableView*> orderTableViews;
 
+    // 撤销和重做堆栈
+    QUndoStack *undoStack;
+
     // 更新登录状态
     void updateLoginStatus();
+
     // 显示预览数据
     void displayDataInPreview(const QByteArray &data);
+
     // 库存处理函数
     void processMaterialInventory(int orderId, const QString &operation);
     void processProductInventory(int orderId, const QString &operation);
