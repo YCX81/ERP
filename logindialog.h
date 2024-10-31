@@ -1,4 +1,5 @@
-// logindialog.h
+// LoginDialog.h
+
 #ifndef LOGINDIALOG_H
 #define LOGINDIALOG_H
 
@@ -17,13 +18,16 @@ public:
     ~LoginDialog();
 
     QString getUsername() const;
-    QString hashPassword(const QString &password) const;
+    QString getUserRole() const; // 新增
 
 private slots:
     void on_loginButton_clicked();
 
 private:
     Ui::LoginDialog *ui;
+    QString hashPassword(const QString &password) const;
+
+    QString userRole; // 新增
 };
 
 #endif // LOGINDIALOG_H

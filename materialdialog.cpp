@@ -12,14 +12,28 @@
 #include <QVariant>
 #include <QDebug>
 #include <QDateTime>
+#include <QStandardPaths>
+#include <QDir>
+#include <QUuid>
+
+// 定义图纸和照片的上传目录
+const QString DRAWING_DIR = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/drawings/";
+const QString PHOTO_DIR = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/photos/";
+
 
 MaterialDialog::MaterialDialog(const QString &currentUser, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MaterialDialog),
     currentMaintainer(currentUser),
-    defectiveQuantityEditingEnabled(false)
+    defectiveQuantityEditingEnabled(false),
+    drawingPath(""),
+    photoPath("")
 {
     ui->setupUi(this);
+
+    // 确保上传目录存在
+    QDir().mkpath(DRAWING_DIR);
+    QDir().mkpath(PHOTO_DIR);
 
     // 注册 CategoryInfo 类型
     qRegisterMetaType<CategoryInfo>("CategoryInfo");
@@ -194,21 +208,22 @@ void MaterialDialog::setMaterialData(const QSqlRecord &record)
         // 设置不良品数量
         ui->defectiveQuantitySpinBox->setValue(record.value("defective_quantity").toInt());
 
-        // 设置文件数据
-        drawingData = record.value("drawing").toByteArray();
-        photoData = record.value("photo").toByteArray();
+        // 设置文件路径
+        drawingPath = record.value("drawing").toString();
+        photoPath = record.value("photo").toString();
 
         // 更新界面状态以显示文件上传情况（可选）
-        if (!drawingData.isEmpty()) {
-            ui->drawingStatusLabel->setText("图纸已加载");
+        if (!drawingPath.isEmpty()) {
+            ui->drawingStatusLabel->setText("图纸已上传");
         } else {
             ui->drawingStatusLabel->setText("无图纸");
         }
-        if (!photoData.isEmpty()) {
-            ui->photoStatusLabel->setText("照片已加载");
+        if (!photoPath.isEmpty()) {
+            ui->photoStatusLabel->setText("照片已上传");
         } else {
             ui->photoStatusLabel->setText("无照片");
         }
+
 
         // 设置物料维护人
         QString maintainerInDb = record.value("material_maintainer").toString();
@@ -290,9 +305,9 @@ QSqlRecord MaterialDialog::getMaterialData() const
     record.setValue("material_maintainer", ui->maintainerLineEdit->text());
     record.setValue("update_date", ui->updateDateTimeEdit->dateTime());
 
-    // 设置文件数据
-    record.setValue("drawing", drawingData);
-    record.setValue("photo", photoData);
+    // 设置文件路径
+    record.setValue("drawing", drawingPath);
+    record.setValue("photo", photoPath);
 
     return record;
 }
@@ -397,65 +412,87 @@ void MaterialDialog::on_generateMaterialNumberButton_clicked()
     QMessageBox::information(this, "生成成功", "物料号已成功生成：" + materialNumber);
 }
 
+QString uniqueFileName(const QFileInfo &fileInfo) {
+    QString uuid = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    return QString("%1_%2").arg(uuid, fileInfo.fileName());
+}
+
 void MaterialDialog::on_uploadDrawingButton_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "选择图纸", "", "PDF 文件 (*.pdf);;图片文件 (*.png *.jpg *.jpeg)");
     if (!filePath.isEmpty()) {
-        QFile file(filePath);
-        if (file.open(QIODevice::ReadOnly)) {
-            drawingData = file.readAll();
+        QFileInfo fileInfo(filePath);
+        QString uniqueName = uniqueFileName(fileInfo);
+        QString destPath = DRAWING_DIR + uniqueName;
+
+        if (QFile::copy(filePath, destPath)) {
+            drawingPath = destPath;
             ui->drawingStatusLabel->setText("图纸已上传");
             QMessageBox::information(this, "上传成功", "图纸已成功上传。");
         } else {
-            QMessageBox::critical(this, "上传失败", "无法打开所选文件。");
+            QMessageBox::critical(this, "上传失败", "无法复制图纸到上传目录。");
         }
     }
 }
 
+
+
 void MaterialDialog::on_downloadDrawingButton_clicked()
 {
-    QString filePath = QFileDialog::getSaveFileName(this, "下载图纸", "", "PDF 文件 (*.pdf);;图片文件 (*.png *.jpg *.jpeg)");
+    if (drawingPath.isEmpty()) {
+        QMessageBox::information(this, "提示", "没有上传的图纸可供下载。");
+        return;
+    }
+
+    QString defaultFileName = QFileInfo(drawingPath).fileName();
+    QString filePath = QFileDialog::getSaveFileName(this, "下载图纸", defaultFileName, "PDF 文件 (*.pdf);;图片文件 (*.png *.jpg *.jpeg)");
     if (!filePath.isEmpty()) {
-        QFile file(filePath);
-        if (file.open(QIODevice::WriteOnly)) {
-            file.write(drawingData);
-            file.close();
+        if (QFile::copy(drawingPath, filePath)) {
             QMessageBox::information(this, "下载成功", "图纸已成功下载。");
         } else {
-            QMessageBox::critical(this, "下载失败", "无法保存文件。");
+            QMessageBox::critical(this, "下载失败", "无法复制图纸到指定位置。");
         }
     }
 }
+
 
 void MaterialDialog::on_uploadPhotoButton_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "选择实物照片", "", "图片文件 (*.png *.jpg *.jpeg)");
     if (!filePath.isEmpty()) {
-        QFile file(filePath);
-        if (file.open(QIODevice::ReadOnly)) {
-            photoData = file.readAll();
+        QFileInfo fileInfo(filePath);
+        QString uniqueName = uniqueFileName(fileInfo);
+        QString destPath = PHOTO_DIR + uniqueName;
+
+        if (QFile::copy(filePath, destPath)) {
+            photoPath = destPath;
             ui->photoStatusLabel->setText("照片已上传");
             QMessageBox::information(this, "上传成功", "实物照片已成功上传。");
         } else {
-            QMessageBox::critical(this, "上传失败", "无法打开所选文件。");
+            QMessageBox::critical(this, "上传失败", "无法复制实物照片到上传目录。");
         }
     }
 }
 
+
 void MaterialDialog::on_downloadPhotoButton_clicked()
 {
-    QString filePath = QFileDialog::getSaveFileName(this, "下载实物照片", "", "图片文件 (*.png *.jpg *.jpeg)");
+    if (photoPath.isEmpty()) {
+        QMessageBox::information(this, "提示", "没有上传的实物照片可供下载。");
+        return;
+    }
+
+    QString defaultFileName = QFileInfo(photoPath).fileName();
+    QString filePath = QFileDialog::getSaveFileName(this, "下载实物照片", defaultFileName, "图片文件 (*.png *.jpg *.jpeg)");
     if (!filePath.isEmpty()) {
-        QFile file(filePath);
-        if (file.open(QIODevice::WriteOnly)) {
-            file.write(photoData);
-            file.close();
+        if (QFile::copy(photoPath, filePath)) {
             QMessageBox::information(this, "下载成功", "实物照片已成功下载。");
         } else {
-            QMessageBox::critical(this, "下载失败", "无法保存文件。");
+            QMessageBox::critical(this, "下载失败", "无法复制实物照片到指定位置。");
         }
     }
 }
+
 
 void MaterialDialog::on_saveButton_clicked()
 {

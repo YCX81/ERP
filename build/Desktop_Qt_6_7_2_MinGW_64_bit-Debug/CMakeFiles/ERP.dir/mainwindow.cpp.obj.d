@@ -585,4 +585,8 @@ CMakeFiles/ERP.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QPointF \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qpoint.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QUrl \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QDesktopServices \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qdesktopservices.h \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/QPixmap \
+ C:/Qt/6.7.2/mingw_64/include/QtGui/qpixmap.h

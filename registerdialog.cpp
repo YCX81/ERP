@@ -1,3 +1,5 @@
+// RegisterDialog.cpp
+
 #include "RegisterDialog.h"
 #include "ui_RegisterDialog.h"
 #include <QSqlQuery>
@@ -46,9 +48,9 @@ void RegisterDialog::on_registerButton_clicked()
         return;
     }
 
-    // 插入新用户
+    // 插入新用户，默认角色为 'user'
     QSqlQuery query;
-    query.prepare("INSERT INTO Users (username, password_hash) VALUES (:username, :password_hash)");
+    query.prepare("INSERT INTO Users (username, password_hash, role) VALUES (:username, :password_hash, 'user')");
     query.bindValue(":username", username);
     query.bindValue(":password_hash", hashPassword(password));
 

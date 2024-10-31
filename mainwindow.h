@@ -17,6 +17,12 @@ class MainWindow;
 
 class QTableView;
 
+// 添加用户角色枚举
+enum class UserRole {
+    Admin,
+    User
+};
+
 // 命令类用于撤销和重做操作
 class AddMaterialCommand : public QUndoCommand
 {
@@ -122,6 +128,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QString currentUser;
+    UserRole currentUserRole; // 用户角色
 
     // 模型
     QSqlTableModel *materialModel;
@@ -134,6 +141,7 @@ private:
     QSortFilterProxyModel *defectiveProxyModel;
     QSortFilterProxyModel *bomProxyModel;
     QSortFilterProxyModel *supplierProxyModel;
+    QSortFilterProxyModel *supplierMaterialProxyModel;
 
     QMap<QString, QSqlTableModel*> orderModels;
     QMap<QString, QSortFilterProxyModel*> orderProxyModels; // 新增，用于订单的搜索和过滤
@@ -145,8 +153,11 @@ private:
     // 更新登录状态
     void updateLoginStatus();
 
+    void adjustPermissions(); // 新增
+    void initializeSupplierMaterialView(); // 新增
+
     // 显示预览数据
-    void displayDataInPreview(const QByteArray &data);
+    void displayDataInPreview(const QString &filePath);
 
     // 库存处理函数
     void processMaterialInventory(int orderId, const QString &operation);

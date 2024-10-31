@@ -488,4 +488,10 @@ CMakeFiles/ERP.dir/materialdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
  C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
  C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime \
- C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QDir \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/qdir.h \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/QUuid \
+ C:/Qt/6.7.2/mingw_64/include/QtCore/quuid.h

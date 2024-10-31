@@ -1,4 +1,4 @@
-// 文件路径: src/LoginDialog.cpp
+// LoginDialog.cpp
 
 #include "LoginDialog.h"
 #include "ui_LoginDialog.h"
@@ -8,7 +8,8 @@
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::LoginDialog)
+    ui(new Ui::LoginDialog),
+    userRole("user") // 默认角色为 'user'
 {
     ui->setupUi(this);
 }
@@ -23,6 +24,11 @@ QString LoginDialog::getUsername() const
     return ui->usernameLineEdit->text();
 }
 
+QString LoginDialog::getUserRole() const
+{
+    return userRole;
+}
+
 void LoginDialog::on_loginButton_clicked()
 {
     QString username = ui->usernameLineEdit->text();
@@ -34,12 +40,14 @@ void LoginDialog::on_loginButton_clicked()
     }
 
     QSqlQuery query;
-    query.prepare("SELECT password_hash FROM Users WHERE username = :username");
+    query.prepare("SELECT password_hash, role FROM Users WHERE username = :username");
     query.bindValue(":username", username);
     query.exec();
 
     if (query.next()) {
         QString storedHash = query.value(0).toString();
+        userRole = query.value(1).toString(); // 获取用户角色
+
         if (storedHash == hashPassword(password)) {
             accept();
         } else {
@@ -52,6 +60,6 @@ void LoginDialog::on_loginButton_clicked()
 
 QString LoginDialog::hashPassword(const QString &password) const
 {
-    // 使用某种散列算法（如 SHA-256）生成密码哈希值
+    // 使用 SHA-256 生成密码哈希值
     return QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
 }

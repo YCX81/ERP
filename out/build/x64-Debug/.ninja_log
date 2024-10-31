@@ -1,0 +1,7 @@
+# ninja log v5
+552	1165	7519557959455183	3rdparty/QXlsx/QXlsx_autogen/timestamp	13741e8555598daf
+7	558	0	C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/cmake.verify_globs	c349689ff32b7fa6
+552	1165	7519557959455183	C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/QXlsx_autogen/timestamp	13741e8555598daf
+552	1165	7519557959455183	3rdparty/QXlsx/QXlsx_autogen/mocs_compilation.cpp	13741e8555598daf
+590	1998	7519568094373492	build.ninja	abc48ae8cbd6508a
+552	1165	7519557959455183	C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/QXlsx_autogen/mocs_compilation.cpp	13741e8555598daf

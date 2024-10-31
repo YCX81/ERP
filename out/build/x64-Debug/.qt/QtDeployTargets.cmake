@@ -1,0 +1,5 @@
+set(__QT_DEPLOY_TARGET_QXlsx_FILE C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/QXlsxQt6.lib)
+set(__QT_DEPLOY_TARGET_QXlsx_TYPE STATIC_LIBRARY)
+set(__QT_DEPLOY_TARGET_ERP_FILE C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/ERP.exe)
+set(__QT_DEPLOY_TARGET_ERP_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_ERP_RUNTIME_DLLS C:/Qt/6.7.2/mingw_64/bin/Qt6Widgets.dll;C:/Qt/6.7.2/mingw_64/bin/Qt6Sql.dll;C:/Qt/6.7.2/mingw_64/bin/Qt6Pdf.dll;C:/Qt/6.7.2/mingw_64/bin/Qt6Gui.dll;C:/Qt/6.7.2/mingw_64/bin/Qt6Core.dll)

@@ -1,0 +1,11 @@
+[settings]
+arch=x86_64
+os=Windows
+compiler=gcc
+compiler.version=11
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+build_type=Debug
+[conf]
+tools.cmake.cmaketoolchain:generator=MinGW Makefiles
+tools.build:compiler_executables={"c":"C:/Qt/Tools/mingw1120_64/bin/gcc.exe","cpp":"C:/Qt/Tools/mingw1120_64/bin/g++.exe"}

@@ -1,0 +1,16 @@
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/ERP.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/list_install_components.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/install.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/install/local.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/ERP_autogen_timestamp_deps.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/ERP_autogen.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/CMakeFiles/QXlsx.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/CMakeFiles/edit_cache.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/CMakeFiles/rebuild_cache.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/CMakeFiles/list_install_components.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/CMakeFiles/install.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/CMakeFiles/install/local.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/CMakeFiles/QXlsx_autogen_timestamp_deps.dir
+C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/CMakeFiles/QXlsx_autogen.dir

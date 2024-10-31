@@ -5,6 +5,8 @@ cmake_policy(SET CMP0009 NEW)
 # _directory_contents at C:/Qt/6.7.2/mingw_64/lib/cmake/Qt6LinguistTools/Qt6LinguistToolsMacros.cmake:55 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/ycx/Documents/QTProjects/ERP/*.c")
 set(OLD_GLOB
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/conan-dependencies/build/CMakeFiles/3.29.3/CompilerIdC/CMakeCCompilerId.c"
+  "C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/ShowIncludes/main.c"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -90,6 +92,7 @@ set(OLD_GLOB
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_selectmaterialdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/EWIEGA46WW/moc_supplierdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ERP_autogen/mocs_compilation.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/conan-dependencies/build/CMakeFiles/3.29.3/CompilerIdCXX/CMakeCXXCompilerId.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/moc_logindialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/moc_mainwindow.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/moc_materialdialog.cpp"
@@ -114,6 +117,9 @@ set(OLD_GLOB
   "C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/materialdialogbackend.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/QXlsx_autogen/6OFTS6FJJP/moc_xlsxdocument.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/3rdparty/QXlsx/QXlsx_autogen/mocs_compilation.cpp"
+  "C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/3.29.5-msvc4/CompilerIdCXX/CMakeCXXCompilerId.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/selectmaterialdialog.cpp"
   "C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.cpp"
@@ -216,6 +222,7 @@ set(OLD_GLOB
   "C:/Users/ycx/Documents/QTProjects/ERP/materialdialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/materialdialogbackend.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/orderdialog.h"
+  "C:/Users/ycx/Documents/QTProjects/ERP/out/build/x64-Debug/CMakeFiles/ShowIncludes/foo.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/registerdialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/selectmaterialdialog.h"
   "C:/Users/ycx/Documents/QTProjects/ERP/supplierdialog.h"

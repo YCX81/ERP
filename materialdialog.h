@@ -47,8 +47,8 @@ private:
     Ui::MaterialDialog *ui;
     QString currentMaintainer;
     bool defectiveQuantityEditingEnabled;
-    QByteArray drawingData;
-    QByteArray photoData;
+    QString drawingPath;
+    QString photoPath;
 
     bool validateInput();
 };
