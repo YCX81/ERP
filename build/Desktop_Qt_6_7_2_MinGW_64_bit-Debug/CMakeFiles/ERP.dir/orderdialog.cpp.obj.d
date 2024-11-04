@@ -426,8 +426,6 @@ CMakeFiles/ERP.dir/orderdialog.cpp.obj: \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSpinBox \
- C:/Qt/6.7.2/mingw_64/include/QtWidgets/qspinbox.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableWidget \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtablewidget.h \
  C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtableview.h \

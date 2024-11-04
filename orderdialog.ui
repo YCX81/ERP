@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>500</height> <!-- 增加高度以容纳新字段 -->
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTableWidget" name="productTableWidget">
+     <property name="minimumHeight">
+      <number>250</number>
+     </property>
      <column>
       <property name="text">
        <string>成品型号</string>
@@ -42,38 +45,6 @@
       </property>
      </column>
     </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="productIdLayout">
-     <item>
-      <widget class="QLabel" name="productIdLabel">
-       <property name="text">
-        <string>型号：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="productIdLineEdit"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="quantityLayout">
-     <item>
-      <widget class="QLabel" name="quantityLabel">
-       <property name="text">
-        <string>数量：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="quantitySpinBox">
-       <property name="maximum">
-        <number>1000000</number>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="productButtonLayout">
@@ -136,6 +107,34 @@
     </layout>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="deliveryDateLayout">
+     <item>
+      <widget class="QLabel" name="deliveryDateLabel">
+       <property name="text">
+        <string>货期：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="deliveryDateLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="orderManagerLayout">
+     <item>
+      <widget class="QLabel" name="orderManagerLabel">
+       <property name="text">
+        <string>订单负责人：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="orderManagerLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="maintainerLayout">
      <item>
       <widget class="QLabel" name="maintainerLabel">
@@ -163,7 +162,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="remarksTextEdit"/>
+      <widget class="QTextEdit" name="remarksTextEdit">
+       <property name="maximumHeight">
+        <number>50</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

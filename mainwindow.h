@@ -135,6 +135,7 @@ private:
     QSqlTableModel *defectiveModel;
     QSqlTableModel *bomModel;
     QSqlTableModel *supplierModel;
+    QSqlQueryModel *currentBOMMaterialModel;
 
     // 代理模型，用于搜索和过滤
     QSortFilterProxyModel *materialProxyModel;

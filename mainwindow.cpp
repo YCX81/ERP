@@ -145,6 +145,7 @@ MainWindow::MainWindow(QWidget *parent)
     , supplierMaterialProxyModel(new QSortFilterProxyModel(this))
     , undoStack(new QUndoStack(this))
     , currentUserRole(UserRole::User)
+    , currentBOMMaterialModel(new QSqlQueryModel(this))
 {
     ui->setupUi(this);
 
@@ -183,6 +184,7 @@ MainWindow::MainWindow(QWidget *parent)
     supplierModel->setHeaderData(supplierModel->fieldIndex("secondary_contact_phone"), Qt::Horizontal, "第二联系人电话");
     supplierModel->setHeaderData(supplierModel->fieldIndex("address"), Qt::Horizontal, "地址");
     supplierModel->setHeaderData(supplierModel->fieldIndex("supplier_manager"), Qt::Horizontal, "供应商负责人");
+    supplierModel->setHeaderData(supplierModel->fieldIndex("created_at"), Qt::Horizontal, "创建时间");
 
     // 初始化代理模型用于供应商搜索过滤
     supplierProxyModel->setSourceModel(supplierModel);
@@ -199,6 +201,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->supplierTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->supplierTableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
     ui->supplierTableView->setSortingEnabled(true);
+    ui->supplierTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->supplierTableView->setColumnHidden(supplierModel->fieldIndex("id"), true); // 隐藏不需要的列
     ui->supplierTableView->setColumnHidden(supplierModel->fieldIndex("supplier_id"), true); // 隐藏 supplier_id 列
 
@@ -239,10 +242,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->materialTableView->setFont(tableFont);
     ui->materialTableView->verticalHeader()->setDefaultSectionSize(24);
     ui->materialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); // 自动调整列宽
-    ui->materialTableView->horizontalHeader()->setStretchLastSection(true);
+    //ui->materialTableView->horizontalHeader()->setStretchLastSection(true);
     ui->materialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->materialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
     ui->materialTableView->setSortingEnabled(true);
+    ui->materialTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->materialTableView->setColumnHidden(materialModel->fieldIndex("id"), true); // 隐藏不需要的列
     ui->materialTableView->setColumnHidden(materialModel->fieldIndex("drawing"), true);
     ui->materialTableView->setColumnHidden(materialModel->fieldIndex("photo"), true);
@@ -251,8 +255,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->materialTableView->setColumnHidden(materialModel->fieldIndex("supplier_id"), true);   // 隐藏 supplier_id 列
 
     // 调整列宽，避免过宽或过窄
-    ui->materialTableView->horizontalHeader()->setDefaultSectionSize(100); // 设置默认列宽
-    ui->materialTableView->horizontalHeader()->setMinimumSectionSize(50);  // 设置最小列宽
+    //ui->materialTableView->horizontalHeader()->setDefaultSectionSize(100); // 设置默认列宽
+    ui->materialTableView->horizontalHeader()->setMinimumSectionSize(20);  // 设置最小列宽
 
     // 初始化不良品模型
     defectiveModel->setTable("Material");
@@ -282,6 +286,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->defectiveTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->defectiveTableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
     ui->defectiveTableView->setSortingEnabled(true);
+    ui->defectiveTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("id"), true); // 隐藏不需要的列
     ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("drawing"), true);
     ui->defectiveTableView->setColumnHidden(defectiveModel->fieldIndex("photo"), true);
@@ -314,6 +319,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->bomTableView->verticalHeader()->setDefaultSectionSize(24);
     ui->bomTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); // 自动调整列宽
     ui->bomTableView->horizontalHeader()->setStretchLastSection(true);
+    ui->bomTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->bomTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->bomTableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
     ui->bomTableView->setSortingEnabled(true);
@@ -363,6 +369,7 @@ MainWindow::MainWindow(QWidget *parent)
         tableView->setSelectionMode(QAbstractItemView::ExtendedSelection); // 允许多行选择
         tableView->setSortingEnabled(true);
         tableView->setColumnHidden(orderModel->fieldIndex("id"), true); // 隐藏不需要的列
+        tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
         orderTableViews[status] = tableView;
 
@@ -388,6 +395,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->supplierMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->supplierMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->supplierMaterialTableView->setSortingEnabled(true);
+    ui->supplierMaterialTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->supplierMaterialTableView->setColumnHidden(materialModel->fieldIndex("id"), true); // 隐藏不需要的列
     ui->supplierMaterialTableView->setColumnHidden(materialModel->fieldIndex("drawing"), true);
     ui->supplierMaterialTableView->setColumnHidden(materialModel->fieldIndex("photo"), true);
@@ -405,6 +413,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->bomMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->bomMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->bomMaterialTableView->setSortingEnabled(true);
+    ui->bomMaterialTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     // 连接搜索框信号到槽
     connect(ui->supplierSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::on_supplierSearchLineEdit_textChanged);
@@ -1224,28 +1233,28 @@ void MainWindow::onBOMSelectionChanged(const QItemSelection &selected, const QIt
         int row = selectedRows.first().row();
         int bomId = bomModel->record(row).value("id").toInt();
 
-        // 设置一个新的模型来显示 BOM 中的所有物料
-        QSqlQueryModel *bomMaterialModel = new QSqlQueryModel(this);
-        QString queryStr = QString("SELECT m.material_number, m.description, bm.quantity, m.unit_price, (bm.quantity * m.unit_price) AS total_price ,m.remarks"
+        // 使用现有的 BOM 物料模型
+        QString queryStr = QString("SELECT m.material_number, m.description, bm.quantity, m.unit_price, (bm.quantity * m.unit_price) AS total_price, m.remarks "
                                    "FROM BOM_Material bm "
                                    "JOIN Material m ON bm.material_id = m.id "
                                    "WHERE bm.bom_id = %1").arg(bomId);
-        bomMaterialModel->setQuery(queryStr);
-        if (bomMaterialModel->lastError().isValid()) {
-            QMessageBox::critical(this, "错误", "无法加载 BOM 物料：" + bomMaterialModel->lastError().text());
+        currentBOMMaterialModel->setQuery(queryStr);
+        if (currentBOMMaterialModel->lastError().isValid()) {
+            QMessageBox::critical(this, "错误", "无法加载 BOM 物料：" + currentBOMMaterialModel->lastError().text());
             return;
         }
 
         // 设置表头
-        bomMaterialModel->setHeaderData(0, Qt::Horizontal, "物料号");
-        bomMaterialModel->setHeaderData(1, Qt::Horizontal, "描述");
-        bomMaterialModel->setHeaderData(2, Qt::Horizontal, "数量");
-        bomMaterialModel->setHeaderData(3, Qt::Horizontal, "单价");
-        bomMaterialModel->setHeaderData(4, Qt::Horizontal, "BOM价格");
-        bomMaterialModel->setHeaderData(5, Qt::Horizontal, "备注");
+        currentBOMMaterialModel->setHeaderData(0, Qt::Horizontal, "物料号");
+        currentBOMMaterialModel->setHeaderData(1, Qt::Horizontal, "描述");
+        currentBOMMaterialModel->setHeaderData(2, Qt::Horizontal, "数量");
+        currentBOMMaterialModel->setHeaderData(3, Qt::Horizontal, "单价");
+        currentBOMMaterialModel->setHeaderData(4, Qt::Horizontal, "BOM价格");
+        currentBOMMaterialModel->setHeaderData(5, Qt::Horizontal, "备注");
 
         // 设置模型到 bomMaterialTableView
-        ui->bomMaterialTableView->setModel(bomMaterialModel);
+        ui->bomMaterialTableView->setModel(currentBOMMaterialModel);
+        // 设置委托和视图属性
         ui->bomMaterialTableView->setItemDelegate(new AlignmentDelegate(this));
         ui->bomMaterialTableView->setFont(QFont("Microsoft YaHei", 10));
         ui->bomMaterialTableView->verticalHeader()->setDefaultSectionSize(24);
@@ -1258,6 +1267,7 @@ void MainWindow::onBOMSelectionChanged(const QItemSelection &selected, const QIt
         ui->bomMaterialTableView->setModel(nullptr);
     }
 }
+
 
 // 订单状态变化槽函数
 void MainWindow::on_orderStatusChanged(int orderId, const QString &newStatus)

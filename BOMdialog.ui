@@ -40,7 +40,7 @@
      <item>
       <widget class="QTextEdit" name="bomDescriptionTextEdit">
        <property name="minimumHeight">
-        <number>60</number>
+        <number>50</number>
        </property>
       </widget>
      </item>
@@ -58,7 +58,7 @@
      <item>
       <widget class="QTextEdit" name="bomRemarksTextEdit">
        <property name="minimumHeight">
-        <number>60</number>
+        <number>50</number>
        </property>
       </widget>
      </item>
@@ -74,6 +74,9 @@
      </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+     </property>
+     <property name="minimumHeight">
+      <number>300</number>
      </property>
     </widget>
    </item>

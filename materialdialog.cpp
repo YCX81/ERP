@@ -504,6 +504,7 @@ void MaterialDialog::on_saveButton_clicked()
     // 获取用户输入的数据
     QSqlRecord record = getMaterialData();
     QString materialNumber = record.value("material_number").toString();
+    QString mkNumber = ui->mkNumberComboBox->currentText();
 
     // 检查数据库中是否存在相同的物料号
     QSqlQuery checkQuery;

@@ -5,7 +5,7 @@
 #include <QSqlError>
 #include <QInputDialog>
 #include <QDebug>
-#include <QUuid> // 用于生成唯一的 order_number
+#include <QUuid>
 #include <QSqlField>
 
 OrderDialog::OrderDialog(const QString &currentUser, QWidget *parent) :
