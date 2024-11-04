@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BOMDialog</class>
+ <widget class="QDialog" name="BOMDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>BOM 管理</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="bomNameLayout">
+     <item>
+      <widget class="QLabel" name="bomNameLabel">
+       <property name="text">
+        <string>BOM 名称：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="bomNameLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="bomDescriptionLayout">
+     <item>
+      <widget class="QLabel" name="bomDescriptionLabel">
+       <property name="text">
+        <string>描述：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="bomDescriptionTextEdit">
+       <property name="minimumHeight">
+        <number>50</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="bomRemarksLayout">
+     <item>
+      <widget class="QLabel" name="bomRemarksLabel">
+       <property name="text">
+        <string>备注：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="bomRemarksTextEdit">
+       <property name="minimumHeight">
+        <number>50</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableView" name="materialTableView">
+     <property name="editTriggers">
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+     </property>
+     <property name="minimumHeight">
+      <number>300</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="materialButtonLayout">
+     <item>
+      <widget class="QPushButton" name="addMaterialButton">
+       <property name="text">
+        <string>添加物料</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="removeMaterialButton">
+       <property name="text">
+        <string>删除物料</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="totalCostLayout">
+     <item>
+      <widget class="QLabel" name="totalCostLabel">
+       <property name="text">
+        <string>总成本 (元)：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="totalCostValueLabel">
+       <property name="text">
+        <string>0.00</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <widget class="QPushButton" name="saveButton">
+       <property name="text">
+        <string>保存</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>取消</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

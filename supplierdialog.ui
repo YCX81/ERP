@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SupplierDialog</class>
+ <widget class="QDialog" name="SupplierDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>500</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>供应商管理</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="supplierIdLayout">
+     <item>
+      <widget class="QLabel" name="supplierIdLabel">
+       <property name="text">
+        <string>供应商编号：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="supplierIdLineEdit">
+       <property name="maxLength">
+        <number>3</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="supplierNameLayout">
+     <item>
+      <widget class="QLabel" name="supplierNameLabel">
+       <property name="text">
+        <string>供应商名称：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="supplierNameLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="businessNatureLayout">
+     <item>
+      <widget class="QLabel" name="businessNatureLabel">
+       <property name="text">
+        <string>经营性质：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="businessNatureComboBox">
+       <item>
+        <property name="text">
+         <string>实体</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>淘宝</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>电商</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="primaryContactLayout">
+     <item>
+      <widget class="QLabel" name="primaryContactLabel">
+       <property name="text">
+        <string>第一联系人：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="primaryContactLineEdit"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="primaryContactPhoneLabel">
+       <property name="text">
+        <string>电话：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="primaryContactPhoneLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="secondaryContactLayout">
+     <item>
+      <widget class="QLabel" name="secondaryContactLabel">
+       <property name="text">
+        <string>第二联系人：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="secondaryContactLineEdit"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="secondaryContactPhoneLabel">
+       <property name="text">
+        <string>电话：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="secondaryContactPhoneLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="addressLayout">
+     <item>
+      <widget class="QLabel" name="addressLabel">
+       <property name="text">
+        <string>地址：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="addressLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="supplierManagerLayout">
+     <item>
+      <widget class="QLabel" name="supplierManagerLabel">
+       <property name="text">
+        <string>供应商负责人：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="supplierManagerComboBox"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <widget class="QPushButton" name="saveButton">
+       <property name="text">
+        <string>保存</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>取消</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
