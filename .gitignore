@@ -72,3 +72,14 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+# 忽略 IDE 和构建系统的临时文件夹
+.idea/
+.vs/
+build/
+out/
+
+# Qt 特有的缓存文件
+*.pro.user*
+*.pro.user.*
+*.pro.*
+*.pro.user
