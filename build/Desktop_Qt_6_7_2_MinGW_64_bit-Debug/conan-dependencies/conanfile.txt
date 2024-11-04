@@ -1,6 +1,0 @@
-[requires]
-spdlog/1.11.0
-qt/6.7.2
-
-[generators]
-cmake
