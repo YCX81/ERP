@@ -1,7 +1,10 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
-# Ignore Visual Studio files
+
 .vs/
+*.db
+*.ipch
+
 
 *~
 *.autosave
@@ -63,8 +66,8 @@ CMakeLists.txt.user*
 *vcxproj.*
 
 # MinGW generated files
-.Debug
-.Release
+*.Debug
+*.Release
 
 # Python byte code
 *.pyc
@@ -81,7 +84,7 @@ build/
 out/
 
 # Qt 特有的缓存文件
-.pro.user*
-.pro.user.*
-.pro.*
-.pro.user
+*.pro.user*
+*.pro.user.*
+*.pro.*
+*.pro.user
