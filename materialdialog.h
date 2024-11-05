@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QVariant>
 #include <QSqlRecord>
+#include <QFileInfo> // 添加此行以支持 QFileInfo
 
 struct CategoryInfo {
     int category_code;
@@ -49,8 +50,17 @@ private:
     bool defectiveQuantityEditingEnabled;
     QString drawingPath;
     QString photoPath;
+    QString originalMKNumber;
+
+    // 新增成员变量用于标识编辑模式
+    bool isEditMode;
+
+    // 新增方法用于生成唯一文件名
+    QString uniqueFileName(const QFileInfo &fileInfo) const;
 
     bool validateInput();
+
+    void setFieldsReadOnly(bool readOnly);
 };
 
 #endif // MATERIALDIALOG_H

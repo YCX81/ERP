@@ -20,14 +20,15 @@
 const QString DRAWING_DIR = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/drawings/";
 const QString PHOTO_DIR = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/photos/";
 
-
 MaterialDialog::MaterialDialog(const QString &currentUser, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MaterialDialog),
     currentMaintainer(currentUser),
     defectiveQuantityEditingEnabled(false),
     drawingPath(""),
-    photoPath("")
+    photoPath(""),
+    originalMKNumber(""),
+    isEditMode(false) // 默认为添加模式
 {
     ui->setupUi(this);
 
@@ -72,6 +73,13 @@ MaterialDialog::MaterialDialog(const QString &currentUser, QWidget *parent) :
     // 设置初始更新日期为当前日期和时间（精确到小时分钟）
     ui->updateDateTimeEdit->setDateTime(QDateTime::currentDateTime());
     ui->updateDateTimeEdit->setReadOnly(true);  // 设置为只读
+
+    // 初始化 MK 号下拉框（假设有一个 MK 号下拉框）
+    ui->mkNumberComboBox->clear();
+    // 例如添加 MK1, MK2, MK3
+    ui->mkNumberComboBox->addItem("MK1");
+    ui->mkNumberComboBox->addItem("MK2");
+    ui->mkNumberComboBox->addItem("MK3");
 }
 
 MaterialDialog::~MaterialDialog()
@@ -224,7 +232,6 @@ void MaterialDialog::setMaterialData(const QSqlRecord &record)
             ui->photoStatusLabel->setText("无照片");
         }
 
-
         // 设置物料维护人
         QString maintainerInDb = record.value("material_maintainer").toString();
         if (!maintainerInDb.isEmpty()) {
@@ -237,6 +244,13 @@ void MaterialDialog::setMaterialData(const QSqlRecord &record)
 
         // 设置物料号
         ui->materialNumberLineEdit->setText(record.value("material_number").toString());
+
+        // 存储原始 MK 号以供后续比较
+        originalMKNumber = record.value("serial_number").toString(); // 假设 MK 号存储在 serial_number 字段
+
+        // 设置字段为只读（除了 MK 号）
+        setFieldsReadOnly(true);
+        isEditMode = true;
     }
 }
 
@@ -245,25 +259,25 @@ QSqlRecord MaterialDialog::getMaterialData() const
     QSqlRecord record;
 
     // 定义字段，使用与数据库一致的英文字段名
-    record.append(QSqlField("category_code",QVariant::Int));
-    record.append(QSqlField("category_name", QVariant::String));
-    record.append(QSqlField("material_number", QVariant::String));
-    record.append(QSqlField("description", QVariant::String));
-    record.append(QSqlField("unit_price", QVariant::Double));
-    record.append(QSqlField("self_made_or_purchase", QVariant::String));
-    record.append(QSqlField("version", QVariant::Int)); // 从 "version_number" 更改为 "version"
-    record.append(QSqlField("serial_number", QVariant::String));
-    record.append(QSqlField("location_number", QVariant::String));
-    record.append(QSqlField("good_quantity", QVariant::Int));
-    record.append(QSqlField("defective_quantity", QVariant::Int));
-    record.append(QSqlField("supplier_id", QVariant::String)); // 从 "supplier" 更改为 "supplier_id"
-    record.append(QSqlField("supplier_material_number", QVariant::String));
-    record.append(QSqlField("delivery_period", QVariant::Int));
-    record.append(QSqlField("remarks", QVariant::String));
-    record.append(QSqlField("material_maintainer", QVariant::String));
-    record.append(QSqlField("update_date", QVariant::DateTime));
-    record.append(QSqlField("drawing", QVariant::ByteArray));
-    record.append(QSqlField("photo", QVariant::ByteArray));
+    record.append(QSqlField("category_code", QMetaType(QMetaType::Int)));
+    record.append(QSqlField("category_name", QMetaType(QMetaType::QString)));
+    record.append(QSqlField("material_number", QMetaType(QMetaType::QString)));
+    record.append(QSqlField("description", QMetaType(QMetaType::QString)));
+    record.append(QSqlField("unit_price", QMetaType(QMetaType::Double)));
+    record.append(QSqlField("self_made_or_purchase", QMetaType(QMetaType::QString)));
+    record.append(QSqlField("version", QMetaType(QMetaType::Int))); // 从 "version_number" 更改为 "version"
+    record.append(QSqlField("serial_number", QMetaType(QMetaType::QString)));
+    record.append(QSqlField("location_number", QMetaType(QMetaType::QString)));
+    record.append(QSqlField("good_quantity", QMetaType(QMetaType::Int)));
+    record.append(QSqlField("defective_quantity", QMetaType(QMetaType::Int)));
+    record.append(QSqlField("supplier_id", QMetaType(QMetaType::QString))); // 从 "supplier" 更改为 "supplier_id"
+    record.append(QSqlField("supplier_material_number", QMetaType(QMetaType::QString)));
+    record.append(QSqlField("delivery_period", QMetaType(QMetaType::Int)));
+    record.append(QSqlField("remarks", QMetaType(QMetaType::QString)));
+    record.append(QSqlField("material_maintainer", QMetaType(QMetaType::QString)));
+    record.append(QSqlField("update_date", QMetaType(QMetaType::QDateTime)));
+    record.append(QSqlField("drawing", QMetaType(QMetaType::QByteArray)));
+    record.append(QSqlField("photo", QMetaType(QMetaType::QByteArray)));
 
     QVariant categoryData = ui->categoryComboBox->currentData();
     if (categoryData.isValid()) {
@@ -312,6 +326,107 @@ QSqlRecord MaterialDialog::getMaterialData() const
     return record;
 }
 
+void MaterialDialog::setFieldsReadOnly(bool readOnly)
+{
+    // 设置所有字段为只读，除了 MK 号
+    ui->categoryComboBox->setEnabled(!readOnly);
+    ui->descriptionTextEdit->setReadOnly(readOnly);
+    ui->goodQuantitySpinBox->setReadOnly(readOnly);
+    ui->unitPriceDoubleSpinBox->setReadOnly(readOnly);
+    ui->sourceComboBox->setEnabled(!readOnly);
+    ui->versionSpinBox->setReadOnly(readOnly);
+    ui->serialNumberLineEdit->setReadOnly(false); // MK 号始终可编辑
+    ui->locationLineEdit->setReadOnly(readOnly);
+    ui->supplierComboBox->setEnabled(!readOnly);
+    ui->supplierMaterialNumberLineEdit->setReadOnly(readOnly);
+    ui->deliverySpinBox->setReadOnly(readOnly);
+    ui->noteTextEdit->setReadOnly(readOnly);
+    ui->uploadDrawingButton->setEnabled(!readOnly);
+    ui->downloadDrawingButton->setEnabled(!readOnly);
+    ui->uploadPhotoButton->setEnabled(!readOnly);
+    ui->downloadPhotoButton->setEnabled(!readOnly);
+    ui->generateMaterialNumberButton->setEnabled(!readOnly);
+    ui->materialNumberLineEdit->setReadOnly(readOnly);
+    // QLabel 不需要设置，只需隐藏或显示
+}
+
+QString MaterialDialog::uniqueFileName(const QFileInfo &fileInfo) const {
+    QString uuid = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    return QString("%1_%2").arg(uuid, fileInfo.fileName());
+}
+
+void MaterialDialog::on_uploadDrawingButton_clicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, "选择图纸", "", "PDF 文件 (*.pdf);;图片文件 (*.png *.jpg *.jpeg)");
+    if (!filePath.isEmpty()) {
+        QFileInfo fileInfo(filePath);
+        QString uniqueName = uniqueFileName(fileInfo);
+        QString destPath = DRAWING_DIR + uniqueName;
+
+        if (QFile::copy(filePath, destPath)) {
+            drawingPath = destPath;
+            ui->drawingStatusLabel->setText("图纸已上传");
+            QMessageBox::information(this, "上传成功", "图纸已成功上传。");
+        } else {
+            QMessageBox::critical(this, "上传失败", "无法复制图纸到上传目录。");
+        }
+    }
+}
+
+void MaterialDialog::on_downloadDrawingButton_clicked()
+{
+    if (drawingPath.isEmpty()) {
+        QMessageBox::information(this, "提示", "没有上传的图纸可供下载。");
+        return;
+    }
+
+    QString defaultFileName = QFileInfo(drawingPath).fileName();
+    QString filePath = QFileDialog::getSaveFileName(this, "下载图纸", defaultFileName, "PDF 文件 (*.pdf);;图片文件 (*.png *.jpg *.jpeg)");
+    if (!filePath.isEmpty()) {
+        if (QFile::copy(drawingPath, filePath)) {
+            QMessageBox::information(this, "下载成功", "图纸已成功下载。");
+        } else {
+            QMessageBox::critical(this, "下载失败", "无法复制图纸到指定位置。");
+        }
+    }
+}
+
+void MaterialDialog::on_uploadPhotoButton_clicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, "选择实物照片", "", "图片文件 (*.png *.jpg *.jpeg)");
+    if (!filePath.isEmpty()) {
+        QFileInfo fileInfo(filePath);
+        QString uniqueName = uniqueFileName(fileInfo);
+        QString destPath = PHOTO_DIR + uniqueName;
+
+        if (QFile::copy(filePath, destPath)) {
+            photoPath = destPath;
+            ui->photoStatusLabel->setText("照片已上传");
+            QMessageBox::information(this, "上传成功", "实物照片已成功上传。");
+        } else {
+            QMessageBox::critical(this, "上传失败", "无法复制实物照片到上传目录。");
+        }
+    }
+}
+
+void MaterialDialog::on_downloadPhotoButton_clicked()
+{
+    if (photoPath.isEmpty()) {
+        QMessageBox::information(this, "提示", "没有上传的实物照片可供下载。");
+        return;
+    }
+
+    QString defaultFileName = QFileInfo(photoPath).fileName();
+    QString filePath = QFileDialog::getSaveFileName(this, "下载实物照片", defaultFileName, "图片文件 (*.png *.jpg *.jpeg)");
+    if (!filePath.isEmpty()) {
+        if (QFile::copy(photoPath, filePath)) {
+            QMessageBox::information(this, "下载成功", "实物照片已成功下载。");
+        } else {
+            QMessageBox::critical(this, "下载失败", "无法复制实物照片到指定位置。");
+        }
+    }
+}
+
 void MaterialDialog::on_generateMaterialNumberButton_clicked()
 {
     qDebug() << "Generate Material Number button clicked.";
@@ -356,9 +471,9 @@ void MaterialDialog::on_generateMaterialNumberButton_clicked()
     // 如果供应商不是 P&G，则按照原逻辑生成物料号
 
     // 获取 MK 号
-    QString mkNumber = ui->mkNumberComboBox->currentText(); // 例如 "MK1"
+    QString mkNumber = ui->serialNumberLineEdit->text().trimmed(); // 假设 MK 号存储在 serial_number 字段
     if (mkNumber.isEmpty()) {
-        QMessageBox::warning(this, "警告", "请选择 MK 号。");
+        QMessageBox::warning(this, "警告", "请填写 MK 号。");
         return;
     }
 
@@ -369,7 +484,7 @@ void MaterialDialog::on_generateMaterialNumberButton_clicked()
     // 需要根据实际格式调整 SUBSTRING 的位置和长度
 
     // 构建匹配模式，确保包含当前的 MK 号
-    QString pattern = QString("%1%2___%3%").arg(categoryLetterCode).arg(supplierID).arg(mkNumber);
+    QString pattern = QString("%1%2%3").arg(categoryLetterCode).arg(supplierID).arg(mkNumber) + "%";
     int startPosition = categoryLetterCode.length() + supplierID.length() + 1; // +1 因为 SUBSTRING 的位置从1开始
 
     qDebug() << "Pattern:" << pattern;
@@ -412,88 +527,6 @@ void MaterialDialog::on_generateMaterialNumberButton_clicked()
     QMessageBox::information(this, "生成成功", "物料号已成功生成：" + materialNumber);
 }
 
-QString uniqueFileName(const QFileInfo &fileInfo) {
-    QString uuid = QUuid::createUuid().toString(QUuid::WithoutBraces);
-    return QString("%1_%2").arg(uuid, fileInfo.fileName());
-}
-
-void MaterialDialog::on_uploadDrawingButton_clicked()
-{
-    QString filePath = QFileDialog::getOpenFileName(this, "选择图纸", "", "PDF 文件 (*.pdf);;图片文件 (*.png *.jpg *.jpeg)");
-    if (!filePath.isEmpty()) {
-        QFileInfo fileInfo(filePath);
-        QString uniqueName = uniqueFileName(fileInfo);
-        QString destPath = DRAWING_DIR + uniqueName;
-
-        if (QFile::copy(filePath, destPath)) {
-            drawingPath = destPath;
-            ui->drawingStatusLabel->setText("图纸已上传");
-            QMessageBox::information(this, "上传成功", "图纸已成功上传。");
-        } else {
-            QMessageBox::critical(this, "上传失败", "无法复制图纸到上传目录。");
-        }
-    }
-}
-
-
-
-void MaterialDialog::on_downloadDrawingButton_clicked()
-{
-    if (drawingPath.isEmpty()) {
-        QMessageBox::information(this, "提示", "没有上传的图纸可供下载。");
-        return;
-    }
-
-    QString defaultFileName = QFileInfo(drawingPath).fileName();
-    QString filePath = QFileDialog::getSaveFileName(this, "下载图纸", defaultFileName, "PDF 文件 (*.pdf);;图片文件 (*.png *.jpg *.jpeg)");
-    if (!filePath.isEmpty()) {
-        if (QFile::copy(drawingPath, filePath)) {
-            QMessageBox::information(this, "下载成功", "图纸已成功下载。");
-        } else {
-            QMessageBox::critical(this, "下载失败", "无法复制图纸到指定位置。");
-        }
-    }
-}
-
-
-void MaterialDialog::on_uploadPhotoButton_clicked()
-{
-    QString filePath = QFileDialog::getOpenFileName(this, "选择实物照片", "", "图片文件 (*.png *.jpg *.jpeg)");
-    if (!filePath.isEmpty()) {
-        QFileInfo fileInfo(filePath);
-        QString uniqueName = uniqueFileName(fileInfo);
-        QString destPath = PHOTO_DIR + uniqueName;
-
-        if (QFile::copy(filePath, destPath)) {
-            photoPath = destPath;
-            ui->photoStatusLabel->setText("照片已上传");
-            QMessageBox::information(this, "上传成功", "实物照片已成功上传。");
-        } else {
-            QMessageBox::critical(this, "上传失败", "无法复制实物照片到上传目录。");
-        }
-    }
-}
-
-
-void MaterialDialog::on_downloadPhotoButton_clicked()
-{
-    if (photoPath.isEmpty()) {
-        QMessageBox::information(this, "提示", "没有上传的实物照片可供下载。");
-        return;
-    }
-
-    QString defaultFileName = QFileInfo(photoPath).fileName();
-    QString filePath = QFileDialog::getSaveFileName(this, "下载实物照片", defaultFileName, "图片文件 (*.png *.jpg *.jpeg)");
-    if (!filePath.isEmpty()) {
-        if (QFile::copy(photoPath, filePath)) {
-            QMessageBox::information(this, "下载成功", "实物照片已成功下载。");
-        } else {
-            QMessageBox::critical(this, "下载失败", "无法复制实物照片到指定位置。");
-        }
-    }
-}
-
-
 void MaterialDialog::on_saveButton_clicked()
 {
     // 数据验证
@@ -504,7 +537,7 @@ void MaterialDialog::on_saveButton_clicked()
     // 获取用户输入的数据
     QSqlRecord record = getMaterialData();
     QString materialNumber = record.value("material_number").toString();
-    QString mkNumber = ui->mkNumberComboBox->currentText();
+    QString mkNumber = ui->serialNumberLineEdit->text().trimmed(); // 假设 MK 号存储在 serial_number 字段
 
     // 检查数据库中是否存在相同的物料号
     QSqlQuery checkQuery;
@@ -518,9 +551,108 @@ void MaterialDialog::on_saveButton_clicked()
 
     bool isUpdate = checkQuery.next(); // 如果有结果，说明需要更新
 
-    // 创建一个 SQL 查询对象
+    // 检测 MK 号是否被修改
+    bool mkChanged = (mkNumber != originalMKNumber);
+
+    QSqlDatabase db = QSqlDatabase::database();
+    db.transaction(); // 开始事务
+
     QSqlQuery query;
-    if (!isUpdate) {
+    if (mkChanged) {
+        // MK 号被修改，创建一个新的物料记录
+        // 先检查新的物料编号是否已存在
+        QSqlQuery checkNewMaterialNumber;
+        checkNewMaterialNumber.prepare("SELECT * FROM Material WHERE material_number = :material_number");
+        checkNewMaterialNumber.bindValue(":material_number", materialNumber);
+        if (!checkNewMaterialNumber.exec()) {
+            QMessageBox::critical(this, "错误", "无法检查新的物料号是否存在。\n错误信息: " + checkNewMaterialNumber.lastError().text());
+            db.rollback();
+            return;
+        }
+
+        if (checkNewMaterialNumber.next()) {
+            QMessageBox::warning(this, "警告", "新的物料号已存在。请生成一个唯一的物料号。");
+            db.rollback();
+            return;
+        }
+
+        // 插入新的物料记录
+        query.prepare("INSERT INTO Material (material_number, category_code, category_name, description, unit_price, self_made_or_purchase, version, "
+                      "serial_number, location_number, good_quantity, defective_quantity, supplier_id, supplier_material_number, "
+                      "delivery_period, material_maintainer, update_date, remarks, drawing, photo) "
+                      "VALUES (:material_number, :category_code, :category_name, :description, :unit_price, :self_made_or_purchase, :version, "
+                      ":serial_number, :location_number, :good_quantity, :defective_quantity, :supplier_id, :supplier_material_number, "
+                      ":delivery_period, :material_maintainer, :update_date, :remarks, :drawing, :photo)");
+
+        // 绑定数据
+        query.bindValue(":material_number", record.value("material_number"));
+        query.bindValue(":category_code", record.value("category_code"));
+        query.bindValue(":category_name", record.value("category_name"));
+        query.bindValue(":description", record.value("description"));
+        query.bindValue(":unit_price", record.value("unit_price"));
+        query.bindValue(":self_made_or_purchase", record.value("self_made_or_purchase"));
+        query.bindValue(":version", record.value("version"));
+        query.bindValue(":serial_number", record.value("serial_number"));
+        query.bindValue(":location_number", record.value("location_number"));
+        query.bindValue(":good_quantity", record.value("good_quantity"));
+        query.bindValue(":defective_quantity", record.value("defective_quantity"));
+        query.bindValue(":supplier_id", record.value("supplier_id"));
+        query.bindValue(":supplier_material_number", record.value("supplier_material_number"));
+        query.bindValue(":delivery_period", record.value("delivery_period"));
+        query.bindValue(":material_maintainer", record.value("material_maintainer"));
+        query.bindValue(":update_date", record.value("update_date"));
+        query.bindValue(":remarks", record.value("remarks"));
+        query.bindValue(":drawing", record.value("drawing"));
+        query.bindValue(":photo", record.value("photo"));
+
+        // 执行插入操作
+        if (!query.exec()) {
+            QMessageBox::critical(this, "保存失败", "无法创建新的物料记录。\n错误信息: " + query.lastError().text());
+            db.rollback();
+            return;
+        }
+
+        // 更新所有引用旧物料编号的记录到新的物料编号
+        QString oldMaterialNumber = originalMKNumber; // 假设 material_number 与 MK 号关联
+        QString newMaterialNumber = materialNumber;
+
+        // 示例：更新 BOM 表中的 material_number
+        QSqlQuery updateBOM;
+        updateBOM.prepare("UPDATE BOM_Material SET material_number = :new_material_number WHERE material_number = :old_material_number");
+        updateBOM.bindValue(":new_material_number", newMaterialNumber);
+        updateBOM.bindValue(":old_material_number", oldMaterialNumber);
+        if (!updateBOM.exec()) {
+            QMessageBox::critical(this, "错误", "无法更新 BOM 中的物料编号。\n错误信息: " + updateBOM.lastError().text());
+            db.rollback();
+            return;
+        }
+
+        // 示例：更新 Order_Product 表中的物料编号
+        QSqlQuery updateOrder;
+        updateOrder.prepare("UPDATE Order_Product SET material_number = :new_material_number WHERE material_number = :old_material_number");
+        updateOrder.bindValue(":new_material_number", newMaterialNumber);
+        updateOrder.bindValue(":old_material_number", oldMaterialNumber);
+        if (!updateOrder.exec()) {
+            QMessageBox::critical(this, "错误", "无法更新订单中的物料编号。\n错误信息: " + updateOrder.lastError().text());
+            db.rollback();
+            return;
+        }
+
+        // 如果有其他引用物料编号的表，也需要类似地更新
+        // 例如：
+        // QSqlQuery updateAnotherTable;
+        // updateAnotherTable.prepare("UPDATE AnotherTable SET material_number = :new_material_number WHERE material_number = :old_material_number");
+        // updateAnotherTable.bindValue(":new_material_number", newMaterialNumber);
+        // updateAnotherTable.bindValue(":old_material_number", oldMaterialNumber);
+        // if (!updateAnotherTable.exec()) {
+        //     QMessageBox::critical(this, "错误", "无法更新 AnotherTable 中的物料编号。\n错误信息: " + updateAnotherTable.lastError().text());
+        //     db.rollback();
+        //     return;
+        // }
+
+        db.commit(); // 提交事务
+        QMessageBox::information(this, "保存成功", "物料升级版已成功创建，并且相关引用已更新！");
+    } else if (!isUpdate) {
         // 新增物料
         query.prepare("INSERT INTO Material (material_number, category_code, category_name, description, unit_price, self_made_or_purchase, version, "
                       "serial_number, location_number, good_quantity, defective_quantity, supplier_id, supplier_material_number, "
@@ -528,8 +660,40 @@ void MaterialDialog::on_saveButton_clicked()
                       "VALUES (:material_number, :category_code, :category_name, :description, :unit_price, :self_made_or_purchase, :version, "
                       ":serial_number, :location_number, :good_quantity, :defective_quantity, :supplier_id, :supplier_material_number, "
                       ":delivery_period, :material_maintainer, :update_date, :remarks, :drawing, :photo)");
+
+        // 绑定数据
+        query.bindValue(":material_number", record.value("material_number"));
+        query.bindValue(":category_code", record.value("category_code"));
+        query.bindValue(":category_name", record.value("category_name"));
+        query.bindValue(":description", record.value("description"));
+        query.bindValue(":unit_price", record.value("unit_price"));
+        query.bindValue(":self_made_or_purchase", record.value("self_made_or_purchase"));
+        query.bindValue(":version", record.value("version"));
+        query.bindValue(":serial_number", record.value("serial_number"));
+        query.bindValue(":location_number", record.value("location_number"));
+        query.bindValue(":good_quantity", record.value("good_quantity"));
+        query.bindValue(":defective_quantity", record.value("defective_quantity"));
+        query.bindValue(":supplier_id", record.value("supplier_id"));
+        query.bindValue(":supplier_material_number", record.value("supplier_material_number"));
+        query.bindValue(":delivery_period", record.value("delivery_period"));
+        query.bindValue(":material_maintainer", record.value("material_maintainer"));
+        query.bindValue(":update_date", record.value("update_date"));
+        query.bindValue(":remarks", record.value("remarks"));
+        query.bindValue(":drawing", record.value("drawing"));
+        query.bindValue(":photo", record.value("photo"));
+
+        // 执行插入操作
+        if (!query.exec()) {
+            QMessageBox::critical(this, "保存失败", "无法保存数据到数据库。\n错误信息: " + query.lastError().text());
+            qDebug() << "SQL Error:" << query.lastError().text(); // 添加调试信息
+            db.rollback();
+            return;
+        }
+
+        db.commit(); // 提交事务
+        QMessageBox::information(this, "保存成功", "物料已成功添加！");
     } else {
-        // 更新物料
+        // 更新物料（非 MK 号更改的情况）
         query.prepare("UPDATE Material SET category_code = :category_code, category_name = :category_name, "
                       "description = :description, unit_price = :unit_price, self_made_or_purchase = :self_made_or_purchase, "
                       "version = :version, serial_number = :serial_number, location_number = :location_number, "
@@ -537,37 +701,41 @@ void MaterialDialog::on_saveButton_clicked()
                       "supplier_material_number = :supplier_material_number, delivery_period = :delivery_period, "
                       "material_maintainer = :material_maintainer, update_date = :update_date, remarks = :remarks, "
                       "drawing = :drawing, photo = :photo WHERE material_number = :material_number");
+
+        // 绑定数据
+        query.bindValue(":material_number", record.value("material_number"));
+        query.bindValue(":category_code", record.value("category_code"));
+        query.bindValue(":category_name", record.value("category_name"));
+        query.bindValue(":description", record.value("description"));
+        query.bindValue(":unit_price", record.value("unit_price"));
+        query.bindValue(":self_made_or_purchase", record.value("self_made_or_purchase"));
+        query.bindValue(":version", record.value("version"));
+        query.bindValue(":serial_number", record.value("serial_number"));
+        query.bindValue(":location_number", record.value("location_number"));
+        query.bindValue(":good_quantity", record.value("good_quantity"));
+        query.bindValue(":defective_quantity", record.value("defective_quantity"));
+        query.bindValue(":supplier_id", record.value("supplier_id"));
+        query.bindValue(":supplier_material_number", record.value("supplier_material_number"));
+        query.bindValue(":delivery_period", record.value("delivery_period"));
+        query.bindValue(":material_maintainer", record.value("material_maintainer"));
+        query.bindValue(":update_date", record.value("update_date"));
+        query.bindValue(":remarks", record.value("remarks"));
+        query.bindValue(":drawing", record.value("drawing"));
+        query.bindValue(":photo", record.value("photo"));
+
+        // 执行更新操作
+        if (!query.exec()) {
+            QMessageBox::critical(this, "保存失败", "无法更新物料信息。\n错误信息: " + query.lastError().text());
+            qDebug() << "SQL Error:" << query.lastError().text(); // 添加调试信息
+            db.rollback();
+            return;
+        }
+
+        db.commit(); // 提交事务
+        QMessageBox::information(this, "保存成功", "物料信息已成功更新！");
     }
 
-    // 绑定数据到查询语句
-    query.bindValue(":material_number", record.value("material_number"));
-    query.bindValue(":category_code", record.value("category_code"));
-    query.bindValue(":category_name", record.value("category_name")); // 新增
-    query.bindValue(":description", record.value("description"));
-    query.bindValue(":unit_price", record.value("unit_price"));
-    query.bindValue(":self_made_or_purchase", record.value("self_made_or_purchase"));
-    query.bindValue(":version", record.value("version"));
-    query.bindValue(":serial_number", record.value("serial_number"));
-    query.bindValue(":location_number", record.value("location_number"));
-    query.bindValue(":good_quantity", record.value("good_quantity"));
-    query.bindValue(":defective_quantity", record.value("defective_quantity"));
-    query.bindValue(":supplier_id", record.value("supplier_id"));
-    query.bindValue(":supplier_material_number", record.value("supplier_material_number"));
-    query.bindValue(":delivery_period", record.value("delivery_period"));
-    query.bindValue(":material_maintainer", record.value("material_maintainer"));
-    query.bindValue(":update_date", record.value("update_date"));
-    query.bindValue(":remarks", record.value("remarks"));
-    query.bindValue(":drawing", record.value("drawing"));
-    query.bindValue(":photo", record.value("photo"));
-
-    // 执行查询并检查结果
-    if (!query.exec()) {
-        QMessageBox::critical(this, "保存失败", "无法保存数据到数据库。\n错误信息: " + query.lastError().text());
-        qDebug() << "SQL Error:" << query.lastError().text(); // 添加调试信息
-    } else {
-        QMessageBox::information(this, "保存成功", "物料信息已成功保存！");
-        accept();  // 关闭对话框
-    }
+    accept();  // 关闭对话框
 }
 
 bool MaterialDialog::validateInput()
@@ -575,7 +743,9 @@ bool MaterialDialog::validateInput()
     // 检查必要的输入项是否为空，使用 trimmed() 去除空白字符
     if (ui->categoryComboBox->currentText().trimmed().isEmpty() ||
         ui->descriptionTextEdit->toPlainText().trimmed().isEmpty() ||
-        ui->versionSpinBox->value() == 0) { // 使用 value() 而不是 text()
+        ui->versionSpinBox->value() == 0 || // 使用 value() 而不是 text()
+        ui->serialNumberLineEdit->text().trimmed().isEmpty() || // 确保 MK 号不为空
+        ui->supplierComboBox->currentData().toString().isEmpty()) { // 确保供应商已选择
         QMessageBox::warning(this, "保存失败", "请填写所有必填项。");
         return false;
     }

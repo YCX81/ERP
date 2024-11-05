@@ -267,9 +267,23 @@ MainWindow::MainWindow(QWidget *parent)
     // 设置表头名称（翻译为中文）
     defectiveModel->setHeaderData(defectiveModel->fieldIndex("material_number"), Qt::Horizontal, "物料号");
     defectiveModel->setHeaderData(defectiveModel->fieldIndex("description"), Qt::Horizontal, "描述");
-    defectiveModel->setHeaderData(defectiveModel->fieldIndex("defective_quantity"), Qt::Horizontal, "不良品数量");
-    defectiveModel->setHeaderData(defectiveModel->fieldIndex("maintainer"), Qt::Horizontal, "维护人");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("remarks"), Qt::Horizontal, "备注");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("self_made_or_purchase"), Qt::Horizontal, "自制或采购");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("serial_number"), Qt::Horizontal, "序列号");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("location_number"), Qt::Horizontal, "库位号");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("version"), Qt::Horizontal, "版本号");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("delivery_period"), Qt::Horizontal, "货期（天）");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("created_at"), Qt::Horizontal, "创建日期");
     defectiveModel->setHeaderData(defectiveModel->fieldIndex("updated_at"), Qt::Horizontal, "更新日期");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("unit_price"), Qt::Horizontal, "单价");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("maintainer"), Qt::Horizontal, "维护人");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("good_quantity"), Qt::Horizontal, "良品数量");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("defective_quantity"), Qt::Horizontal, "不良品数量");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("category_name"), Qt::Horizontal, "类别");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("supplier_name"), Qt::Horizontal, "供应商名称");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("supplier_material_number"), Qt::Horizontal, "供应商物料号");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("material_maintainer"), Qt::Horizontal, "物料维护人");
+    defectiveModel->setHeaderData(defectiveModel->fieldIndex("update_date"), Qt::Horizontal, "更新日期");
 
     // 初始化代理模型用于不良品搜索和排序
     defectiveProxyModel->setSourceModel(defectiveModel);
@@ -301,11 +315,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 设置表头名称（翻译为中文）
     bomModel->setHeaderData(bomModel->fieldIndex("bom_number"), Qt::Horizontal, "BOM 编号");
-    bomModel->setHeaderData(bomModel->fieldIndex("bom_name"), Qt::Horizontal, "BOM 名称");
+    bomModel->setHeaderData(bomModel->fieldIndex("name"), Qt::Horizontal, "成品名称");
     bomModel->setHeaderData(bomModel->fieldIndex("description"), Qt::Horizontal, "描述");
     bomModel->setHeaderData(bomModel->fieldIndex("version"), Qt::Horizontal, "版本号");
     bomModel->setHeaderData(bomModel->fieldIndex("maintainer"), Qt::Horizontal, "维护人");
+    bomModel->setHeaderData(bomModel->fieldIndex("created_at"), Qt::Horizontal, "创建日期");
     bomModel->setHeaderData(bomModel->fieldIndex("updated_at"), Qt::Horizontal, "更新日期");
+    bomModel->setHeaderData(bomModel->fieldIndex("remarks"), Qt::Horizontal, "备注");
 
     // 初始化代理模型用于 BOM 搜索和排序
     bomProxyModel->setSourceModel(bomModel);
@@ -338,6 +354,9 @@ MainWindow::MainWindow(QWidget *parent)
         orderModel->setHeaderData(orderModel->fieldIndex("order_number"), Qt::Horizontal, "订单编号");
         orderModel->setHeaderData(orderModel->fieldIndex("customer_name"), Qt::Horizontal, "客户名称");
         orderModel->setHeaderData(orderModel->fieldIndex("status"), Qt::Horizontal, "状态");
+        orderModel->setHeaderData(orderModel->fieldIndex("remarks"), Qt::Horizontal, "备注");
+        orderModel->setHeaderData(orderModel->fieldIndex("created_at"), Qt::Horizontal, "创建日期");
+        orderModel->setHeaderData(orderModel->fieldIndex("updated_at"), Qt::Horizontal, "更新日期");
         orderModel->setHeaderData(orderModel->fieldIndex("order_date"), Qt::Horizontal, "订单日期");
         orderModel->setHeaderData(orderModel->fieldIndex("delivery_date"), Qt::Horizontal, "交付日期");
         orderModel->setHeaderData(orderModel->fieldIndex("order_manager"), Qt::Horizontal, "订单负责人");
@@ -382,7 +401,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 创建一个独立的代理模型
     supplierMaterialProxyModel->setSourceModel(materialModel);
-    supplierMaterialProxyModel->setFilterKeyColumn(-1);
+    supplierMaterialProxyModel->setFilterKeyColumn(0);
     supplierMaterialProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     // 设置供应商物料表格视图
@@ -943,12 +962,13 @@ void MainWindow::on_addOrderButton_clicked()
 
     OrderDialog dialog(currentUser, this);
     if (dialog.exec() == QDialog::Accepted) {
-        // 刷新所有订单模型
-        for (auto model : orderModels) {
-            model->select();
-        }
+        // 刷新当前订单模型
+        int currentIndex = ui->orderTabWidget->currentIndex();
+        QString currentStatus = ui->orderTabWidget->tabText(currentIndex);
+        orderModels[currentStatus]->select();
     }
 }
+
 
 // 编辑订单槽函数
 void MainWindow::on_editOrderButton_clicked()
@@ -962,14 +982,17 @@ void MainWindow::on_editOrderButton_clicked()
     QString currentStatus = ui->orderTabWidget->tabText(currentIndex);
 
     QTableView *currentTableView = orderTableViews[currentStatus];
+    QSortFilterProxyModel *currentProxyModel = orderProxyModels[currentStatus];
     QModelIndexList selectedRows = currentTableView->selectionModel()->selectedRows();
     if (selectedRows.isEmpty()) {
         QMessageBox::warning(this, "警告", "请先选择要编辑的订单。");
         return;
     }
 
-    int row = selectedRows.first().row();
-    QSqlRecord record = orderModels[currentStatus]->record(row);
+    QModelIndex proxyIndex = selectedRows.first();
+    QModelIndex sourceIndex = currentProxyModel->mapToSource(proxyIndex);
+    int sourceRow = sourceIndex.row();
+    QSqlRecord record = orderModels[currentStatus]->record(sourceRow);
 
     OrderDialog dialog(currentUser, this);
     dialog.setOrderData(record);
@@ -980,6 +1003,7 @@ void MainWindow::on_editOrderButton_clicked()
         }
     }
 }
+
 
 // 删除订单槽函数
 void MainWindow::on_deleteOrderButton_clicked()
@@ -993,6 +1017,7 @@ void MainWindow::on_deleteOrderButton_clicked()
     QString currentStatus = ui->orderTabWidget->tabText(currentIndex);
 
     QTableView *currentTableView = orderTableViews[currentStatus];
+    QSortFilterProxyModel *currentProxyModel = orderProxyModels[currentStatus];
     QModelIndexList selectedRows = currentTableView->selectionModel()->selectedRows();
     if (selectedRows.isEmpty()) {
         QMessageBox::warning(this, "警告", "请先选择要删除的订单。");
@@ -1001,19 +1026,30 @@ void MainWindow::on_deleteOrderButton_clicked()
 
     int ret = QMessageBox::question(this, "确认删除", "确定要删除选中的订单吗？", QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes) {
-        foreach (const QModelIndex &index, selectedRows) {
-            int row = index.row();
-            orderModels[currentStatus]->removeRow(row);
+        // 为了避免在循环中修改模型而导致的问题，先收集所有要删除的源行
+        QList<int> sourceRows;
+        foreach (const QModelIndex &proxyIndex, selectedRows) {
+            QModelIndex sourceIndex = currentProxyModel->mapToSource(proxyIndex);
+            sourceRows.append(sourceIndex.row());
+        }
+
+        // 逆序删除以避免行号变化
+        std::sort(sourceRows.begin(), sourceRows.end(), std::greater<int>());
+        foreach (int sourceRow, sourceRows) {
+            orderModels[currentStatus]->removeRow(sourceRow);
             if (!orderModels[currentStatus]->submitAll()) {
                 QMessageBox::critical(this, "错误", "无法删除订单：" + orderModels[currentStatus]->lastError().text());
+                return; // 停止删除操作
             }
         }
+
         // 刷新所有订单模型
         for (auto model : orderModels) {
             model->select();
         }
     }
 }
+
 
 // 撤销槽函数
 void MainWindow::on_undoButton_clicked()
