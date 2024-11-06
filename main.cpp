@@ -60,6 +60,7 @@ bool connectToDatabase() {
     db.setDatabaseName("erp_system");
     db.setUserName("root");
     db.setPassword("108002");
+    db.setConnectOptions("MYSQL_OPT_RECONNECT=1;CHARSET=utf8mb4");
 
     if (!db.open()) {
         QMessageBox::critical(nullptr, "数据库连接失败", db.lastError().text());

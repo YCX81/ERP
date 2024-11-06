@@ -423,16 +423,28 @@ MainWindow::MainWindow(QWidget *parent)
     ui->supplierMaterialTableView->setColumnHidden(materialModel->fieldIndex("supplier_id"), true);   // 隐藏 supplier_id 列
 
     // 初始化 BOM 物料表视图
-    ui->bomMaterialTableView->setModel(nullptr);
+    currentBOMMaterialModel = new QSqlQueryModel(this);
+    ui->bomMaterialTableView->setModel(currentBOMMaterialModel);
     ui->bomMaterialTableView->setItemDelegate(new AlignmentDelegate(this));
-    ui->bomMaterialTableView->setFont(tableFont);
+    ui->bomMaterialTableView->setFont(QFont("Microsoft YaHei", 10));
     ui->bomMaterialTableView->verticalHeader()->setDefaultSectionSize(24);
     ui->bomMaterialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->bomMaterialTableView->horizontalHeader()->setStretchLastSection(true);
     ui->bomMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->bomMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->bomMaterialTableView->setSortingEnabled(true);
-    ui->bomMaterialTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    // 设置表头名称（翻译为中文）
+    currentBOMMaterialModel->setHeaderData(0, Qt::Horizontal, "物料号");
+    currentBOMMaterialModel->setHeaderData(1, Qt::Horizontal, "描述");
+    currentBOMMaterialModel->setHeaderData(2, Qt::Horizontal, "数量");
+    currentBOMMaterialModel->setHeaderData(3, Qt::Horizontal, "单价");
+    currentBOMMaterialModel->setHeaderData(4, Qt::Horizontal, "BOM价格");
+    currentBOMMaterialModel->setHeaderData(5, Qt::Horizontal, "备注");
+
+    // 初始化为空数据
+    currentBOMMaterialModel->setQuery("SELECT 0 WHERE 1=0");
+
 
     // 连接搜索框信号到槽
     connect(ui->supplierSearchLineEdit, &QLineEdit::textChanged, this, &MainWindow::on_supplierSearchLineEdit_textChanged);
@@ -876,9 +888,17 @@ void MainWindow::on_addBOMButton_clicked()
 
     BOMDialog dialog(this);
     if (dialog.exec() == QDialog::Accepted) {
-        bomModel->select();
+        if (!bomModel->submitAll()) {
+            QMessageBox::critical(this, "错误", "无法提交新BOM：" + bomModel->lastError().text());
+        } else {
+            bomModel->select(); // 刷新模型以显示最新数据
+            QMessageBox::information(this, "成功", "BOM已成功添加。");
+        }
+    } else {
+        bomModel->revertAll(); // 撤销未提交的更改
     }
 }
+
 
 // 编辑 BOM 槽函数
 void MainWindow::on_editBOMButton_clicked()
@@ -888,21 +908,39 @@ void MainWindow::on_editBOMButton_clicked()
         return;
     }
 
-    QModelIndexList selectedRows = ui->bomTableView->selectionModel()->selectedRows();
+    QTableView *bomTableView = ui->bomTableView;
+    QSortFilterProxyModel *bomProxy = bomProxyModel; // 假设bomProxyModel是成员变量
+
+    QModelIndexList selectedRows = bomTableView->selectionModel()->selectedRows();
     if (selectedRows.isEmpty()) {
         QMessageBox::warning(this, "警告", "请先选择要编辑的 BOM。");
         return;
     }
 
-    int row = selectedRows.first().row();
-    QSqlRecord record = bomModel->record(row);
+    // 获取第一个选中的代理索引
+    QModelIndex proxyIndex = selectedRows.first();
+    // 映射到源模型索引
+    QModelIndex sourceIndex = bomProxy->mapToSource(proxyIndex);
+    int sourceRow = sourceIndex.row();
 
+    // 获取源模型中的记录
+    QSqlRecord record = bomModel->record(sourceRow);
+
+    // 打开BOM编辑对话框
     BOMDialog dialog(this);
     dialog.setBOMData(record);
     if (dialog.exec() == QDialog::Accepted) {
-        bomModel->select();
+        if (!bomModel->submitAll()) {
+            QMessageBox::critical(this, "错误", "无法提交更改：" + bomModel->lastError().text());
+        } else {
+            bomModel->select(); // 刷新模型以显示最新数据
+            QMessageBox::information(this, "成功", "BOM已成功编辑。");
+        }
+    } else {
+        bomModel->revertAll(); // 撤销未提交的更改
     }
 }
+
 
 // 删除 BOM 槽函数
 void MainWindow::on_deleteBOMButton_clicked()
@@ -912,7 +950,10 @@ void MainWindow::on_deleteBOMButton_clicked()
         return;
     }
 
-    QModelIndexList selectedRows = ui->bomTableView->selectionModel()->selectedRows();
+    QTableView *bomTableView = ui->bomTableView;
+    QSortFilterProxyModel *bomProxy = bomProxyModel; // 假设bomProxyModel是成员变量
+
+    QModelIndexList selectedRows = bomTableView->selectionModel()->selectedRows();
     if (selectedRows.isEmpty()) {
         QMessageBox::warning(this, "警告", "请先选择要删除的 BOM。");
         return;
@@ -920,12 +961,26 @@ void MainWindow::on_deleteBOMButton_clicked()
 
     int ret = QMessageBox::question(this, "确认删除", "确定要删除选中的 BOM 及其物料清单吗？", QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes) {
-        foreach (const QModelIndex &index, selectedRows) {
-            int row = index.row();
-            int bomId = bomModel->record(row).value("id").toInt();
+        // 为了避免在循环中修改模型而导致的问题，先收集所有要删除的源行
+        QList<int> sourceRows;
+        QList<int> bomIds; // 存储所有要删除的 BOM ID
 
-            QSqlDatabase db = QSqlDatabase::database();
-            db.transaction();
+        foreach (const QModelIndex &proxyIndex, selectedRows) {
+            QModelIndex sourceIndex = bomProxy->mapToSource(proxyIndex);
+            sourceRows.append(sourceIndex.row());
+            bomIds.append(bomModel->record(sourceIndex.row()).value("id").toInt());
+        }
+
+        // 逆序删除以避免行号变化
+        std::sort(sourceRows.begin(), sourceRows.end(), std::greater<int>());
+        bool allDeleted = true;
+
+        QSqlDatabase db = QSqlDatabase::database();
+        db.transaction();
+
+        for (int i = 0; i < sourceRows.size(); ++i) {
+            int row = sourceRows.at(i);
+            int bomId = bomIds.at(i);
 
             // 删除相关 BOM_Material 记录
             QSqlQuery deleteBOMMaterials;
@@ -934,7 +989,8 @@ void MainWindow::on_deleteBOMButton_clicked()
             if (!deleteBOMMaterials.exec()) {
                 db.rollback();
                 QMessageBox::critical(this, "错误", "无法删除 BOM 物料清单：" + deleteBOMMaterials.lastError().text());
-                return;
+                allDeleted = false;
+                break; // 停止删除操作
             }
 
             // 删除 BOM
@@ -942,13 +998,17 @@ void MainWindow::on_deleteBOMButton_clicked()
             if (!bomModel->submitAll()) {
                 db.rollback();
                 QMessageBox::critical(this, "错误", "无法删除 BOM：" + bomModel->lastError().text());
-                return;
+                allDeleted = false;
+                break; // 停止删除操作
             }
-
-            db.commit();
-            QMessageBox::information(this, "成功", "BOM及其物料清单已成功删除。");
-            bomModel->select();
         }
+
+        if (allDeleted) {
+            db.commit();
+            QMessageBox::information(this, "成功", "选中的 BOM及其物料清单已成功删除。");
+        }
+
+        bomModel->select(); // 刷新模型以显示最新数据
     }
 }
 
@@ -1266,44 +1326,54 @@ void MainWindow::onBOMSelectionChanged(const QItemSelection &selected, const QIt
 
     QModelIndexList selectedRows = ui->bomTableView->selectionModel()->selectedRows();
     if (!selectedRows.isEmpty()) {
-        int row = selectedRows.first().row();
-        int bomId = bomModel->record(row).value("id").toInt();
+        // 获取第一个选中的代理索引
+        QModelIndex proxyIndex = selectedRows.first();
+        // 映射到源模型的索引
+        QModelIndex sourceIndex = bomProxyModel->mapToSource(proxyIndex);
+        int sourceRow = sourceIndex.row();
 
-        // 使用现有的 BOM 物料模型
-        QString queryStr = QString("SELECT m.material_number, m.description, bm.quantity, m.unit_price, (bm.quantity * m.unit_price) AS total_price, m.remarks "
-                                   "FROM BOM_Material bm "
-                                   "JOIN Material m ON bm.material_id = m.id "
-                                   "WHERE bm.bom_id = %1").arg(bomId);
+        // 获取源模型中的记录
+        QSqlRecord record = bomModel->record(sourceRow);
+        int bomId = record.value("id").toInt();
+
+        qDebug() << "Selected BOM ID:" << bomId;
+
+        // 使用现有的 BOM 物料模型，添加中文列别名
+        QString queryStr = QString(
+                               "SELECT "
+                               "m.material_number AS '物料号', "
+                               "m.description AS '描述', "
+                               "bm.quantity AS '数量', "
+                               "m.unit_price AS '单价', "
+                               "(bm.quantity * m.unit_price) AS 'BOM价格', "
+                               "m.remarks AS '备注' "
+                               "FROM BOM_Material bm "
+                               "JOIN Material m ON bm.material_id = m.id "
+                               "WHERE bm.bom_id = %1").arg(bomId);
+
+        qDebug() << "BOM Material Query:" << queryStr;
+
         currentBOMMaterialModel->setQuery(queryStr);
         if (currentBOMMaterialModel->lastError().isValid()) {
             QMessageBox::critical(this, "错误", "无法加载 BOM 物料：" + currentBOMMaterialModel->lastError().text());
+            // 清空模型数据
+            currentBOMMaterialModel->setQuery("SELECT 0 WHERE 1=0");
             return;
         }
 
-        // 设置表头
-        currentBOMMaterialModel->setHeaderData(0, Qt::Horizontal, "物料号");
-        currentBOMMaterialModel->setHeaderData(1, Qt::Horizontal, "描述");
-        currentBOMMaterialModel->setHeaderData(2, Qt::Horizontal, "数量");
-        currentBOMMaterialModel->setHeaderData(3, Qt::Horizontal, "单价");
-        currentBOMMaterialModel->setHeaderData(4, Qt::Horizontal, "BOM价格");
-        currentBOMMaterialModel->setHeaderData(5, Qt::Horizontal, "备注");
+        // 调试输出
+        int columnCount = currentBOMMaterialModel->columnCount();
+        qDebug() << "BOM Material Model Column Count:" << columnCount;
+        for (int i = 0; i < columnCount; ++i) {
+            qDebug() << "Column" << i << ":" << currentBOMMaterialModel->headerData(i, Qt::Horizontal).toString();
+        }
 
-        // 设置模型到 bomMaterialTableView
-        ui->bomMaterialTableView->setModel(currentBOMMaterialModel);
-        // 设置委托和视图属性
-        ui->bomMaterialTableView->setItemDelegate(new AlignmentDelegate(this));
-        ui->bomMaterialTableView->setFont(QFont("Microsoft YaHei", 10));
-        ui->bomMaterialTableView->verticalHeader()->setDefaultSectionSize(24);
-        ui->bomMaterialTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-        ui->bomMaterialTableView->horizontalHeader()->setStretchLastSection(true);
-        ui->bomMaterialTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-        ui->bomMaterialTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        ui->bomMaterialTableView->setSortingEnabled(true);
+        // 无需手动设置表头，因为SQL查询中已经指定了别名
     } else {
-        ui->bomMaterialTableView->setModel(nullptr);
+        // 清空模型数据
+        currentBOMMaterialModel->setQuery("SELECT 0 WHERE 1=0");
     }
 }
-
 
 // 订单状态变化槽函数
 void MainWindow::on_orderStatusChanged(int orderId, const QString &newStatus)

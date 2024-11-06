@@ -77,9 +77,16 @@ MaterialDialog::MaterialDialog(const QString &currentUser, QWidget *parent) :
     // 初始化 MK 号下拉框（假设有一个 MK 号下拉框）
     ui->mkNumberComboBox->clear();
     // 例如添加 MK1, MK2, MK3
+    ui->mkNumberComboBox->addItem("");
     ui->mkNumberComboBox->addItem("MK1");
     ui->mkNumberComboBox->addItem("MK2");
     ui->mkNumberComboBox->addItem("MK3");
+    ui->mkNumberComboBox->addItem("MK4");
+    ui->mkNumberComboBox->addItem("MK5");
+    ui->mkNumberComboBox->addItem("MK6");
+    ui->mkNumberComboBox->addItem("MK7");
+    ui->mkNumberComboBox->addItem("MK8");
+    ui->mkNumberComboBox->addItem("MK9");
 }
 
 MaterialDialog::~MaterialDialog()
@@ -329,24 +336,24 @@ QSqlRecord MaterialDialog::getMaterialData() const
 void MaterialDialog::setFieldsReadOnly(bool readOnly)
 {
     // 设置所有字段为只读，除了 MK 号
-    ui->categoryComboBox->setEnabled(!readOnly);
-    ui->descriptionTextEdit->setReadOnly(readOnly);
-    ui->goodQuantitySpinBox->setReadOnly(readOnly);
-    ui->unitPriceDoubleSpinBox->setReadOnly(readOnly);
-    ui->sourceComboBox->setEnabled(!readOnly);
-    ui->versionSpinBox->setReadOnly(readOnly);
-    ui->serialNumberLineEdit->setReadOnly(false); // MK 号始终可编辑
-    ui->locationLineEdit->setReadOnly(readOnly);
-    ui->supplierComboBox->setEnabled(!readOnly);
-    ui->supplierMaterialNumberLineEdit->setReadOnly(readOnly);
-    ui->deliverySpinBox->setReadOnly(readOnly);
-    ui->noteTextEdit->setReadOnly(readOnly);
-    ui->uploadDrawingButton->setEnabled(!readOnly);
-    ui->downloadDrawingButton->setEnabled(!readOnly);
-    ui->uploadPhotoButton->setEnabled(!readOnly);
-    ui->downloadPhotoButton->setEnabled(!readOnly);
+    // ui->categoryComboBox->setEnabled(!readOnly);
+    // ui->descriptionTextEdit->setReadOnly(readOnly);
+    // ui->goodQuantitySpinBox->setReadOnly(readOnly);
+    // ui->unitPriceDoubleSpinBox->setReadOnly(readOnly);
+    // ui->sourceComboBox->setEnabled(!readOnly);
+    // ui->versionSpinBox->setReadOnly(readOnly);
+    // ui->serialNumberLineEdit->setReadOnly(false); // MK 号始终可编辑
+    // ui->locationLineEdit->setReadOnly(readOnly);
+    // ui->supplierComboBox->setEnabled(!readOnly);
+    // ui->supplierMaterialNumberLineEdit->setReadOnly(readOnly);
+    // ui->deliverySpinBox->setReadOnly(readOnly);
+    // ui->noteTextEdit->setReadOnly(readOnly);
+    // ui->uploadDrawingButton->setEnabled(!readOnly);
+    // ui->downloadDrawingButton->setEnabled(!readOnly);
+    // ui->uploadPhotoButton->setEnabled(!readOnly);
+    // ui->downloadPhotoButton->setEnabled(!readOnly);
     ui->generateMaterialNumberButton->setEnabled(!readOnly);
-    ui->materialNumberLineEdit->setReadOnly(readOnly);
+    //ui->materialNumberLineEdit->setReadOnly(readOnly);
     // QLabel 不需要设置，只需隐藏或显示
 }
 
@@ -537,7 +544,7 @@ void MaterialDialog::on_saveButton_clicked()
     // 获取用户输入的数据
     QSqlRecord record = getMaterialData();
     QString materialNumber = record.value("material_number").toString();
-    QString mkNumber = ui->serialNumberLineEdit->text().trimmed(); // 假设 MK 号存储在 serial_number 字段
+    QString mkNumber = ui->mkNumberComboBox->currentText().trimmed(); // 假设 MK 号存储在 serial_number 字段
 
     // 检查数据库中是否存在相同的物料号
     QSqlQuery checkQuery;
@@ -744,7 +751,7 @@ bool MaterialDialog::validateInput()
     if (ui->categoryComboBox->currentText().trimmed().isEmpty() ||
         ui->descriptionTextEdit->toPlainText().trimmed().isEmpty() ||
         ui->versionSpinBox->value() == 0 || // 使用 value() 而不是 text()
-        ui->serialNumberLineEdit->text().trimmed().isEmpty() || // 确保 MK 号不为空
+        //ui->mkNumberComboBox->currentText().trimmed().isEmpty() || // 确保 MK 号不为空
         ui->supplierComboBox->currentData().toString().isEmpty()) { // 确保供应商已选择
         QMessageBox::warning(this, "保存失败", "请填写所有必填项。");
         return false;
