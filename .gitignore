@@ -1,8 +1,9 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
+# Ignore Visual Studio and Qt cache files
 .vs/
-*.db
 *.ipch
+*.VC.db
 
 *~
 *.autosave
